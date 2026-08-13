@@ -439,6 +439,17 @@ const dict = {
     ledger_work_item_label: "Tâche",
     ledger_clear_filter: "Effacer le filtre",
 
+    // Navigation — Features (BUILD-011)
+    nav_features: "Features",
+
+    // Feature Registry — BUILD-011
+    feat_no_features: "Aucune feature configurée.",
+    feat_clients_active: "clients",
+    feat_clients_section: "Clients dans ce workspace",
+    feat_covered_by: "Couvert par",
+    feat_toggle_policy: "Toggle enregistré · evidence signée · aucun appel réseau",
+    feat_produces_label: "Produit",
+
     // Integrations — BUILD-010
     int_tab_providers: "Fournisseurs",
     int_tab_doctor: "Doctor",
@@ -930,6 +941,17 @@ const dict = {
     ledger_view_in_ledger: "View in ledger",
     ledger_work_item_label: "Task",
     ledger_clear_filter: "Clear filter",
+
+    // Navigation — Features (BUILD-011)
+    nav_features: "Features",
+
+    // Feature Registry — BUILD-011
+    feat_no_features: "No features configured.",
+    feat_clients_active: "clients",
+    feat_clients_section: "Clients in this workspace",
+    feat_covered_by: "Covered by",
+    feat_toggle_policy: "Toggle logged · signed evidence · no network call",
+    feat_produces_label: "Produces",
 
     // Integrations — BUILD-010
     int_tab_providers: "Providers",

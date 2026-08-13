@@ -18,6 +18,7 @@ import {
   LineChart,
   Wrench,
   Settings,
+  Layers,
   type LucideIcon,
 } from "lucide-react";
 import { useT } from "@/lib/hooks";
@@ -44,6 +45,7 @@ const NAV: NavItem[] = [
   { labelKey: "nav_websites", path: "/websites", icon: Globe },
   { labelKey: "nav_knowledge", path: "/knowledge", icon: BookOpen },
   { labelKey: "nav_integrations", path: "/integrations", icon: Plug },
+  { labelKey: "nav_features", path: "/features", icon: Layers },
   { labelKey: "nav_evidence", path: "/evidence", icon: Shield },
   { labelKey: "nav_analytics", path: "/analytics", icon: LineChart },
   { labelKey: "nav_agent_builder", path: "/agent-builder", icon: Wrench },

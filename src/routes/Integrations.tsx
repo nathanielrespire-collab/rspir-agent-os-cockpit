@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { Plug, CheckCircle2, AlertTriangle, Circle, Activity } from "lucide-react";
-import { useT } from "@/lib/hooks";
+import { useT, useFeatureStatus, type FeatureStatus } from "@/lib/hooks";
 import { useAppStore, useUIStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
-import type { CapabilityId, Feature, Provider, ProviderCategory } from "@/lib/types";
+import type { CapabilityId, Provider, ProviderCategory } from "@/lib/types";
 import type { Lang, TKey } from "@/lib/i18n";
 
 type Tab = "providers" | "doctor";
@@ -232,11 +232,6 @@ interface CapRow {
   isDisabled: boolean;
 }
 
-interface FeatureStatus {
-  feature: Feature;
-  missingCaps: CapabilityId[];
-}
-
 interface DoctorTabProps {
   t: (key: TKey) => string;
   lang: Lang;
@@ -446,11 +441,12 @@ export default function Integrations() {
   const {
     providers,
     integrations,
-    features,
     activeWorkspaceId,
     disabledIntegrationIds,
     toggleIntegration,
   } = useAppStore();
+
+  const featureStatus = useFeatureStatus();
 
   const wsIntegrations = useMemo(
     () => integrations.filter((i) => i.workspaceId === activeWorkspaceId),
@@ -471,25 +467,6 @@ export default function Integrations() {
     });
     return m;
   }, [wsIntegrations, providerMap]);
-
-  const coveredCaps = useMemo(() => {
-    const caps = new Set<CapabilityId>();
-    wsIntegrations
-      .filter((i) => !disabledIntegrationIds.includes(i.id))
-      .forEach((i) => {
-        intProviderMap.get(i.id)?.capabilities.forEach((c) => caps.add(c));
-      });
-    return caps;
-  }, [wsIntegrations, disabledIntegrationIds, intProviderMap]);
-
-  const featureStatus = useMemo(
-    () =>
-      features.map((f) => ({
-        feature: f,
-        missingCaps: f.requires.filter((c) => !coveredCaps.has(c)),
-      })),
-    [features, coveredCaps],
-  );
 
   const coreOk = useMemo(
     () =>
