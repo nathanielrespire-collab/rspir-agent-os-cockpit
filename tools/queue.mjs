@@ -53,6 +53,26 @@ if (cmd === "validate") {
   } catch {
     /* label déjà existant */
   }
+  // Dernier PLAN-SUPERVISEUR de la PR de l'unité, s'il existe — jamais de
+  // recommandation brute de builder dans une escalade.
+  let plan = "Aucun plan superviseur disponible.";
+  try {
+    const prn = execSync(
+      `gh pr list --head unit/${id} --state all --json number --jq ".[0].number // empty"`,
+      { encoding: "utf8" },
+    ).trim();
+    if (prn) {
+      const bodies = JSON.parse(
+        execSync(`gh pr view ${prn} --json comments --jq "[.comments[].body]"`, {
+          encoding: "utf8",
+        }),
+      );
+      const plans = bodies.filter((b) => typeof b === "string" && b.startsWith("PLAN-SUPERVISEUR"));
+      if (plans.length) plan = plans[plans.length - 1];
+    }
+  } catch {
+    /* pas de PR ou gh indisponible — on garde le message par défaut */
+  }
   const body = [
     `## Escalade — ${id} (${u.title})`,
     "",
@@ -61,6 +81,10 @@ if (cmd === "validate") {
     `Raison: ${reason}`,
     "",
     `Run: ${process.env.GITHUB_SERVER_URL || "https://github.com"}/${process.env.GITHUB_REPOSITORY || ""}/actions/runs/${runId}`,
+    "",
+    "### Dernier plan superviseur",
+    "",
+    plan,
     "",
     "### Quoi faire",
     "1. Lire le dernier verdict (commentaires de la PR de l'unité).",
