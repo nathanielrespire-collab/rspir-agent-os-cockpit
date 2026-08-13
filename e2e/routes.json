@@ -9,6 +9,7 @@
   { "path": "/clients/cl-casseau", "name": "client-detail-casseau" },
   { "path": "/team", "name": "team" },
   { "path": "/agents", "name": "agents" },
+  { "path": "/agents/act-aria", "name": "agent-detail-aria" },
   { "path": "/approvals", "name": "approvals" },
   { "path": "/blockers", "name": "blockers" },
   { "path": "/meetings", "name": "meetings" },

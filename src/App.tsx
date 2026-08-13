@@ -8,6 +8,7 @@ import Clients from "@/routes/Clients";
 import ClientDetail from "@/routes/ClientDetail";
 import Team from "@/routes/Team";
 import Agents from "@/routes/Agents";
+import AgentDetail from "@/routes/AgentDetail";
 import Approvals from "@/routes/Approvals";
 import Blockers from "@/routes/Blockers";
 import Meetings from "@/routes/Meetings";
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="clients/:id" element={<ClientDetail />} />
           <Route path="team" element={<Team />} />
           <Route path="agents" element={<Agents />} />
+          <Route path="agents/:id" element={<AgentDetail />} />
           <Route path="approvals" element={<Approvals />} />
           <Route path="blockers" element={<Blockers />} />
           <Route path="meetings" element={<Meetings />} />
