@@ -1,0 +1,170 @@
+name: unit-pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      unit_id:
+        description: "ID de l'unité (ex: BUILD-000)"
+        required: true
+        type: string
+      attempt:
+        description: "Tentative (1-3)"
+        required: false
+        default: "1"
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+  id-token: write
+
+concurrency:
+  group: build-pipeline
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    outputs:
+      contract: ${{ steps.v.outputs.contract }}
+      title: ${{ steps.v.outputs.title }}
+      model: ${{ steps.v.outputs.model }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: v
+        name: Valider unité, dépendances et tentative
+        run: |
+          node tools/queue.mjs validate "${{ inputs.unit_id }}" "${{ inputs.attempt }}" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Builder (Claude Code)
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--model ${{ needs.guard.outputs.model }} --max-turns 80"
+          prompt: |
+            UNIT_ID: ${{ inputs.unit_id }}
+            ATTEMPT: ${{ inputs.attempt }}
+            TITRE: ${{ needs.guard.outputs.title }}
+            CONTRAT: ${{ needs.guard.outputs.contract }}
+
+            Lis dans cet ordre: CLAUDE.md, .build/protocol.md, .build/prompts/builder.md,
+            puis le fichier CONTRAT ci-dessus. Exécute la mission décrite dans builder.md
+            pour cette unité et cette tentative. Ne fais rien d'autre.
+
+  gates:
+    needs: [guard, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      result: ${{ steps.verdict.outputs.result }}
+      pr: ${{ steps.pr.outputs.number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: unit/${{ inputs.unit_id }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci || npm install
+      - name: Autofix mécanique (sans LLM)
+        run: |
+          npx eslint . --fix || true
+          npx prettier -w . || true
+          if ! git diff --quiet; then
+            git config user.name "gates-bot"
+            git config user.email "actions@github.com"
+            git commit -am "chore: autofix (eslint --fix + prettier)"
+            git push origin "unit/${{ inputs.unit_id }}"
+          fi
+      - id: typecheck
+        run: npm run typecheck
+        continue-on-error: true
+      - id: lint
+        run: npm run lint
+        continue-on-error: true
+      - id: buildstep
+        run: npm run build
+        continue-on-error: true
+      - id: unit
+        run: npm run test
+        continue-on-error: true
+      - id: e2e
+        name: Screenshots Playwright
+        run: |
+          npx playwright install --with-deps chromium
+          npm run e2e
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shots-${{ inputs.unit_id }}-a${{ inputs.attempt }}
+          path: e2e/shots/
+          if-no-files-found: ignore
+      - id: pr
+        name: Trouver la PR de l'unité
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh pr list --head "unit/${{ inputs.unit_id }}" --json number --jq '.[0].number // empty')
+          echo "number=$n" >> "$GITHUB_OUTPUT"
+      - id: verdict
+        name: Verdict gates (JSON) + commentaire PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat > /tmp/gate-report.json << EOF
+          {
+            "unit": "${{ inputs.unit_id }}",
+            "attempt": ${{ inputs.attempt }},
+            "gates": {
+              "typecheck": "${{ steps.typecheck.outcome }}",
+              "lint": "${{ steps.lint.outcome }}",
+              "build": "${{ steps.buildstep.outcome }}",
+              "unit_tests": "${{ steps.unit.outcome }}",
+              "e2e": "${{ steps.e2e.outcome }}"
+            },
+            "run": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          EOF
+          if grep -q '"failure"' /tmp/gate-report.json; then r=fail; else r=pass; fi
+          echo "result=$r" >> "$GITHUB_OUTPUT"
+          if [ -n "${{ steps.pr.outputs.number }}" ]; then
+            { echo "### GATES: $r (attempt ${{ inputs.attempt }})"; echo '```json'; cat /tmp/gate-report.json; echo '```'; } \
+              | gh pr comment "${{ steps.pr.outputs.number }}" --body-file -
+          fi
+
+  route:
+    needs: [guard, gates]
+    if: always() && needs.guard.result == 'success'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Router selon verdict
+        run: |
+          RESULT="${{ needs.gates.outputs.result }}"
+          ATT=${{ inputs.attempt }}
+          if [ "$RESULT" = "pass" ] && [ -n "${{ needs.gates.outputs.pr }}" ]; then
+            gh workflow run review-pipeline.yml \
+              -f unit_id="${{ inputs.unit_id }}" -f pr="${{ needs.gates.outputs.pr }}" -f attempt="$ATT"
+          elif [ "$ATT" -lt 3 ]; then
+            gh workflow run unit-pipeline.yml \
+              -f unit_id="${{ inputs.unit_id }}" -f attempt="$((ATT+1))"
+          else
+            node tools/queue.mjs escalate "${{ inputs.unit_id }}" "$ATT" \
+              "Gates en échec après $ATT tentatives" "${{ github.run_id }}"
+          fi

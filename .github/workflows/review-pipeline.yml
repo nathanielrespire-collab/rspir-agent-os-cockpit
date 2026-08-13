@@ -1,0 +1,92 @@
+name: review-pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      unit_id:
+        required: true
+        type: string
+      pr:
+        required: true
+        type: string
+      attempt:
+        required: false
+        default: "1"
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+  id-token: write
+
+concurrency:
+  group: build-pipeline
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      verdict: ${{ steps.read.outputs.verdict }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: unit/${{ inputs.unit_id }}
+          fetch-depth: 0
+      - name: Reviewer indépendant (Opus)
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--model claude-opus-4-8 --max-turns 40"
+          prompt: |
+            UNIT_ID: ${{ inputs.unit_id }}
+            PR: ${{ inputs.pr }}
+            ATTEMPT: ${{ inputs.attempt }}
+
+            Lis CLAUDE.md, .build/protocol.md, .build/prompts/reviewer.md, puis le contrat
+            de l'unité (.build/units/${{ inputs.unit_id }}.md). Exécute la mission reviewer.
+            Décision finale OBLIGATOIRE: écris /tmp/verdict.txt dont la première ligne est
+            exactement APPROVE ou CHANGES.
+      - id: read
+        name: Lire le verdict
+        run: |
+          v=$(head -n1 /tmp/verdict.txt 2>/dev/null || echo "CHANGES")
+          case "$v" in APPROVE|CHANGES) ;; *) v=CHANGES ;; esac
+          echo "verdict=$v" >> "$GITHUB_OUTPUT"
+
+  act:
+    needs: review
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Approuver + merger + enchaîner, ou renvoyer en correction
+        run: |
+          V="${{ needs.review.outputs.verdict }}"
+          ATT=${{ inputs.attempt }}
+          if [ "$V" = "APPROVE" ]; then
+            gh pr review "${{ inputs.pr }}" --approve --body "review-pipeline: APPROVE (contrat + sécurité + CLAUDE.md)"
+            gh pr merge "${{ inputs.pr }}" --squash --delete-branch
+            git pull origin main
+            node tools/queue.mjs done "${{ inputs.unit_id }}"
+            git config user.name "pipeline-bot"; git config user.email "actions@github.com"
+            git commit -am "chore(queue): ${{ inputs.unit_id }} done" && git push origin main || true
+            NEXT=$(node tools/queue.mjs next)
+            if [ -n "$NEXT" ]; then
+              gh workflow run unit-pipeline.yml -f unit_id="$NEXT" -f attempt="1"
+            else
+              gh issue create --title "File de build terminée" \
+                --body "Toutes les unités sont done. Prototype complet — voir les PRs mergées et leurs preuves." || true
+            fi
+          elif [ "$ATT" -lt 3 ]; then
+            gh workflow run unit-pipeline.yml -f unit_id="${{ inputs.unit_id }}" -f attempt="$((ATT+1))"
+          else
+            node tools/queue.mjs escalate "${{ inputs.unit_id }}" "$ATT" \
+              "Review CHANGES après $ATT tentatives — jugement humain requis" "${{ github.run_id }}"
+          fi
