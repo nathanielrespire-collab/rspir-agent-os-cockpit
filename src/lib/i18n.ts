@@ -322,6 +322,39 @@ const dict = {
     settings_demo_cancel: "Annuler",
     settings_demo_confirm: "Réinitialiser",
     settings_demo_success: "Démo réinitialisée.",
+
+    // Actor model — Team + Agents
+    actor_type_human: "Humain",
+    actor_type_agent: "Agent IA",
+    actor_type_service: "Service",
+    actor_type_automation: "Automatisation",
+    actor_avail_available: "Disponible",
+    actor_avail_busy: "Occupé",
+    actor_avail_offline: "Hors ligne",
+    actor_workload: "Charge",
+    actor_capabilities: "Capacités",
+    actor_cost_hour: "Coût/h",
+    actor_provider: "Fournisseur",
+    actor_assigned_work: "Travail assigné",
+    actor_no_assigned: "Aucun",
+
+    // Team
+    team_count: "membres",
+
+    // Agents
+    agent_health_ok: "OK",
+    agent_health_degraded: "Dégradé",
+    agent_health_down: "Hors service",
+    agent_last_run: "Dernier run",
+    agent_success_rate: "Succès",
+    agent_verify_rate: "Vérifié",
+    agent_no_run: "Aucun run",
+    agent_back: "Retour aux agents",
+    agent_recent_failures: "Échecs récents",
+    agent_no_failures: "Aucun échec récent",
+    agent_count: "agents",
+    agent_control_center: "Control center",
+    agent_current_assign: "Assignation courante",
   },
   en: {
     app_title: "RSPIR Agent OS",
@@ -643,6 +676,39 @@ const dict = {
     settings_demo_cancel: "Cancel",
     settings_demo_confirm: "Reset",
     settings_demo_success: "Demo reset.",
+
+    // Actor model — Team + Agents
+    actor_type_human: "Human",
+    actor_type_agent: "AI Agent",
+    actor_type_service: "Service",
+    actor_type_automation: "Automation",
+    actor_avail_available: "Available",
+    actor_avail_busy: "Busy",
+    actor_avail_offline: "Offline",
+    actor_workload: "Load",
+    actor_capabilities: "Capabilities",
+    actor_cost_hour: "Cost/h",
+    actor_provider: "Provider",
+    actor_assigned_work: "Assigned work",
+    actor_no_assigned: "None",
+
+    // Team
+    team_count: "members",
+
+    // Agents
+    agent_health_ok: "OK",
+    agent_health_degraded: "Degraded",
+    agent_health_down: "Down",
+    agent_last_run: "Last run",
+    agent_success_rate: "Success",
+    agent_verify_rate: "Verified",
+    agent_no_run: "No runs",
+    agent_back: "Back to agents",
+    agent_recent_failures: "Recent failures",
+    agent_no_failures: "No recent failures",
+    agent_count: "agents",
+    agent_control_center: "Control center",
+    agent_current_assign: "Current assignment",
   },
 } as const;
 
