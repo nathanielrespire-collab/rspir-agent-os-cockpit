@@ -461,6 +461,18 @@ export const useAppStore = create<AppDataStore>()(
           result: "ok",
         };
 
+        // Determine if linked work item should be unblocked
+        const linkedWi = apr.workItemId
+          ? get().workItems.find((w) => w.id === apr.workItemId)
+          : null;
+        const nextWiStatus: WorkStatus | null = linkedWi
+          ? linkedWi.status === "a_valider"
+            ? "done"
+            : linkedWi.status === "blocked"
+              ? "ready"
+              : null
+          : null;
+
         set((s) => ({
           approvals: s.approvals.map((a) =>
             a.id === id
@@ -473,6 +485,18 @@ export const useAppStore = create<AppDataStore>()(
                 }
               : a,
           ),
+          workItems: nextWiStatus
+            ? s.workItems.map((w) =>
+                w.id === apr.workItemId
+                  ? {
+                      ...w,
+                      status: nextWiStatus,
+                      evidenceIds: [...w.evidenceIds, ev.id],
+                      updatedAt: now,
+                    }
+                  : w,
+              )
+            : s.workItems,
           evidence: [...s.evidence, ev],
           events: [...s.events, event],
         }));
