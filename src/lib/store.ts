@@ -9,6 +9,7 @@ import type {
   Blocker,
   Automation,
   AutomationStage,
+  Website,
   Evidence,
   Decision,
   ExecutionStep,
@@ -291,6 +292,16 @@ interface AppDataStore extends AppState {
     requestedByActorId: Id,
   ) => Promise<Automation>;
   transitionAutomationStage: (id: Id, to: AutomationStage, requestedByActorId: Id) => Promise<void>;
+
+  createWebsite: (
+    data: {
+      name: string;
+      clientId?: Id;
+      workspaceId: Id;
+      initialUrl?: string;
+    },
+    requestedByActorId: Id,
+  ) => Promise<Website>;
 }
 
 export const useAppStore = create<AppDataStore>()(
@@ -780,6 +791,55 @@ export const useAppStore = create<AppDataStore>()(
           evidence: [...s.evidence, ev],
           events: [...s.events, event],
         }));
+      },
+
+      // ── Websites ──────────────────────────────────────────────────────
+
+      createWebsite: async (data, requestedByActorId) => {
+        const now = new Date().toISOString();
+        const id = newId("web");
+        const website: Website = {
+          id,
+          workspaceId: data.workspaceId,
+          clientId: data.clientId,
+          name: data.name,
+          providerId: "prv-webflow",
+          pages: [],
+          deployments: [],
+          openIssues: [],
+        };
+
+        const chain = getWorkspaceChain(get(), data.workspaceId);
+        const tip = chainTip(chain);
+        const unsignedEv: Unsigned<Evidence> = {
+          seq: tip.seq,
+          id: newId("ev"),
+          workspaceId: data.workspaceId,
+          label: `Brouillon site créé: ${data.name}${data.initialUrl ? ` · ${data.initialUrl}` : ""}`,
+          kind: "check",
+          result: "pass",
+          createdAt: now,
+        };
+        const ev = await sign<Evidence>(unsignedEv, tip.prevHash);
+
+        const event: Event = {
+          id: newId("evt"),
+          workspaceId: data.workspaceId,
+          at: now,
+          requestedByActorId,
+          executedByActorId: requestedByActorId,
+          capability: "website.build",
+          action: "website.create",
+          targetId: id,
+          result: "ok",
+        };
+
+        set((s) => ({
+          websites: [...s.websites, website],
+          evidence: [...s.evidence, ev],
+          events: [...s.events, event],
+        }));
+        return website;
       },
 
       // ── Provider swap ─────────────────────────────────────────────────
