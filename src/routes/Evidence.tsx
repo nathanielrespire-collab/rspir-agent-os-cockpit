@@ -67,11 +67,7 @@ function HashCell({ hash }: { hash: string }) {
         aria-label={t("ledger_copy_hash")}
         type="button"
       >
-        {copied ? (
-          <Check size={9} className="text-ok" />
-        ) : (
-          <Copy size={9} />
-        )}
+        {copied ? <Check size={9} className="text-ok" /> : <Copy size={9} />}
       </button>
     </span>
   );
@@ -162,18 +158,9 @@ export default function Evidence() {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [chainState, setChainState] = useState<ChainPhase>({ phase: "idle" });
 
-  const workItemMap = useMemo(
-    () => new Map(workItems.map((w) => [w.id, w])),
-    [workItems],
-  );
-  const clientMap = useMemo(
-    () => new Map(clients.map((c) => [c.id, c])),
-    [clients],
-  );
-  const actorMap = useMemo(
-    () => new Map(actors.map((a) => [a.id, a])),
-    [actors],
-  );
+  const workItemMap = useMemo(() => new Map(workItems.map((w) => [w.id, w])), [workItems]);
+  const clientMap = useMemo(() => new Map(clients.map((c) => [c.id, c])), [clients]);
+  const actorMap = useMemo(() => new Map(actors.map((a) => [a.id, a])), [actors]);
 
   const runVerify = useCallback(async () => {
     setChainState({ phase: "checking" });
@@ -226,9 +213,7 @@ export default function Evidence() {
       r = r.filter((ex) => ex.steps.some((s) => s.actorId === actorFilter));
     if (typeFilter !== "all") r = r.filter((ex) => ex.outcome === typeFilter);
     // Most recent first (by first step date)
-    return [...r].sort(
-      (a, b) => (b.steps[0]?.at ?? "").localeCompare(a.steps[0]?.at ?? ""),
-    );
+    return [...r].sort((a, b) => (b.steps[0]?.at ?? "").localeCompare(a.steps[0]?.at ?? ""));
   }, [wsExecs, wiFilter, clientFilter, actorFilter, typeFilter, workItemMap]);
 
   const isStepBroken = (seq: number): boolean => {
@@ -294,8 +279,7 @@ export default function Evidence() {
           <>
             <AlertTriangle size={12} className="text-err" aria-hidden />
             <span className="font-mono text-[11px] text-err">
-              {t("ledger_chain_broken")} — {t("ledger_broken_from")}·
-              {chainState.brokenSeq}
+              {t("ledger_chain_broken")} — {t("ledger_broken_from")}·{chainState.brokenSeq}
             </span>
           </>
         ) : (
@@ -443,9 +427,7 @@ export default function Evidence() {
 
                   {/* client name */}
                   {client && (
-                    <span className="shrink-0 font-mono text-[10px] text-tx-3">
-                      {client.name}
-                    </span>
+                    <span className="shrink-0 font-mono text-[10px] text-tx-3">{client.name}</span>
                   )}
 
                   {/* outcome badge */}
