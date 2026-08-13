@@ -6,10 +6,12 @@ const dict = {
   fr: {
     app_title: "RSPIR Agent OS",
     bootstrap_marker: "Amorce du pipeline — en attente de BUILD-000",
+    build_000_marker: "BUILD-000 ✓ — Pipeline opérationnel",
   },
   en: {
     app_title: "RSPIR Agent OS",
     bootstrap_marker: "Pipeline bootstrap — waiting for BUILD-000",
+    build_000_marker: "BUILD-000 ✓ — Pipeline operational",
   },
 } as const;
 

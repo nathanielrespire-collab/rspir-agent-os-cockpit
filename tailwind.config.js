@@ -14,14 +14,14 @@ export default {
         ok: "var(--ok)",
         warn: "var(--warn)",
         err: "var(--err)",
-        info: "var(--info)"
+        info: "var(--info)",
       },
       fontFamily: {
         sans: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
-        mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"]
+        mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
       },
-      borderRadius: { card: "6px", ctl: "4px" }
-    }
+      borderRadius: { card: "6px", ctl: "4px" },
+    },
   },
-  plugins: [animate]
+  plugins: [animate],
 };

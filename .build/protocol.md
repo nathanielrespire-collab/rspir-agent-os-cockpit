@@ -3,6 +3,7 @@
 Règles machine. Les workflows implémentent ce protocole; toute divergence est un bug.
 
 ## Cycle de vie d'une unité
+
 `todo → running(attempt N) → gates → review → merged → done` ou `→ escalated`.
 
 1. Une unité démarre par `workflow_dispatch` de `unit-pipeline` avec `unit_id` (+ `attempt`, défaut 1).
@@ -23,12 +24,14 @@ Règles machine. Les workflows implémentent ce protocole; toute divergence est 
    dispatchée automatiquement. La chaîne continue sans humain.
 
 ## Constantes
+
 - `MAX_ATTEMPTS = 3` (1 build initial + 2 corrections, toutes sources confondues).
 - Modèles: builder/repair `claude-sonnet-4-6`; review `claude-opus-4-8`; escalade builder vers
   `claude-opus-4-8` permise uniquement à l'attempt 3 (dernier essai avant humain).
 - Sécurité fusionnée dans la review tant que le repo reste 100% mock/zéro secret.
 
 ## Escalade (seul canal vers l'humain)
+
 Issue GitHub labellée `escalation` assignée à Nathaniel, contenant: unité, attempt, verdicts,
 liens PR/runs, question précise, position par défaut proposée. La machine s'arrête sur cette unité;
 rien d'autre n'est bloqué (pipeline linéaire v1: la file attend, par design — simplicité d'abord).
@@ -36,10 +39,12 @@ L'humain répond dans l'issue (`@claude` disponible pour exécuter la consigne) 
 `Run workflow`.
 
 ## Preuves (evidence)
+
 Chaque PR mergée contient: verdict gates JSON, screenshots des routes (`e2e/routes.json`), verdict
 review. Un merge sans ces trois preuves est une violation du protocole.
 
 ## Anti-dérive
+
 - Le builder ne modifie jamais: `.github/workflows/`, `.build/protocol.md`, `CLAUDE.md`,
   `.build/queue.json` — sauf contrat explicite. La review rejette toute PR qui y touche sans mandat.
 - SHA de base: la review vérifie que la PR est à jour sur `main` avant merge (`gh pr merge` échoue
