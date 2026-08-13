@@ -1,0 +1,40 @@
+name: check
+
+# Filet de vérification indépendant: aucun LLM, aucune écriture, aucun dispatch.
+# Volontairement HORS du groupe de concurrency `build-pipeline` — il ne doit jamais retarder
+# ni annuler une unité en cours, et une unité en cours ne doit jamais retarder une vérification.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Ref à vérifier (branche, tag ou SHA)"
+        required: false
+        default: "main"
+        type: string
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.event.inputs.ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Check (typecheck + lint + build + test)
+        run: npm run check
