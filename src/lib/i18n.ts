@@ -437,6 +437,7 @@ const dict = {
     ledger_hash_copied: "Copié",
     ledger_view_in_ledger: "Voir dans le registre",
     ledger_work_item_label: "Tâche",
+    ledger_clear_filter: "Effacer le filtre",
   },
   en: {
     app_title: "RSPIR Agent OS",
@@ -873,6 +874,7 @@ const dict = {
     ledger_hash_copied: "Copied",
     ledger_view_in_ledger: "View in ledger",
     ledger_work_item_label: "Task",
+    ledger_clear_filter: "Clear filter",
   },
 } as const;
 

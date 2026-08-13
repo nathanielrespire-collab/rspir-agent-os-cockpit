@@ -317,7 +317,7 @@ export default function Evidence() {
             <Link
               to="/evidence"
               className="ml-0.5 leading-none text-laiton/70 hover:text-laiton"
-              aria-label="Effacer le filtre work item"
+              aria-label={t("ledger_clear_filter")}
             >
               ×
             </Link>
