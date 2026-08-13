@@ -123,10 +123,7 @@ function LifecycleViz({ stage }: { stage: AutomationStage }) {
               <div className="flex items-center px-0">
                 <ChevronRight
                   size={12}
-                  className={cn(
-                    "shrink-0",
-                    i < currentIdx ? "text-tx-3" : "text-tx-3/20",
-                  )}
+                  className={cn("shrink-0", i < currentIdx ? "text-tx-3" : "text-tx-3/20")}
                 />
               </div>
             )}
@@ -471,18 +468,12 @@ export default function AutomationDetail() {
                 <div
                   className={cn(
                     "h-1.5 w-1.5 shrink-0 rounded-full",
-                    ev.result === "pass"
-                      ? "bg-ok"
-                      : ev.result === "fail"
-                        ? "bg-err"
-                        : "bg-tx-3",
+                    ev.result === "pass" ? "bg-ok" : ev.result === "fail" ? "bg-err" : "bg-tx-3",
                   )}
                 />
                 <span className="flex-1 font-mono text-[11px] text-tx-2">{ev.label}</span>
                 <span className="font-mono text-[9px] text-tx-3">seq {ev.seq}</span>
-                <span className="font-mono text-[9px] text-tx-3">
-                  {fmtDate(ev.createdAt)}
-                </span>
+                <span className="font-mono text-[9px] text-tx-3">{fmtDate(ev.createdAt)}</span>
               </div>
             ))}
           </div>

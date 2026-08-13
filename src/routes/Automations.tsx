@@ -257,9 +257,7 @@ export default function Automations() {
             key={s}
             className="flex flex-col items-center rounded-ctl border border-line bg-bg-1 px-3 py-1.5"
           >
-            <span className="font-mono text-[18px] font-semibold text-tx-1">
-              {stageCounts[s]}
-            </span>
+            <span className="font-mono text-[18px] font-semibold text-tx-1">{stageCounts[s]}</span>
             <span className={cn("rounded px-1.5 font-mono text-[9px]", STAGE_COLORS[s])}>
               {t(stageKey(s))}
             </span>
@@ -420,9 +418,7 @@ export default function Automations() {
       {activeTab === "new" && (
         <div role="tabpanel" className="flex-1 overflow-auto">
           <div className="max-w-lg rounded-card border border-line bg-bg-1 p-5">
-            <h2 className="mb-4 text-[13px] font-semibold text-tx-1">
-              {t("atm_create_title")}
-            </h2>
+            <h2 className="mb-4 text-[13px] font-semibold text-tx-1">{t("atm_create_title")}</h2>
             <CreateForm onDone={() => setActiveTab("list")} />
           </div>
         </div>
