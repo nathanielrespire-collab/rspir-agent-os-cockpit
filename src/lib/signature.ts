@@ -105,7 +105,9 @@ export async function sign<T extends ChainedSignature>(
   prevHash: string,
 ): Promise<T> {
   const hash = await hashEntry(entry, prevHash);
-  return { ...entry, prevHash, hash } as T;
+  // Le compilateur ne peut pas voir que `Unsigned<T>` recomplété de ses deux hashs redonne `T`
+  // (T est générique). Double assertion volontaire, et non `any`: la forme est garantie ici.
+  return { ...entry, prevHash, hash } as unknown as T;
 }
 
 /**
@@ -124,7 +126,7 @@ export function append<T extends ChainedSignature>(
   body: Omit<Unsigned<T>, "seq">,
 ): Promise<T> {
   const tip = chainTip(entries);
-  return sign<T>({ ...body, seq: tip.seq } as Unsigned<T>, tip.prevHash);
+  return sign<T>({ ...body, seq: tip.seq } as unknown as Unsigned<T>, tip.prevHash);
 }
 
 /**
