@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckSquare, Clock, FileText, Shield, ChevronDown, ChevronUp, User } from "lucide-react";
+import { CheckSquare, Clock, FileText, Shield, User } from "lucide-react";
 import { useT } from "@/lib/hooks";
 import { useAppStore, useUIStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
@@ -94,7 +94,6 @@ function ConfirmDialog({
 
 interface PendingCardProps {
   approval: Approval;
-  actorName: (id: string | undefined) => string;
   workItemTitle: (id: string | undefined) => string | undefined;
   evidenceLabel: (id: string) => string;
   onApprove: (apr: Approval) => void;
@@ -103,7 +102,6 @@ interface PendingCardProps {
 
 function PendingCard({
   approval,
-  actorName,
   workItemTitle,
   evidenceLabel,
   onApprove,
@@ -262,8 +260,6 @@ export default function Approvals() {
     decision: "approve" | "reject" | null;
     approval: Approval | null;
   }>({ open: false, decision: null, approval: null });
-  const [historyOpen, setHistoryOpen] = useState(false);
-
   const actorId = ROLE_ACTOR[role] ?? "act-nathaniel";
   const actorName = (id: string | undefined) => {
     if (!id) return "—";
@@ -355,7 +351,6 @@ export default function Approvals() {
               <PendingCard
                 key={apr.id}
                 approval={apr}
-                actorName={actorName}
                 workItemTitle={workItemTitle}
                 evidenceLabel={evidenceLabel}
                 onApprove={(a) => handleDecide("approve", a)}

@@ -41,14 +41,12 @@ interface WorkContinuingProps {
   blockedIds: string[];
   allWorkItems: WorkItem[];
   workspaceId: string;
-  actorName: (id: string | undefined) => string;
 }
 
 function WorkContinuingPanel({
   blockedIds,
   allWorkItems,
   workspaceId,
-  actorName,
 }: WorkContinuingProps) {
   const t = useT();
   const [expanded, setExpanded] = useState(true);
@@ -231,7 +229,6 @@ function BlockerCard({
             blockedIds={blocker.workItemIds}
             allWorkItems={allWorkItems}
             workspaceId={blocker.workspaceId}
-            actorName={actorName}
           />
         )}
 
@@ -241,7 +238,6 @@ function BlockerCard({
             blockedIds={blocker.workItemIds}
             allWorkItems={allWorkItems}
             workspaceId={blocker.workspaceId}
-            actorName={actorName}
           />
         )}
 
