@@ -5,6 +5,8 @@
   { "path": "/projects/prj-1867-crm", "name": "project-detail-1867" },
   { "path": "/projects/prj-bellerive-web", "name": "project-detail-bellerive" },
   { "path": "/clients", "name": "clients" },
+  { "path": "/clients/cl-bellerive", "name": "client-detail-bellerive" },
+  { "path": "/clients/cl-casseau", "name": "client-detail-casseau" },
   { "path": "/team", "name": "team" },
   { "path": "/agents", "name": "agents" },
   { "path": "/approvals", "name": "approvals" },

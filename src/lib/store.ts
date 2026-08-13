@@ -81,9 +81,11 @@ interface UIStore {
   lang: Lang;
   theme: Theme;
   role: Role;
+  activeClientId: string | null;
   setLang: (lang: Lang) => void;
   setTheme: (theme: Theme) => void;
   setRole: (role: Role) => void;
+  setActiveClient: (id: string | null) => void;
 }
 
 function applyTheme(theme: Theme) {
@@ -96,12 +98,14 @@ export const useUIStore = create<UIStore>()(
       lang: "fr",
       theme: "dark",
       role: "Nathaniel",
+      activeClientId: null,
       setLang: (lang) => set({ lang }),
       setTheme: (theme) => {
         applyTheme(theme);
         set({ theme });
       },
       setRole: (role) => set({ role }),
+      setActiveClient: (id) => set({ activeClientId: id }),
     }),
     {
       name: "rspir-ui",
