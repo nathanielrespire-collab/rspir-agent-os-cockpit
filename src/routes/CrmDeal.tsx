@@ -1,15 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  Building2,
-  Users,
-  Bot,
-  Phone,
-  Mail,
-  Calendar,
-  FileText,
-} from "lucide-react";
+import { ArrowLeft, Building2, Users, Bot, Phone, Mail, Calendar, FileText } from "lucide-react";
 import { useT } from "@/lib/hooks";
 import { useAppStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";

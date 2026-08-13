@@ -219,9 +219,7 @@ function DealsTab({ deals, companies }: { deals: Deal[]; companies: Company[] })
               <p className="truncate text-[12px] font-medium text-tx-1 group-hover:text-or">
                 {deal.title}
               </p>
-              {company && (
-                <p className="font-mono text-[10px] text-tx-3">{company.name}</p>
-              )}
+              {company && <p className="font-mono text-[10px] text-tx-3">{company.name}</p>}
             </div>
             <span
               className={cn(
@@ -249,13 +247,7 @@ function DealsTab({ deals, companies }: { deals: Deal[]; companies: Company[] })
 
 // ─── Contacts tab ─────────────────────────────────────────────────────────────
 
-function ContactsTab({
-  contacts,
-  companies,
-}: {
-  contacts: Contact[];
-  companies: Company[];
-}) {
+function ContactsTab({ contacts, companies }: { contacts: Contact[]; companies: Company[] }) {
   const t = useT();
 
   if (contacts.length === 0) {
@@ -276,9 +268,7 @@ function ContactsTab({
             <Users size={12} className="shrink-0 text-tx-3" aria-hidden />
             <div className="min-w-0 flex-1">
               <p className="text-[12px] font-medium text-tx-1">{contact.name}</p>
-              {contact.role && (
-                <p className="font-mono text-[10px] text-tx-3">{contact.role}</p>
-              )}
+              {contact.role && <p className="font-mono text-[10px] text-tx-3">{contact.role}</p>}
             </div>
             {company && (
               <span className="shrink-0 font-mono text-[10px] text-tx-2">{company.name}</span>
@@ -366,10 +356,7 @@ function ActivitiesTab({
         const actor = actors.find((a) => a.id === act.byActorId);
         const deal = deals.find((d) => d.id === act.dealId);
         return (
-          <div
-            key={act.id}
-            className="flex gap-3 rounded-ctl border border-line bg-bg-1 px-3 py-2"
-          >
+          <div key={act.id} className="flex gap-3 rounded-ctl border border-line bg-bg-1 px-3 py-2">
             <ActivityIcon type={act.type} className="mt-0.5 shrink-0 text-tx-3" />
             <div className="min-w-0 flex-1">
               <div className="mb-0.5 flex items-center gap-2">
@@ -436,12 +423,8 @@ function AgentActionsTab({
               >
                 {deal.title}
               </Link>
-              {company && (
-                <span className="font-mono text-[10px] text-tx-3">· {company.name}</span>
-              )}
-              <span className="ml-auto font-mono text-[9px] text-tx-3">
-                {fmtDate(action.at)}
-              </span>
+              {company && <span className="font-mono text-[10px] text-tx-3">· {company.name}</span>}
+              <span className="ml-auto font-mono text-[9px] text-tx-3">{fmtDate(action.at)}</span>
             </div>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               <div>
@@ -484,7 +467,16 @@ function AgentActionsTab({
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-const TABS: { id: CrmTab; labelKey: "crm_tab_pipeline" | "crm_tab_deals" | "crm_tab_contacts" | "crm_tab_companies" | "crm_tab_activities" | "crm_tab_actions" }[] = [
+const TABS: {
+  id: CrmTab;
+  labelKey:
+    | "crm_tab_pipeline"
+    | "crm_tab_deals"
+    | "crm_tab_contacts"
+    | "crm_tab_companies"
+    | "crm_tab_activities"
+    | "crm_tab_actions";
+}[] = [
   { id: "pipeline", labelKey: "crm_tab_pipeline" },
   { id: "deals", labelKey: "crm_tab_deals" },
   { id: "contacts", labelKey: "crm_tab_contacts" },
@@ -563,9 +555,7 @@ export default function Crm() {
           <p className="font-mono text-[9px] uppercase tracking-wide text-tx-3">
             {t("crm_tab_contacts")}
           </p>
-          <p className="font-mono text-[13px] font-semibold text-tx-1">
-            {filteredContacts.length}
-          </p>
+          <p className="font-mono text-[13px] font-semibold text-tx-1">{filteredContacts.length}</p>
         </div>
       </div>
 
@@ -617,20 +607,12 @@ export default function Crm() {
         )}
         {activeTab === "activities" && (
           <div role="tabpanel" aria-label={t("crm_tab_activities")}>
-            <ActivitiesTab
-              activities={filteredActivities}
-              actors={actors}
-              deals={filteredDeals}
-            />
+            <ActivitiesTab activities={filteredActivities} actors={actors} deals={filteredDeals} />
           </div>
         )}
         {activeTab === "actions" && (
           <div role="tabpanel" aria-label={t("crm_tab_actions")}>
-            <AgentActionsTab
-              deals={filteredDeals}
-              companies={wsCompanies}
-              actors={actors}
-            />
+            <AgentActionsTab deals={filteredDeals} companies={wsCompanies} actors={actors} />
           </div>
         )}
       </div>
