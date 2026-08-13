@@ -4,8 +4,15 @@ import { VALID_TRANSITIONS, validateTransition } from "@/lib/store";
 describe("VALID_TRANSITIONS", () => {
   it("covers all 9 work statuses", () => {
     const statuses = [
-      "todo", "ready", "claimed", "running", "verification",
-      "a_valider", "blocked", "failed", "done",
+      "todo",
+      "ready",
+      "claimed",
+      "running",
+      "verification",
+      "a_valider",
+      "blocked",
+      "failed",
+      "done",
     ] as const;
     statuses.forEach((s) => {
       expect(VALID_TRANSITIONS).toHaveProperty(s);

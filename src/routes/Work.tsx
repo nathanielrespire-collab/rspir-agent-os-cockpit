@@ -71,38 +71,72 @@ const INIT_FILTERS: Filters = {
 // ─── Status / priority / risk constants ─────────────────────────────────────
 
 const STATUSES: WorkStatus[] = [
-  "todo", "ready", "claimed", "running", "verification", "a_valider", "blocked", "failed", "done",
+  "todo",
+  "ready",
+  "claimed",
+  "running",
+  "verification",
+  "a_valider",
+  "blocked",
+  "failed",
+  "done",
 ];
 
 const STATUS_ABBR: Record<WorkStatus, string> = {
-  todo: "TODO", ready: "RDY", claimed: "CLM", running: "RUN",
-  verification: "VER", a_valider: "AVL", blocked: "BLK", failed: "ERR", done: "DNE",
+  todo: "TODO",
+  ready: "RDY",
+  claimed: "CLM",
+  running: "RUN",
+  verification: "VER",
+  a_valider: "AVL",
+  blocked: "BLK",
+  failed: "ERR",
+  done: "DNE",
 };
 
 const STATUS_BADGE: Record<WorkStatus, BadgeVariant> = {
-  todo: "default", ready: "info", claimed: "laiton", running: "laiton",
-  verification: "warn", a_valider: "or", blocked: "err", failed: "err", done: "ok",
+  todo: "default",
+  ready: "info",
+  claimed: "laiton",
+  running: "laiton",
+  verification: "warn",
+  a_valider: "or",
+  blocked: "err",
+  failed: "err",
+  done: "ok",
 };
 
 const STATUS_KEY: Record<WorkStatus, TKey> = {
-  todo: "work_status_todo", ready: "work_status_ready", claimed: "work_status_claimed",
-  running: "work_status_running", verification: "work_status_verification",
-  a_valider: "work_status_a_valider", blocked: "work_status_blocked",
-  failed: "work_status_failed", done: "work_status_done",
+  todo: "work_status_todo",
+  ready: "work_status_ready",
+  claimed: "work_status_claimed",
+  running: "work_status_running",
+  verification: "work_status_verification",
+  a_valider: "work_status_a_valider",
+  blocked: "work_status_blocked",
+  failed: "work_status_failed",
+  done: "work_status_done",
 };
 
 const PRIORITY_ORDER: Record<WorkItem["priority"], number> = { P0: 0, P1: 1, P2: 2, P3: 3 };
 
 const PRIORITY_BADGE: Record<WorkItem["priority"], BadgeVariant> = {
-  P0: "err", P1: "warn", P2: "default", P3: "default",
+  P0: "err",
+  P1: "warn",
+  P2: "default",
+  P3: "default",
 };
 
 const RISK_BADGE: Record<WorkItem["risk"], BadgeVariant> = {
-  low: "ok", medium: "warn", high: "err",
+  low: "ok",
+  medium: "warn",
+  high: "err",
 };
 
 const RISK_KEY: Record<WorkItem["risk"], TKey> = {
-  low: "work_risk_low", medium: "work_risk_medium", high: "work_risk_high",
+  low: "work_risk_low",
+  medium: "work_risk_medium",
+  high: "work_risk_high",
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -110,8 +144,12 @@ const RISK_KEY: Record<WorkItem["risk"], TKey> = {
 function getEffectiveStage(wi: WorkItem): RuntimeStage | undefined {
   if (wi.stage) return wi.stage;
   const map: Partial<Record<WorkStatus, RuntimeStage>> = {
-    ready: "select", claimed: "claim", running: "execute",
-    verification: "verify", a_valider: "policy", done: "continue",
+    ready: "select",
+    claimed: "claim",
+    running: "execute",
+    verification: "verify",
+    a_valider: "policy",
+    done: "continue",
   };
   return map[wi.status];
 }
@@ -170,9 +208,12 @@ function RiskBadge({ risk }: { risk: WorkItem["risk"] }) {
 
 function EvidIcon({ kind, result }: { kind: Evidence["kind"]; result?: Evidence["result"] }) {
   const cls = "shrink-0 mt-0.5";
-  if (kind === "screenshot") return <Camera size={13} className={cn(cls, "text-info")} aria-hidden />;
-  if (kind === "artifact") return <FileText size={13} className={cn(cls, "text-laiton")} aria-hidden />;
-  if (kind === "external_id") return <Hash size={13} className={cn(cls, "text-tx-2")} aria-hidden />;
+  if (kind === "screenshot")
+    return <Camera size={13} className={cn(cls, "text-info")} aria-hidden />;
+  if (kind === "artifact")
+    return <FileText size={13} className={cn(cls, "text-laiton")} aria-hidden />;
+  if (kind === "external_id")
+    return <Hash size={13} className={cn(cls, "text-tx-2")} aria-hidden />;
   if (kind === "log") return <Terminal size={13} className={cn(cls, "text-tx-3")} aria-hidden />;
   return (
     <CheckCircle2
@@ -202,13 +243,20 @@ function FChip({
   const activeClass = (() => {
     if (!active) return "border-line/40 text-tx-3/60 hover:border-line/60 hover:text-tx-2";
     switch (variant) {
-      case "info":   return "border-info bg-info/10 text-info";
-      case "laiton": return "border-laiton bg-laiton/10 text-laiton";
-      case "warn":   return "border-warn bg-warn/10 text-warn";
-      case "or":     return "border-or bg-or/10 text-or";
-      case "err":    return "border-err bg-err/10 text-err";
-      case "ok":     return "border-ok bg-ok/10 text-ok";
-      default:       return "border-line bg-bg-2 text-tx-1";
+      case "info":
+        return "border-info bg-info/10 text-info";
+      case "laiton":
+        return "border-laiton bg-laiton/10 text-laiton";
+      case "warn":
+        return "border-warn bg-warn/10 text-warn";
+      case "or":
+        return "border-or bg-or/10 text-or";
+      case "err":
+        return "border-err bg-err/10 text-err";
+      case "ok":
+        return "border-ok bg-ok/10 text-ok";
+      default:
+        return "border-line bg-bg-2 text-tx-1";
     }
   })();
   return (
@@ -379,7 +427,9 @@ function WorkTable({ items, sort, onSort, onSelect, actors, clients, projects }:
                 <span className="font-mono text-[11px] text-tx-2">{project?.name ?? "—"}</span>
               </TableCell>
               <TableCell>
-                <span className="font-mono text-[11px] text-tx-2">{owner?.name ?? wi.ownerActorId}</span>
+                <span className="font-mono text-[11px] text-tx-2">
+                  {owner?.name ?? wi.ownerActorId}
+                </span>
               </TableCell>
               <TableCell>
                 {assigned ? (
@@ -438,9 +488,7 @@ function KanbanCard({ item, onClick, actors }: KanbanCardProps) {
       <p className="mb-2 line-clamp-2 text-left text-[12px] leading-snug text-tx-1">{item.title}</p>
       <div className="flex items-center justify-between gap-1">
         <span className="font-mono text-[10px] text-tx-3">{owner?.name ?? "—"}</span>
-        {assigned && (
-          <span className="font-mono text-[10px] text-laiton">{assigned.name}</span>
-        )}
+        {assigned && <span className="font-mono text-[10px] text-laiton">{assigned.name}</span>}
       </div>
       {item.externalEffect && (
         <div className="mt-1.5">
@@ -571,7 +619,9 @@ function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
               </span>
               {owner && (
                 <div className="mt-1">
-                  <Badge variant="default" className="text-[9px]">{owner.type}</Badge>
+                  <Badge variant="default" className="text-[9px]">
+                    {owner.type}
+                  </Badge>
                 </div>
               )}
             </div>
@@ -586,7 +636,9 @@ function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
                 <>
                   <span className="text-[13px] font-medium text-tx-1">{assigned.name}</span>
                   <div className="mt-1">
-                    <Badge variant="laiton" className="text-[9px]">{assigned.type}</Badge>
+                    <Badge variant="laiton" className="text-[9px]">
+                      {assigned.type}
+                    </Badge>
                   </div>
                 </>
               ) : (
@@ -716,7 +768,9 @@ function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
                   <div key={a.id} className="flex items-center gap-2">
                     <FileText size={11} className="text-laiton" aria-hidden />
                     <span className="font-mono text-[12px] text-tx-1">{a.name}</span>
-                    <Badge variant="default" className="text-[9px]">{a.kind}</Badge>
+                    <Badge variant="default" className="text-[9px]">
+                      {a.kind}
+                    </Badge>
                   </div>
                 ))}
               </div>
@@ -777,9 +831,13 @@ function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
                       <div className="absolute -left-[5px] mt-1.5 h-2 w-2 rounded-full border border-line bg-bg-1" />
                       <p className="font-mono text-[11px] text-tx-1">{step.summary}</p>
                       <div className="mt-0.5 flex items-center gap-2">
-                        <Badge variant="default" className="text-[9px]">{step.stage}</Badge>
+                        <Badge variant="default" className="text-[9px]">
+                          {step.stage}
+                        </Badge>
                         {stepActor && (
-                          <span className="font-mono text-[10px] text-laiton">{stepActor.name}</span>
+                          <span className="font-mono text-[10px] text-laiton">
+                            {stepActor.name}
+                          </span>
                         )}
                         <span className="font-mono text-[10px] text-tx-3">{fmtDate(step.at)}</span>
                       </div>
@@ -919,7 +977,8 @@ function CreateDialog({
               {t("home_requested_by")}: <span className="text-tx-1">{requestedByName}</span>
             </span>
             <span className="font-mono text-[10px] text-tx-3">
-              {t("work_form_policy")}: <span className="text-ok">{t("work_form_policy_value")}</span>
+              {t("work_form_policy")}:{" "}
+              <span className="text-ok">{t("work_form_policy_value")}</span>
             </span>
           </div>
         </div>
@@ -940,20 +999,34 @@ function CreateDialog({
           {/* Client + Project */}
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[11px] text-tx-2">{t("work_form_client_label")}</label>
-              <SelectField value={clientId} onChange={(v) => { setClientId(v); setProjectId(""); }}>
+              <label className="font-mono text-[11px] text-tx-2">
+                {t("work_form_client_label")}
+              </label>
+              <SelectField
+                value={clientId}
+                onChange={(v) => {
+                  setClientId(v);
+                  setProjectId("");
+                }}
+              >
                 <option value="">{t("work_form_none_option")}</option>
                 {clients.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
                 ))}
               </SelectField>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[11px] text-tx-2">{t("work_form_project_label")}</label>
+              <label className="font-mono text-[11px] text-tx-2">
+                {t("work_form_project_label")}
+              </label>
               <SelectField value={projectId} onChange={setProjectId}>
                 <option value="">{t("work_form_none_option")}</option>
                 {filteredProjects.map((p) => (
-                  <option key={p.id} value={p.id}>{p.name}</option>
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
                 ))}
               </SelectField>
             </div>
@@ -962,19 +1035,30 @@ function CreateDialog({
           {/* Priority + Owner */}
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[11px] text-tx-2">{t("work_form_priority_label")}</label>
-              <SelectField value={priority} onChange={(v) => setPriority(v as WorkItem["priority"])}>
+              <label className="font-mono text-[11px] text-tx-2">
+                {t("work_form_priority_label")}
+              </label>
+              <SelectField
+                value={priority}
+                onChange={(v) => setPriority(v as WorkItem["priority"])}
+              >
                 {(["P0", "P1", "P2", "P3"] as const).map((p) => (
-                  <option key={p} value={p}>{p}</option>
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
                 ))}
               </SelectField>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[11px] text-tx-2">{t("work_form_owner_label")}</label>
+              <label className="font-mono text-[11px] text-tx-2">
+                {t("work_form_owner_label")}
+              </label>
               <SelectField value={ownerId} onChange={setOwnerId}>
                 <option value="">{t("work_form_none_option")}</option>
                 {actors.map((a) => (
-                  <option key={a.id} value={a.id}>{a.name} ({a.type})</option>
+                  <option key={a.id} value={a.id}>
+                    {a.name} ({a.type})
+                  </option>
                 ))}
               </SelectField>
             </div>
@@ -986,12 +1070,16 @@ function CreateDialog({
               <label className="font-mono text-[11px] text-tx-2">{t("work_form_risk_label")}</label>
               <SelectField value={risk} onChange={(v) => setRisk(v as WorkItem["risk"])}>
                 {(["low", "medium", "high"] as const).map((r) => (
-                  <option key={r} value={r}>{t(RISK_KEY[r])}</option>
+                  <option key={r} value={r}>
+                    {t(RISK_KEY[r])}
+                  </option>
                 ))}
               </SelectField>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[11px] text-tx-2">{t("work_form_estimated_label")}</label>
+              <label className="font-mono text-[11px] text-tx-2">
+                {t("work_form_estimated_label")}
+              </label>
               <Input
                 type="number"
                 min="1"
@@ -1054,7 +1142,15 @@ function CreateDialog({
         </div>
 
         <div className="flex items-center justify-end gap-2 border-t border-line px-5 py-4">
-          <Button type="button" variant="ghost" size="sm" onClick={() => { reset(); onClose(); }}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              reset();
+              onClose();
+            }}
+          >
             {t("work_cancel")}
           </Button>
           <Button type="submit" size="sm" disabled={!title.trim() || !ownerId || submitting}>
@@ -1124,7 +1220,8 @@ function AssignDialog({
             {t("home_requested_by")}: <span className="text-tx-1">{requestedByName}</span>
           </span>
           <span className="font-mono text-[10px] text-tx-3">
-            {t("work_assign_policy")}: <span className="text-ok">{t("work_assign_policy_value")}</span>
+            {t("work_assign_policy")}:{" "}
+            <span className="text-ok">{t("work_assign_policy_value")}</span>
           </span>
         </div>
       </div>
@@ -1135,9 +1232,7 @@ function AssignDialog({
             {t("work_assign_current")}
           </p>
           <p className="text-[13px] text-tx-1">
-            {currentAssigned?.name ?? (
-              <span className="text-tx-3">{t("work_assign_none")}</span>
-            )}
+            {currentAssigned?.name ?? <span className="text-tx-3">{t("work_assign_none")}</span>}
           </p>
         </div>
 
@@ -1195,16 +1290,18 @@ function TransitionDialog({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (open) { setSelected(""); setError(null); }
+    if (open) {
+      setSelected("");
+      setError(null);
+    }
   }, [open]);
 
   const validTargets = item ? VALID_TRANSITIONS[item.status] : [];
   const hasEvidence = (item?.evidenceIds.length ?? 0) > 0;
 
   const doneBlocked = selected === "done" && !hasEvidence;
-  const validation = item && selected
-    ? validateTransition(item.status, selected as WorkStatus, hasEvidence)
-    : null;
+  const validation =
+    item && selected ? validateTransition(item.status, selected as WorkStatus, hasEvidence) : null;
 
   async function handleConfirm() {
     if (!item || !selected) return;
@@ -1282,8 +1379,8 @@ function TransitionDialog({
                     selected === target
                       ? "border-or bg-or/10"
                       : blocked
-                      ? "cursor-not-allowed border-line/30 opacity-40"
-                      : "border-line hover:border-line/80 hover:bg-bg-2",
+                        ? "cursor-not-allowed border-line/30 opacity-40"
+                        : "border-line hover:border-line/80 hover:bg-bg-2",
                   )}
                 >
                   <StatusBadge status={target} />
@@ -1301,7 +1398,9 @@ function TransitionDialog({
         {doneBlocked && (
           <div className="flex items-start gap-2 rounded-ctl border border-warn/30 bg-warn/10 px-3 py-2">
             <AlertCircle size={13} className="mt-0.5 shrink-0 text-warn" aria-hidden />
-            <p className="font-mono text-[12px] text-warn">{t("work_transition_no_evidence_warn")}</p>
+            <p className="font-mono text-[12px] text-warn">
+              {t("work_transition_no_evidence_warn")}
+            </p>
           </div>
         )}
 
@@ -1385,8 +1484,7 @@ export default function Work() {
     if (filters.search) {
       const q = filters.search.toLowerCase();
       items = items.filter(
-        (wi) =>
-          wi.title.toLowerCase().includes(q) || wi.id.toLowerCase().includes(q),
+        (wi) => wi.title.toLowerCase().includes(q) || wi.id.toLowerCase().includes(q),
       );
     }
     if (filters.statuses.length) {
@@ -1411,8 +1509,10 @@ export default function Work() {
     return [...items].sort((a, b) => {
       let cmp = 0;
       if (sort.field === "title") cmp = a.title.localeCompare(b.title);
-      else if (sort.field === "status") cmp = STATUSES.indexOf(a.status) - STATUSES.indexOf(b.status);
-      else if (sort.field === "priority") cmp = PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority];
+      else if (sort.field === "status")
+        cmp = STATUSES.indexOf(a.status) - STATUSES.indexOf(b.status);
+      else if (sort.field === "priority")
+        cmp = PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority];
       else if (sort.field === "updatedAt") cmp = a.updatedAt.localeCompare(b.updatedAt);
       return sort.dir === "asc" ? cmp : -cmp;
     });
@@ -1457,7 +1557,11 @@ export default function Work() {
       <div className="flex flex-wrap items-center gap-2 rounded-card border border-line bg-bg-1 px-3 py-2.5">
         {/* Search */}
         <div className="relative">
-          <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-tx-3" aria-hidden />
+          <Search
+            size={12}
+            className="absolute left-2.5 top-1/2 -translate-y-1/2 text-tx-3"
+            aria-hidden
+          />
           <Input
             value={filters.search}
             onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
@@ -1503,7 +1607,9 @@ export default function Work() {
           >
             <option value="">{t("work_col_client")}</option>
             {wsClients.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
             ))}
           </SelectField>
         </div>
@@ -1517,7 +1623,9 @@ export default function Work() {
           >
             <option value="">{t("work_col_project")}</option>
             {wsProjects.map((p) => (
-              <option key={p.id} value={p.id}>{p.name}</option>
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
             ))}
           </SelectField>
         </div>
@@ -1648,7 +1756,9 @@ export default function Work() {
 
       <AssignDialog
         open={!!assignItem}
-        onClose={() => { setAssignItem(null); }}
+        onClose={() => {
+          setAssignItem(null);
+        }}
         item={assignItem}
         requestedByName={role}
         requestedByActorId={currentActorId}
@@ -1657,7 +1767,9 @@ export default function Work() {
 
       <TransitionDialog
         open={!!transitionItem}
-        onClose={() => { setTransitionItem(null); }}
+        onClose={() => {
+          setTransitionItem(null);
+        }}
         item={transitionItem}
         requestedByName={role}
         requestedByActorId={currentActorId}
