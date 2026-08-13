@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import {
   ListTodo,
   X,
@@ -23,6 +23,7 @@ import {
   Clock,
   Zap,
   GitBranch,
+  BookOpen,
 } from "lucide-react";
 import { useT } from "@/lib/hooks";
 import { useAppStore, useUIStore, VALID_TRANSITIONS, validateTransition } from "@/lib/store";
@@ -597,7 +598,18 @@ function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
         <div className="flex items-start gap-3 border-b border-line px-5 py-4">
           <div className="min-w-0 flex-1">
             <h3 className="text-sm font-semibold text-tx-1">{item.title}</h3>
-            <p className="mt-0.5 font-mono text-[11px] text-tx-3">{item.id}</p>
+            <div className="mt-0.5 flex items-center gap-2">
+              <p className="font-mono text-[11px] text-tx-3">{item.id}</p>
+              {item.status === "done" && (
+                <Link
+                  to={`/evidence?workItem=${item.id}`}
+                  className="flex items-center gap-1 font-mono text-[10px] text-tx-3 transition-colors hover:text-laiton focus-visible:outline-2 focus-visible:outline-or"
+                >
+                  <BookOpen size={10} aria-hidden />
+                  {t("ledger_view_in_ledger")}
+                </Link>
+              )}
+            </div>
           </div>
           <button
             ref={closeRef}
