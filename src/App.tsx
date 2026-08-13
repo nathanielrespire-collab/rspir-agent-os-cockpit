@@ -16,6 +16,7 @@ import MeetingDetail from "@/routes/MeetingDetail";
 import Crm from "@/routes/Crm";
 import CrmDeal from "@/routes/CrmDeal";
 import Automations from "@/routes/Automations";
+import AutomationDetail from "@/routes/AutomationDetail";
 import Websites from "@/routes/Websites";
 import Knowledge from "@/routes/Knowledge";
 import Integrations from "@/routes/Integrations";
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="crm" element={<Crm />} />
           <Route path="crm/:id" element={<CrmDeal />} />
           <Route path="automations" element={<Automations />} />
+          <Route path="automations/:id" element={<AutomationDetail />} />
           <Route path="websites" element={<Websites />} />
           <Route path="knowledge" element={<Knowledge />} />
           <Route path="integrations" element={<Integrations />} />

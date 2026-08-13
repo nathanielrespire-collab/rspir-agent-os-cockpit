@@ -7,6 +7,8 @@ import type {
   WorkItem,
   WorkStatus,
   Blocker,
+  Automation,
+  AutomationStage,
   Evidence,
   Decision,
   ExecutionStep,
@@ -57,6 +59,16 @@ export const VALID_TRANSITIONS: Record<WorkStatus, WorkStatus[]> = {
   blocked: ["ready"],
   failed: ["todo"],
   done: [],
+};
+
+// ─── Automation stage transition graph ─────────────────────────────────────
+
+export const AUTOMATION_VALID_TRANSITIONS: Record<AutomationStage, AutomationStage[]> = {
+  draft: ["test"],
+  test: ["verified", "draft"],
+  verified: ["approved", "test"],
+  approved: ["deployed", "verified"],
+  deployed: [],
 };
 
 type TransitionError = "invalid_transition" | "evidence_required";
@@ -267,6 +279,18 @@ interface AppDataStore extends AppState {
 
   toggleFeature: (clientId: Id, featureId: Id, enabled: boolean, actorId: Id) => Promise<void>;
   swapProvider: (integrationId: Id, newProviderId: Id, actorId: Id) => Promise<void>;
+
+  createAutomation: (
+    data: {
+      name: string;
+      trigger: string;
+      clientId?: Id;
+      workspaceId: Id;
+      evidenceLabel?: string;
+    },
+    requestedByActorId: Id,
+  ) => Promise<Automation>;
+  transitionAutomationStage: (id: Id, to: AutomationStage, requestedByActorId: Id) => Promise<void>;
 }
 
 export const useAppStore = create<AppDataStore>()(
@@ -656,6 +680,103 @@ export const useAppStore = create<AppDataStore>()(
               : c.enabledFeatureIds.filter((f) => f !== featureId);
             return { ...c, enabledFeatureIds: ids };
           }),
+          evidence: [...s.evidence, ev],
+          events: [...s.events, event],
+        }));
+      },
+
+      // ── Provider swap ─────────────────────────────────────────────────
+
+      // ── Automations ───────────────────────────────────────────────────
+
+      createAutomation: async (data, requestedByActorId) => {
+        const now = new Date().toISOString();
+        const id = newId("atm");
+        const automation: Automation = {
+          id,
+          workspaceId: data.workspaceId,
+          clientId: data.clientId,
+          name: data.name,
+          providerId: "prv-make",
+          stage: "draft",
+          trigger: data.trigger,
+          inputs: [],
+          actions: [],
+          version: "0.1.0",
+          evidenceIds: [],
+        };
+
+        const chain = getWorkspaceChain(get(), data.workspaceId);
+        const tip = chainTip(chain);
+        const unsignedEv: Unsigned<Evidence> = {
+          seq: tip.seq,
+          id: newId("ev"),
+          workspaceId: data.workspaceId,
+          label: data.evidenceLabel ?? `Brouillon créé: ${data.name}`,
+          kind: "check",
+          result: "pass",
+          createdAt: now,
+        };
+        const ev = await sign<Evidence>(unsignedEv, tip.prevHash);
+
+        const event: Event = {
+          id: newId("evt"),
+          workspaceId: data.workspaceId,
+          at: now,
+          requestedByActorId,
+          executedByActorId: requestedByActorId,
+          capability: "automation.build",
+          action: "automation.create",
+          targetId: id,
+          result: "ok",
+        };
+
+        const full: Automation = { ...automation, evidenceIds: [ev.id] };
+        set((s) => ({
+          automations: [...s.automations, full],
+          evidence: [...s.evidence, ev],
+          events: [...s.events, event],
+        }));
+        return full;
+      },
+
+      transitionAutomationStage: async (id, to, requestedByActorId) => {
+        const now = new Date().toISOString();
+        const atm = get().automations.find((a) => a.id === id);
+        if (!atm) throw new Error("automation_not_found");
+        const valid = AUTOMATION_VALID_TRANSITIONS[atm.stage] ?? [];
+        if (!valid.includes(to)) throw new Error("invalid_transition");
+
+        const chain = getWorkspaceChain(get(), atm.workspaceId);
+        const tip = chainTip(chain);
+        const unsignedEv: Unsigned<Evidence> = {
+          seq: tip.seq,
+          id: newId("ev"),
+          workspaceId: atm.workspaceId,
+          label: `${atm.name}: ${atm.stage} → ${to}`,
+          kind: "check",
+          result: "pass",
+          createdAt: now,
+        };
+        const ev = await sign<Evidence>(unsignedEv, tip.prevHash);
+
+        const event: Event = {
+          id: newId("evt"),
+          workspaceId: atm.workspaceId,
+          at: now,
+          requestedByActorId,
+          executedByActorId: requestedByActorId,
+          capability: to === "deployed" ? "automation.deploy" : "automation.build",
+          policyResult: to === "deployed" ? "approval_required" : "auto",
+          action: `automation.${to}`,
+          targetId: id,
+          result: "ok",
+        };
+
+        set((s) => ({
+          automations: s.automations.map((a) =>
+            a.id === id ? { ...a, stage: to, evidenceIds: [...a.evidenceIds, ev.id] } : a,
+          ),
           evidence: [...s.evidence, ev],
           events: [...s.events, event],
         }));
