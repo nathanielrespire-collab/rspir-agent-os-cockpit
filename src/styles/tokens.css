@@ -2,17 +2,17 @@
    Sémantique: Or = attention/décision humaine (rare, précieux). Laiton = travail machine/agents. */
 
 :root[data-theme="dark"] {
-  --bg-0: #0c1014;      /* fond app (ardoise noire) */
-  --bg-1: #131920;      /* surfaces */
-  --bg-2: #1a222c;      /* surfaces élevées / hover */
+  --bg-0: #0c1014; /* fond app (ardoise noire) */
+  --bg-1: #131920; /* surfaces */
+  --bg-2: #1a222c; /* surfaces élevées / hover */
   --border: #26303c;
   --border-strong: #33404f;
-  --tx-1: #e6ebf0;      /* texte principal */
-  --tx-2: #9fb0c0;      /* secondaire */
-  --tx-3: #64778a;      /* tertiaire / labels */
-  --or: #c9a227;        /* décision humaine */
+  --tx-1: #e6ebf0; /* texte principal */
+  --tx-2: #9fb0c0; /* secondaire */
+  --tx-3: #64778a; /* tertiaire / labels */
+  --or: #c9a227; /* décision humaine */
   --or-hover: #e0b940;
-  --laiton: #b08d57;    /* travail machine */
+  --laiton: #b08d57; /* travail machine */
   --ok: #3fb27f;
   --warn: #e08a3c;
   --err: #d65a5a;
@@ -42,7 +42,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

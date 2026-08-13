@@ -10,19 +10,47 @@ export type ISODate = string; // ISO 8601
 // ---------- Capabilities & policies ----------
 
 export type CapabilityId =
-  | "email.read" | "email.draft" | "email.send"
-  | "calendar.read" | "calendar.create"
-  | "files.read" | "files.write" | "files.search"
+  | "email.read"
+  | "email.draft"
+  | "email.send"
+  | "calendar.read"
+  | "calendar.create"
+  | "files.read"
+  | "files.write"
+  | "files.search"
   | "contacts.read"
-  | "transcripts.read" | "transcripts.search" | "meeting.read" | "meeting.process"
-  | "crm.read" | "crm.search" | "crm.write" | "crm.create_activity" | "crm.add_note"
-  | "automation.inspect" | "automation.build" | "automation.edit" | "automation.test" | "automation.deploy" | "automation.run"
-  | "website.inspect" | "website.build" | "website.edit" | "website.test" | "website.deploy" | "website.verify"
+  | "transcripts.read"
+  | "transcripts.search"
+  | "meeting.read"
+  | "meeting.process"
+  | "crm.read"
+  | "crm.search"
+  | "crm.write"
+  | "crm.create_activity"
+  | "crm.add_note"
+  | "automation.inspect"
+  | "automation.build"
+  | "automation.edit"
+  | "automation.test"
+  | "automation.deploy"
+  | "automation.run"
+  | "website.inspect"
+  | "website.build"
+  | "website.edit"
+  | "website.test"
+  | "website.deploy"
+  | "website.verify"
   | "knowledge.publish"
-  | "source_control.read" | "source_control.change_request" | "source_control.status"
-  | "worker.code" | "worker.ops" | "worker.research" | "worker.review"
+  | "source_control.read"
+  | "source_control.change_request"
+  | "source_control.status"
+  | "worker.code"
+  | "worker.ops"
+  | "worker.research"
+  | "worker.review"
   | "notification.internal"
-  | "spend_money" | "contract_commitment";
+  | "spend_money"
+  | "contract_commitment";
 
 export type PolicyRule = "auto" | "approval_required" | "forbidden" | "human_only";
 
@@ -40,8 +68,14 @@ export interface Policy {
 export type ActorType = "human" | "ai_agent" | "service" | "automation";
 
 export type AgentRole =
-  | "architect" | "code_builder" | "ops_worker" | "researcher"
-  | "reviewer" | "security_reviewer" | "website_builder" | "automation_builder";
+  | "architect"
+  | "code_builder"
+  | "ops_worker"
+  | "researcher"
+  | "reviewer"
+  | "security_reviewer"
+  | "website_builder"
+  | "automation_builder";
 
 export interface Actor {
   id: Id;
@@ -64,9 +98,20 @@ export interface Actor {
 // ---------- Providers & integrations ----------
 
 export type ProviderCategory =
-  | "email" | "calendar" | "files" | "contacts" | "transcripts" | "crm"
-  | "automation" | "website" | "knowledge" | "source_control"
-  | "worker_code" | "worker_ops" | "reasoning" | "notifications";
+  | "email"
+  | "calendar"
+  | "files"
+  | "contacts"
+  | "transcripts"
+  | "crm"
+  | "automation"
+  | "website"
+  | "knowledge"
+  | "source_control"
+  | "worker_code"
+  | "worker_ops"
+  | "reasoning"
+  | "notifications";
 
 export type ConnectionState = "mock" | "connected" | "not_configured";
 
@@ -109,12 +154,26 @@ export interface Client {
 // ---------- Work ----------
 
 export type WorkStatus =
-  | "todo" | "ready" | "claimed" | "running" | "verification"
-  | "a_valider" | "blocked" | "failed" | "done";
+  | "todo"
+  | "ready"
+  | "claimed"
+  | "running"
+  | "verification"
+  | "a_valider"
+  | "blocked"
+  | "failed"
+  | "done";
 
 export type RuntimeStage =
-  | "reconcile" | "select" | "claim" | "context" | "policy"
-  | "execute" | "verify" | "update" | "continue";
+  | "reconcile"
+  | "select"
+  | "claim"
+  | "context"
+  | "policy"
+  | "execute"
+  | "verify"
+  | "update"
+  | "continue";
 
 export interface WorkItem {
   id: Id;

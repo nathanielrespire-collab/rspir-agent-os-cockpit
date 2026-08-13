@@ -1,28 +1,199 @@
 {
   "version": 1,
   "units": [
-    { "id": "BUILD-000", "title": "La machine se prouve elle-même", "phase": 0, "deps": [], "status": "todo", "contract": ".build/units/BUILD-000.md" },
-    { "id": "BUILD-001", "title": "Shell, navigation, thèmes, i18n, palette de commandes", "phase": 1, "deps": ["BUILD-000"], "status": "todo", "contract": ".build/units/BUILD-001.md" },
-    { "id": "BUILD-002", "title": "Store, persistance locale, fixtures démo complètes", "phase": 1, "deps": ["BUILD-001"], "status": "todo", "contract": ".build/units/BUILD-002.md" },
-    { "id": "BUILD-003", "title": "Home / Command Center + spine du runtime", "phase": 1, "deps": ["BUILD-002"], "status": "todo", "contract": ".build/units/BUILD-003.md" },
-    { "id": "BUILD-004", "title": "Work — file opérationnelle unifiée", "phase": 1, "deps": ["BUILD-002"], "status": "todo", "contract": ".build/units/BUILD-004.md" },
-    { "id": "BUILD-005", "title": "Projects — progrès vérifié et transférabilité", "phase": 1, "deps": ["BUILD-004"], "status": "todo", "contract": ".build/units/BUILD-005.md" },
-    { "id": "BUILD-006", "title": "Clients — workspaces isolés", "phase": 1, "deps": ["BUILD-005"], "status": "todo", "contract": ".build/units/BUILD-006.md" },
-    { "id": "BUILD-007", "title": "Team + Agents — modèle Actor et control center", "phase": 1, "deps": ["BUILD-002"], "status": "todo", "contract": ".build/units/BUILD-007.md" },
-    { "id": "BUILD-008", "title": "Approvals + Blockers — local vs global", "phase": 1, "deps": ["BUILD-004"], "status": "todo", "contract": ".build/units/BUILD-008.md" },
-    { "id": "BUILD-009", "title": "Evidence Ledger — historique immuable", "phase": 1, "deps": ["BUILD-004"], "status": "todo", "contract": ".build/units/BUILD-009.md" },
-    { "id": "BUILD-010", "title": "Integrations + Capability Registry (rspir doctor)", "phase": 2, "deps": ["BUILD-002"], "status": "todo", "contract": ".build/units/BUILD-010.md" },
-    { "id": "BUILD-011", "title": "Feature Registry", "phase": 2, "deps": ["BUILD-010"], "status": "todo", "contract": ".build/units/BUILD-011.md" },
-    { "id": "BUILD-012", "title": "Meetings — intelligence avant/après", "phase": 2, "deps": ["BUILD-010"], "status": "todo", "contract": ".build/units/BUILD-012.md" },
-    { "id": "BUILD-013", "title": "CRM — pipeline, deals, provenance des actions agents", "phase": 2, "deps": ["BUILD-010"], "status": "todo", "contract": ".build/units/BUILD-013.md" },
-    { "id": "BUILD-014", "title": "Automations — lifecycle Draft→Deployed", "phase": 2, "deps": ["BUILD-010"], "status": "todo", "contract": ".build/units/BUILD-014.md" },
-    { "id": "BUILD-015", "title": "Websites — builds et déploiements vérifiés", "phase": 2, "deps": ["BUILD-010"], "status": "todo", "contract": ".build/units/BUILD-015.md" },
-    { "id": "BUILD-016", "title": "Knowledge (3 mémoires) + vue Notion sync", "phase": 2, "deps": ["BUILD-010"], "status": "todo", "contract": ".build/units/BUILD-016.md" },
-    { "id": "BUILD-017", "title": "Chat assistant — couche de commandes réelle", "phase": 3, "deps": ["BUILD-003", "BUILD-004", "BUILD-008"], "status": "todo", "contract": ".build/units/BUILD-017.md" },
-    { "id": "BUILD-018", "title": "Policy Engine + Security Center", "phase": 3, "deps": ["BUILD-010"], "status": "todo", "contract": ".build/units/BUILD-018.md" },
-    { "id": "BUILD-019", "title": "Agent Builder + workspace Microsoft + provider swap", "phase": 3, "deps": ["BUILD-011", "BUILD-018"], "status": "todo", "contract": ".build/units/BUILD-019.md" },
-    { "id": "BUILD-020", "title": "Analytics + zone Build + Improvement Proposals", "phase": 3, "deps": ["BUILD-009"], "status": "todo", "contract": ".build/units/BUILD-020.md" },
-    { "id": "BUILD-021", "title": "Simulation du runtime + scénario démo complet", "phase": 4, "deps": ["BUILD-017", "BUILD-019"], "status": "todo", "contract": ".build/units/BUILD-021.md" },
-    { "id": "BUILD-022", "title": "Acceptance finale — mobile, a11y, README, deploy", "phase": 4, "deps": ["BUILD-021", "BUILD-020", "BUILD-016", "BUILD-012", "BUILD-013", "BUILD-014", "BUILD-015", "BUILD-006", "BUILD-007"], "status": "todo", "contract": ".build/units/BUILD-022.md" }
+    {
+      "id": "BUILD-000",
+      "title": "La machine se prouve elle-même",
+      "phase": 0,
+      "deps": [],
+      "status": "todo",
+      "contract": ".build/units/BUILD-000.md"
+    },
+    {
+      "id": "BUILD-001",
+      "title": "Shell, navigation, thèmes, i18n, palette de commandes",
+      "phase": 1,
+      "deps": ["BUILD-000"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-001.md"
+    },
+    {
+      "id": "BUILD-002",
+      "title": "Store, persistance locale, fixtures démo complètes",
+      "phase": 1,
+      "deps": ["BUILD-001"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-002.md"
+    },
+    {
+      "id": "BUILD-003",
+      "title": "Home / Command Center + spine du runtime",
+      "phase": 1,
+      "deps": ["BUILD-002"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-003.md"
+    },
+    {
+      "id": "BUILD-004",
+      "title": "Work — file opérationnelle unifiée",
+      "phase": 1,
+      "deps": ["BUILD-002"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-004.md"
+    },
+    {
+      "id": "BUILD-005",
+      "title": "Projects — progrès vérifié et transférabilité",
+      "phase": 1,
+      "deps": ["BUILD-004"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-005.md"
+    },
+    {
+      "id": "BUILD-006",
+      "title": "Clients — workspaces isolés",
+      "phase": 1,
+      "deps": ["BUILD-005"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-006.md"
+    },
+    {
+      "id": "BUILD-007",
+      "title": "Team + Agents — modèle Actor et control center",
+      "phase": 1,
+      "deps": ["BUILD-002"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-007.md"
+    },
+    {
+      "id": "BUILD-008",
+      "title": "Approvals + Blockers — local vs global",
+      "phase": 1,
+      "deps": ["BUILD-004"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-008.md"
+    },
+    {
+      "id": "BUILD-009",
+      "title": "Evidence Ledger — historique immuable",
+      "phase": 1,
+      "deps": ["BUILD-004"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-009.md"
+    },
+    {
+      "id": "BUILD-010",
+      "title": "Integrations + Capability Registry (rspir doctor)",
+      "phase": 2,
+      "deps": ["BUILD-002"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-010.md"
+    },
+    {
+      "id": "BUILD-011",
+      "title": "Feature Registry",
+      "phase": 2,
+      "deps": ["BUILD-010"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-011.md"
+    },
+    {
+      "id": "BUILD-012",
+      "title": "Meetings — intelligence avant/après",
+      "phase": 2,
+      "deps": ["BUILD-010"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-012.md"
+    },
+    {
+      "id": "BUILD-013",
+      "title": "CRM — pipeline, deals, provenance des actions agents",
+      "phase": 2,
+      "deps": ["BUILD-010"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-013.md"
+    },
+    {
+      "id": "BUILD-014",
+      "title": "Automations — lifecycle Draft→Deployed",
+      "phase": 2,
+      "deps": ["BUILD-010"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-014.md"
+    },
+    {
+      "id": "BUILD-015",
+      "title": "Websites — builds et déploiements vérifiés",
+      "phase": 2,
+      "deps": ["BUILD-010"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-015.md"
+    },
+    {
+      "id": "BUILD-016",
+      "title": "Knowledge (3 mémoires) + vue Notion sync",
+      "phase": 2,
+      "deps": ["BUILD-010"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-016.md"
+    },
+    {
+      "id": "BUILD-017",
+      "title": "Chat assistant — couche de commandes réelle",
+      "phase": 3,
+      "deps": ["BUILD-003", "BUILD-004", "BUILD-008"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-017.md"
+    },
+    {
+      "id": "BUILD-018",
+      "title": "Policy Engine + Security Center",
+      "phase": 3,
+      "deps": ["BUILD-010"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-018.md"
+    },
+    {
+      "id": "BUILD-019",
+      "title": "Agent Builder + workspace Microsoft + provider swap",
+      "phase": 3,
+      "deps": ["BUILD-011", "BUILD-018"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-019.md"
+    },
+    {
+      "id": "BUILD-020",
+      "title": "Analytics + zone Build + Improvement Proposals",
+      "phase": 3,
+      "deps": ["BUILD-009"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-020.md"
+    },
+    {
+      "id": "BUILD-021",
+      "title": "Simulation du runtime + scénario démo complet",
+      "phase": 4,
+      "deps": ["BUILD-017", "BUILD-019"],
+      "status": "todo",
+      "contract": ".build/units/BUILD-021.md"
+    },
+    {
+      "id": "BUILD-022",
+      "title": "Acceptance finale — mobile, a11y, README, deploy",
+      "phase": 4,
+      "deps": [
+        "BUILD-021",
+        "BUILD-020",
+        "BUILD-016",
+        "BUILD-012",
+        "BUILD-013",
+        "BUILD-014",
+        "BUILD-015",
+        "BUILD-006",
+        "BUILD-007"
+      ],
+      "status": "todo",
+      "contract": ".build/units/BUILD-022.md"
+    }
   ]
 }

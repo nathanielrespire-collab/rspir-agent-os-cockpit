@@ -15,7 +15,7 @@ export default tseslint.config(
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/ban-ts-comment": "error"
-    }
-  }
+      "@typescript-eslint/ban-ts-comment": "error",
+    },
+  },
 );
