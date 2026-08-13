@@ -1,1 +1,20 @@
-[{ "path": "/", "name": "home" }]
+[
+  { "path": "/", "name": "home" },
+  { "path": "/work", "name": "work" },
+  { "path": "/projects", "name": "projects" },
+  { "path": "/clients", "name": "clients" },
+  { "path": "/team", "name": "team" },
+  { "path": "/agents", "name": "agents" },
+  { "path": "/approvals", "name": "approvals" },
+  { "path": "/blockers", "name": "blockers" },
+  { "path": "/meetings", "name": "meetings" },
+  { "path": "/crm", "name": "crm" },
+  { "path": "/automations", "name": "automations" },
+  { "path": "/websites", "name": "websites" },
+  { "path": "/knowledge", "name": "knowledge" },
+  { "path": "/integrations", "name": "integrations" },
+  { "path": "/evidence", "name": "evidence" },
+  { "path": "/analytics", "name": "analytics" },
+  { "path": "/agent-builder", "name": "agent-builder" },
+  { "path": "/settings", "name": "settings" }
+]
