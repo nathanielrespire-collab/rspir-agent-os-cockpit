@@ -43,11 +43,7 @@ interface WorkContinuingProps {
   workspaceId: string;
 }
 
-function WorkContinuingPanel({
-  blockedIds,
-  allWorkItems,
-  workspaceId,
-}: WorkContinuingProps) {
+function WorkContinuingPanel({ blockedIds, allWorkItems, workspaceId }: WorkContinuingProps) {
   const t = useT();
   const [expanded, setExpanded] = useState(true);
 
