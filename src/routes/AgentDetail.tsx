@@ -1,11 +1,4 @@
-import {
-  ChevronLeft,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
-  ArrowRight,
-  Shield,
-} from "lucide-react";
+import { ChevronLeft, Clock, CheckCircle2, AlertTriangle, ArrowRight, Shield } from "lucide-react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useT } from "@/lib/hooks";
 import { useAppStore } from "@/lib/store";
@@ -26,7 +19,10 @@ const STATUS_KEY: Record<WorkStatus, TKey> = {
   done: "work_status_done",
 };
 
-const STATUS_BADGE: Record<WorkStatus, "default" | "ok" | "warn" | "err" | "info" | "or" | "laiton"> = {
+const STATUS_BADGE: Record<
+  WorkStatus,
+  "default" | "ok" | "warn" | "err" | "info" | "or" | "laiton"
+> = {
   todo: "default",
   ready: "info",
   claimed: "laiton",
@@ -83,8 +79,7 @@ export default function AgentDetail() {
     .slice(0, 2)
     .toUpperCase();
 
-  const healthVariant =
-    actor.health === "ok" ? "ok" : actor.health === "degraded" ? "warn" : "err";
+  const healthVariant = actor.health === "ok" ? "ok" : actor.health === "degraded" ? "warn" : "err";
   const healthKey: TKey =
     actor.health === "ok"
       ? "agent_health_ok"
@@ -204,7 +199,13 @@ export default function AgentDetail() {
               </div>
               <div className="flex items-center gap-1.5">
                 <Badge
-                  variant={provider.health === "ok" ? "ok" : provider.health === "degraded" ? "warn" : "err"}
+                  variant={
+                    provider.health === "ok"
+                      ? "ok"
+                      : provider.health === "degraded"
+                        ? "warn"
+                        : "err"
+                  }
                   className="text-[10px]"
                 >
                   {provider.health ?? "—"}
@@ -271,10 +272,7 @@ export default function AgentDetail() {
                   <span className="font-mono text-[11px] text-tx-1">{cap}</span>
                 </div>
                 {pol ? (
-                  <Badge
-                    variant={POLICY_VARIANT[pol.rule]}
-                    className="shrink-0 text-[9px]"
-                  >
+                  <Badge variant={POLICY_VARIANT[pol.rule]} className="shrink-0 text-[9px]">
                     {t(POLICY_LABEL[pol.rule])}
                   </Badge>
                 ) : (

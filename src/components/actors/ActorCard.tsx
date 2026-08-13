@@ -90,8 +90,13 @@ function CardInner({
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-1">
-          <span className={cn("h-1.5 w-1.5 rounded-full", AVAIL_DOT[actor.availability])} aria-hidden />
-          <span className="font-mono text-[10px] text-tx-3">{t(AVAIL_KEY[actor.availability])}</span>
+          <span
+            className={cn("h-1.5 w-1.5 rounded-full", AVAIL_DOT[actor.availability])}
+            aria-hidden
+          />
+          <span className="font-mono text-[10px] text-tx-3">
+            {t(AVAIL_KEY[actor.availability])}
+          </span>
           {isButton && (
             <ArrowRight
               size={11}
@@ -160,10 +165,7 @@ function CardInner({
             </div>
           )}
           {actor.health && (
-            <Badge
-              variant={HEALTH_VARIANT[actor.health]}
-              className="ml-auto shrink-0 text-[9px]"
-            >
+            <Badge variant={HEALTH_VARIANT[actor.health]} className="ml-auto shrink-0 text-[9px]">
               {t(HEALTH_KEY[actor.health])}
             </Badge>
           )}
