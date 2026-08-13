@@ -89,11 +89,13 @@ const dict = {
 
     // Home — bandeau TODAY
     home_mock_badge: "MOCK",
+    home_today_region: "Aujourd'hui",
     home_active_units: "unités actives",
     home_agents_at_work: "agents au travail",
     home_verified_today: "vérifiés aujourd'hui",
     home_decisions_req: "décisions requises",
     home_blockers_ext: "bloqueurs",
+    home_policy_auto: "auto",
 
     // Home — sections
     home_your_attention: "Votre attention",
@@ -235,11 +237,13 @@ const dict = {
 
     // Home — bandeau TODAY
     home_mock_badge: "MOCK",
+    home_today_region: "Today",
     home_active_units: "active units",
     home_agents_at_work: "agents at work",
     home_verified_today: "verified today",
     home_decisions_req: "decisions required",
     home_blockers_ext: "blockers",
+    home_policy_auto: "auto",
 
     // Home — sections
     home_your_attention: "Your attention",

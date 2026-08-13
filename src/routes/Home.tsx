@@ -321,7 +321,7 @@ export default function Home() {
       </div>
 
       {/* TODAY bandeau */}
-      <div className="grid grid-cols-5 gap-3" role="region" aria-label="Aujourd'hui">
+      <div className="grid grid-cols-5 gap-3" role="region" aria-label={t("home_today_region")}>
         <StatTile count={activeWorkItems.length} label={t("home_active_units")} icon={Activity} />
         <StatTile count={busyAgents.length} label={t("home_agents_at_work")} icon={Bot} />
         <StatTile
@@ -480,7 +480,7 @@ export default function Home() {
                       ))}
                     </div>
                   ) : (
-                    <span className="font-mono text-[11px] text-tx-3">auto</span>
+                    <span className="font-mono text-[11px] text-tx-3">{t("home_policy_auto")}</span>
                   )}
                 </MetaRow>
               </div>
