@@ -19,6 +19,8 @@
   { "path": "/crm/deal-001", "name": "crm-deal-bellerive" },
   { "path": "/crm/deal-004", "name": "crm-deal-proposal" },
   { "path": "/automations", "name": "automations" },
+  { "path": "/automations/atm-001", "name": "automation-detail-deployed" },
+  { "path": "/automations/atm-003", "name": "automation-detail-test" },
   { "path": "/websites", "name": "websites" },
   { "path": "/knowledge", "name": "knowledge" },
   { "path": "/integrations", "name": "integrations" },
