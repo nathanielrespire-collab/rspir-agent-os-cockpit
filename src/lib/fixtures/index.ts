@@ -2002,6 +2002,18 @@ const boutique1867Deployments: WebsiteDeployment[] = [
   },
 ];
 
+const casseauDeployments: WebsiteDeployment[] = [
+  {
+    id: "wdep-004",
+    at: "2026-08-01T09:00:00Z",
+    deploymentId: "wf-deploy-j1k2l3",
+    liveUrl: "https://filmscasseau-staging.webflow.io",
+    httpCheck: "pass",
+    formCheck: "fail",
+    verified: false,
+  },
+];
+
 export const websites: Website[] = [
   {
     id: "web-bellerive",
@@ -2025,6 +2037,16 @@ export const websites: Website[] = [
     pages: ["Accueil", "Boutique", "Notre histoire", "Contact"],
     deployments: boutique1867Deployments,
     openIssues: [],
+  },
+  {
+    id: "web-casseau",
+    workspaceId: "ws-rspir",
+    clientId: "cl-casseau",
+    name: "Site Films Casseau",
+    providerId: "prv-webflow",
+    pages: ["Accueil", "Productions", "À propos", "Contact"],
+    deployments: casseauDeployments,
+    openIssues: ["Test formulaire de contact échoué", "Intégration analytics non configurée"],
   },
 ];
 

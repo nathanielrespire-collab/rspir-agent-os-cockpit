@@ -18,6 +18,7 @@ import CrmDeal from "@/routes/CrmDeal";
 import Automations from "@/routes/Automations";
 import AutomationDetail from "@/routes/AutomationDetail";
 import Websites from "@/routes/Websites";
+import WebsiteDetail from "@/routes/WebsiteDetail";
 import Knowledge from "@/routes/Knowledge";
 import Integrations from "@/routes/Integrations";
 import Features from "@/routes/Features";
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="automations" element={<Automations />} />
           <Route path="automations/:id" element={<AutomationDetail />} />
           <Route path="websites" element={<Websites />} />
+          <Route path="websites/:id" element={<WebsiteDetail />} />
           <Route path="knowledge" element={<Knowledge />} />
           <Route path="integrations" element={<Integrations />} />
           <Route path="features" element={<Features />} />

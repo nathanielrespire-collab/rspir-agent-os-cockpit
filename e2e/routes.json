@@ -22,6 +22,8 @@
   { "path": "/automations/atm-001", "name": "automation-detail-deployed" },
   { "path": "/automations/atm-003", "name": "automation-detail-test" },
   { "path": "/websites", "name": "websites" },
+  { "path": "/websites/web-bellerive", "name": "website-detail-bellerive" },
+  { "path": "/websites/web-casseau", "name": "website-detail-casseau-unverified" },
   { "path": "/knowledge", "name": "knowledge" },
   { "path": "/integrations", "name": "integrations" },
   { "path": "/features", "name": "features" },
