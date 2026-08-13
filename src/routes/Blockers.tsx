@@ -44,15 +44,18 @@ interface WorkContinuingProps {
   actorName: (id: string | undefined) => string;
 }
 
-function WorkContinuingPanel({ blockedIds, allWorkItems, workspaceId, actorName }: WorkContinuingProps) {
+function WorkContinuingPanel({
+  blockedIds,
+  allWorkItems,
+  workspaceId,
+  actorName,
+}: WorkContinuingProps) {
   const t = useT();
   const [expanded, setExpanded] = useState(true);
 
   const continuing = allWorkItems.filter(
     (w) =>
-      w.workspaceId === workspaceId &&
-      !blockedIds.includes(w.id) &&
-      STATUS_ACTIVE.has(w.status),
+      w.workspaceId === workspaceId && !blockedIds.includes(w.id) && STATUS_ACTIVE.has(w.status),
   );
 
   return (
@@ -137,9 +140,7 @@ function BlockerCard({
       )}
     >
       {/* Scope accent bar */}
-      {!resolved && (
-        <div className={cn("h-0.5 w-full", isGlobal ? "bg-err/60" : "bg-warn/50")} />
-      )}
+      {!resolved && <div className={cn("h-0.5 w-full", isGlobal ? "bg-err/60" : "bg-warn/50")} />}
 
       <div className="p-4 space-y-3">
         {/* Header row */}
@@ -179,7 +180,9 @@ function BlockerCard({
 
         {/* Dependency */}
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-tx-3 mb-1">{t("blk_dependency")}</p>
+          <p className="text-[11px] uppercase tracking-wide text-tx-3 mb-1">
+            {t("blk_dependency")}
+          </p>
           <p className="text-[12px] text-tx-2">{blocker.blockingDependency}</p>
         </div>
 
@@ -201,14 +204,18 @@ function BlockerCard({
             <div className="flex items-center gap-2 col-span-2">
               <Shield size={11} className="text-tx-3 shrink-0" />
               <span className="text-tx-3">{t("blk_default_decision")}:</span>
-              <span className="font-mono text-tx-2">{blocker.defaultDecision ?? t("blk_no_default")}</span>
+              <span className="font-mono text-tx-2">
+                {blocker.defaultDecision ?? t("blk_no_default")}
+              </span>
             </div>
           )}
         </div>
 
         {/* Blocked items */}
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-tx-3 mb-1.5">{t("blk_work_blocked")}</p>
+          <p className="text-[11px] uppercase tracking-wide text-tx-3 mb-1.5">
+            {t("blk_work_blocked")}
+          </p>
           <div className="flex flex-wrap gap-1.5">
             {blocker.workItemIds.map((wid) => (
               <Badge key={wid} variant="err" className="text-[10px]">

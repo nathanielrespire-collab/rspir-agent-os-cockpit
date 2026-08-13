@@ -28,7 +28,14 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
 }
 
-function ConfirmDialog({ open, decision, approval, actorName, onCancel, onConfirm }: ConfirmDialogProps) {
+function ConfirmDialog({
+  open,
+  decision,
+  approval,
+  actorName,
+  onCancel,
+  onConfirm,
+}: ConfirmDialogProps) {
   const t = useT();
   if (!approval || !decision) return null;
 
@@ -123,18 +130,24 @@ function PendingCard({
 
           {/* Why human */}
           <div>
-            <p className="text-[11px] uppercase tracking-wide text-tx-3 mb-1">{t("apr_why_human")}</p>
+            <p className="text-[11px] uppercase tracking-wide text-tx-3 mb-1">
+              {t("apr_why_human")}
+            </p>
             <p className="font-mono text-[12px] text-tx-2 leading-relaxed">{approval.whyHuman}</p>
           </div>
 
           {/* Effects */}
           <div className="grid grid-cols-2 gap-2">
             <div className="rounded-ctl border border-ok/25 bg-ok/8 px-3 py-2">
-              <p className="text-[10px] uppercase tracking-wide text-ok/70 mb-1">{t("apr_if_approved")}</p>
+              <p className="text-[10px] uppercase tracking-wide text-ok/70 mb-1">
+                {t("apr_if_approved")}
+              </p>
               <p className="text-[12px] text-ok/90 leading-snug">{approval.ifApproved}</p>
             </div>
             <div className="rounded-ctl border border-err/25 bg-err/8 px-3 py-2">
-              <p className="text-[10px] uppercase tracking-wide text-err/70 mb-1">{t("apr_if_rejected")}</p>
+              <p className="text-[10px] uppercase tracking-wide text-err/70 mb-1">
+                {t("apr_if_rejected")}
+              </p>
               <p className="text-[12px] text-err/90 leading-snug">{approval.ifRejected}</p>
             </div>
           </div>

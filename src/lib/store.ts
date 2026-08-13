@@ -488,7 +488,12 @@ export const useAppStore = create<AppDataStore>()(
           workItems: nextWiStatus
             ? s.workItems.map((w) =>
                 w.id === apr.workItemId
-                  ? { ...w, status: nextWiStatus, evidenceIds: [...w.evidenceIds, ev.id], updatedAt: now }
+                  ? {
+                      ...w,
+                      status: nextWiStatus,
+                      evidenceIds: [...w.evidenceIds, ev.id],
+                      updatedAt: now,
+                    }
                   : w,
               )
             : s.workItems,
