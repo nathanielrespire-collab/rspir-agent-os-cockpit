@@ -168,7 +168,9 @@ describe("action approveApproval / rejectApproval", () => {
     const apr = s.approvals.find((a) => a.id === "apr-003");
     expect(apr?.status).toBe("approved");
     // aucun event dupliqué
-    const events = s.events.filter((e) => e.action === "approval.approve" && e.targetId === "apr-003");
+    const events = s.events.filter(
+      (e) => e.action === "approval.approve" && e.targetId === "apr-003",
+    );
     expect(events.length).toBe(0); // déjà décidé, action ignorée
   });
 
@@ -208,14 +210,18 @@ describe("action createBlocker / resolveBlocker", () => {
     const s = useAppStore.getState();
     const blk = s.blockers.find((b) => b.id === "blk-001");
     expect(blk?.resolved).toBe(true);
-    expect(s.events.some((e) => e.action === "blocker.resolve" && e.targetId === "blk-001")).toBe(true);
+    expect(s.events.some((e) => e.action === "blocker.resolve" && e.targetId === "blk-001")).toBe(
+      true,
+    );
   });
 });
 
 describe("action toggleFeature", () => {
   it("désactive une feature pour un client", async () => {
     await freshStore();
-    await useAppStore.getState().toggleFeature("cl-bellerive", "feat-meeting-prep", false, "act-nathaniel");
+    await useAppStore
+      .getState()
+      .toggleFeature("cl-bellerive", "feat-meeting-prep", false, "act-nathaniel");
     const s = useAppStore.getState();
     const cl = s.clients.find((c) => c.id === "cl-bellerive");
     expect(cl?.enabledFeatureIds.includes("feat-meeting-prep")).toBe(false);
@@ -223,7 +229,9 @@ describe("action toggleFeature", () => {
 
   it("active une feature pour un client", async () => {
     await freshStore();
-    await useAppStore.getState().toggleFeature("cl-1867", "feat-website-builder", true, "act-nathaniel");
+    await useAppStore
+      .getState()
+      .toggleFeature("cl-1867", "feat-website-builder", true, "act-nathaniel");
     const s = useAppStore.getState();
     const cl = s.clients.find((c) => c.id === "cl-1867");
     expect(cl?.enabledFeatureIds.includes("feat-website-builder")).toBe(true);
@@ -231,7 +239,9 @@ describe("action toggleFeature", () => {
 
   it("verifyChain reste null après toggle", async () => {
     await freshStore();
-    await useAppStore.getState().toggleFeature("cl-bellerive", "feat-email-drafter", true, "act-nathaniel");
+    await useAppStore
+      .getState()
+      .toggleFeature("cl-bellerive", "feat-email-drafter", true, "act-nathaniel");
     const s = useAppStore.getState();
     const result = await verifyChain(getWorkspaceChain(s, "ws-rspir"));
     expect(result).toBeNull();
@@ -264,7 +274,9 @@ describe("intégrité après mutations multiples", () => {
     await useAppStore.getState().assignWorkItem("wi-009", "act-builder", "act-nathaniel");
     await useAppStore.getState().approveApproval("apr-001", "act-nathaniel");
     await useAppStore.getState().resolveBlocker("blk-001", "act-nathaniel");
-    await useAppStore.getState().toggleFeature("cl-1867", "feat-website-builder", true, "act-nathaniel");
+    await useAppStore
+      .getState()
+      .toggleFeature("cl-1867", "feat-website-builder", true, "act-nathaniel");
     const s = useAppStore.getState();
     const result = await verifyChain(getWorkspaceChain(s, "ws-rspir"));
     expect(result).toBeNull();

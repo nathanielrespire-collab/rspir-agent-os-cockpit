@@ -126,9 +126,7 @@ export function getWorkspaceChain(state: AppState, workspaceId: Id): ChainedSign
   const items: ChainedSignature[] = [
     ...state.decisions.filter((d) => d.workspaceId === workspaceId),
     ...state.evidence.filter((e) => e.workspaceId === workspaceId),
-    ...state.executions
-      .filter((ex) => ex.workspaceId === workspaceId)
-      .flatMap((ex) => ex.steps),
+    ...state.executions.filter((ex) => ex.workspaceId === workspaceId).flatMap((ex) => ex.steps),
   ];
   return items.sort((a, b) => a.seq - b.seq);
 }
@@ -339,9 +337,7 @@ export const useAppStore = create<AppDataStore>()(
           result: "ok",
         };
         set((s) => ({
-          workItems: s.workItems.map((w) =>
-            w.id === id ? { ...w, ...patch, updatedAt: now } : w,
-          ),
+          workItems: s.workItems.map((w) => (w.id === id ? { ...w, ...patch, updatedAt: now } : w)),
           events: [...s.events, event],
         }));
       },
@@ -378,7 +374,12 @@ export const useAppStore = create<AppDataStore>()(
         set((s) => ({
           workItems: s.workItems.map((w) =>
             w.id === workItemId
-              ? { ...w, assignedActorId: actorId, updatedAt: now, evidenceIds: [...w.evidenceIds, ev.id] }
+              ? {
+                  ...w,
+                  assignedActorId: actorId,
+                  updatedAt: now,
+                  evidenceIds: [...w.evidenceIds, ev.id],
+                }
               : w,
           ),
           evidence: [...s.evidence, ev],
@@ -421,7 +422,13 @@ export const useAppStore = create<AppDataStore>()(
         set((s) => ({
           approvals: s.approvals.map((a) =>
             a.id === id
-              ? { ...a, status: "approved" as const, decidedByActorId: actorId, decidedAt: now, evidenceIds: [...a.evidenceIds, ev.id] }
+              ? {
+                  ...a,
+                  status: "approved" as const,
+                  decidedByActorId: actorId,
+                  decidedAt: now,
+                  evidenceIds: [...a.evidenceIds, ev.id],
+                }
               : a,
           ),
           evidence: [...s.evidence, ev],
@@ -462,7 +469,13 @@ export const useAppStore = create<AppDataStore>()(
         set((s) => ({
           approvals: s.approvals.map((a) =>
             a.id === id
-              ? { ...a, status: "rejected" as const, decidedByActorId: actorId, decidedAt: now, evidenceIds: [...a.evidenceIds, ev.id] }
+              ? {
+                  ...a,
+                  status: "rejected" as const,
+                  decidedByActorId: actorId,
+                  decidedAt: now,
+                  evidenceIds: [...a.evidenceIds, ev.id],
+                }
               : a,
           ),
           evidence: [...s.evidence, ev],
