@@ -106,10 +106,10 @@ un humain opère, watchdog ne touche à rien.` Conforme à la table: garde 2 sor
 - **C4 — preuve du watchdog**: déclenché manuellement (`gh workflow run watchdog.yml`) pendant
   que le run unit-pipeline 31729580298 était `queued`/`in_progress`. Résultat exact dans le
   step summary/log: `DÉCISION: en vol: 1 run(s) actif(s)
-  (.../actions/runs/31729580298) — rien à faire.` → garde 4 confirmée en conditions réelles.
+(.../actions/runs/31729580298) — rien à faire.` → garde 4 confirmée en conditions réelles.
 - **C5**: `git stash show -p --include-untracked stash@{0}` confirmé = uniquement
   `builder-log.txt` (binaire, sans valeur) → `git stash drop stash@{0}`. Escalades: `gh issue
-  list --state open` = vide, rien à fermer. Deux anciennes issues d'escalade (#1, #3) déjà
+list --state open` = vide, rien à fermer. Deux anciennes issues d'escalade (#1, #3) déjà
   `closed` avant cette session — aucune action requise.
 
 ## TERMINÉ
