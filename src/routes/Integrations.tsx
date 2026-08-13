@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { Plug, CheckCircle2, AlertTriangle, Circle, Activity } from "lucide-react";
 import { useT } from "@/lib/hooks";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, useUIStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
 import type { CapabilityId, Feature, Provider, ProviderCategory } from "@/lib/types";
-import type { TKey } from "@/lib/i18n";
+import type { Lang, TKey } from "@/lib/i18n";
 
 type Tab = "providers" | "doctor";
 
@@ -239,13 +239,14 @@ interface FeatureStatus {
 
 interface DoctorTabProps {
   t: (key: TKey) => string;
+  lang: Lang;
   coreOk: boolean;
   stateOk: boolean;
   capRows: CapRow[];
   featureStatus: FeatureStatus[];
 }
 
-function DoctorTab({ t, coreOk, stateOk, capRows, featureStatus }: DoctorTabProps) {
+function DoctorTab({ t, lang, coreOk, stateOk, capRows, featureStatus }: DoctorTabProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Status banner */}
@@ -344,8 +345,8 @@ function DoctorTab({ t, coreOk, stateOk, capRows, featureStatus }: DoctorTabProp
                 className="flex items-start justify-between gap-3 rounded-card border border-line bg-bg-1 px-4 py-3"
               >
                 <div className="flex flex-col gap-1">
-                  <span className="text-[13px] font-medium text-tx-1">{feature.name.fr}</span>
-                  <span className="text-[11px] text-tx-3">{feature.description.fr}</span>
+                  <span className="text-[13px] font-medium text-tx-1">{feature.name[lang]}</span>
+                  <span className="text-[11px] text-tx-3">{feature.description[lang]}</span>
                   <div className="mt-1 flex flex-wrap items-center gap-1">
                     <span className="font-mono text-[10px] text-tx-3">
                       {t("int_requires_label")}:
@@ -439,6 +440,7 @@ function HealthDot({
 
 export default function Integrations() {
   const t = useT();
+  const { lang } = useUIStore();
   const [activeTab, setActiveTab] = useState<Tab>("providers");
 
   const {
@@ -559,7 +561,7 @@ export default function Integrations() {
             <Activity size={11} className="text-warn" />
             <span className="font-mono text-[10px] text-warn">
               {disabledIntegrationIds.length}{" "}
-              {disabledIntegrationIds.length === 1 ? "désactivé" : "désactivés"}
+              {t(disabledIntegrationIds.length === 1 ? "int_badge_disabled_one" : "int_badge_disabled_many")}
             </span>
           </div>
         )}
@@ -584,6 +586,7 @@ export default function Integrations() {
         ) : (
           <DoctorTab
             t={t}
+            lang={lang}
             coreOk={coreOk}
             stateOk={stateOk}
             capRows={capRows}
