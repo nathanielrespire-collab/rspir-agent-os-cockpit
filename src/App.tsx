@@ -5,6 +5,7 @@ import Work from "@/routes/Work";
 import Projects from "@/routes/Projects";
 import ProjectDetail from "@/routes/ProjectDetail";
 import Clients from "@/routes/Clients";
+import ClientDetail from "@/routes/ClientDetail";
 import Team from "@/routes/Team";
 import Agents from "@/routes/Agents";
 import Approvals from "@/routes/Approvals";
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="projects/:id" element={<ProjectDetail />} />
           <Route path="clients" element={<Clients />} />
+          <Route path="clients/:id" element={<ClientDetail />} />
           <Route path="team" element={<Team />} />
           <Route path="agents" element={<Agents />} />
           <Route path="approvals" element={<Approvals />} />
