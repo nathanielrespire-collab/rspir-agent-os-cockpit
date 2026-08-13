@@ -68,10 +68,7 @@ describe("computeCoveredCaps", () => {
 });
 
 describe("calcul READY/MISSING", () => {
-  const featureRequires = [
-    "transcripts.read" as const,
-    "crm.read" as const,
-  ];
+  const featureRequires = ["transcripts.read" as const, "crm.read" as const];
 
   it("feature est READY quand toutes ses caps sont couvertes", () => {
     const caps = computeCoveredCaps(mockIntegrations, mockProviders, "ws-1", []);

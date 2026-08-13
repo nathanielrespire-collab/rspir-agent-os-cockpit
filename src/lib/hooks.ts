@@ -28,9 +28,7 @@ export function computeCoveredCaps(
   const providerMap = new Map(providers.map((p) => [p.id, p]));
   const caps = new Set<CapabilityId>();
   integrations
-    .filter(
-      (i) => i.workspaceId === activeWorkspaceId && !disabledIntegrationIds.includes(i.id),
-    )
+    .filter((i) => i.workspaceId === activeWorkspaceId && !disabledIntegrationIds.includes(i.id))
     .forEach((i) => {
       providerMap.get(i.providerId)?.capabilities.forEach((c) => caps.add(c));
     });

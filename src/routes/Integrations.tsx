@@ -438,13 +438,8 @@ export default function Integrations() {
   const { lang } = useUIStore();
   const [activeTab, setActiveTab] = useState<Tab>("providers");
 
-  const {
-    providers,
-    integrations,
-    activeWorkspaceId,
-    disabledIntegrationIds,
-    toggleIntegration,
-  } = useAppStore();
+  const { providers, integrations, activeWorkspaceId, disabledIntegrationIds, toggleIntegration } =
+    useAppStore();
 
   const featureStatus = useFeatureStatus();
 

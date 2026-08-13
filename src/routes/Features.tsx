@@ -23,17 +23,20 @@ interface FeatureDetailProps {
 function FeatureDetail({ status, onClose }: FeatureDetailProps) {
   const t = useT();
   const { lang, role } = useUIStore();
-  const { providers, integrations, clients, activeWorkspaceId, disabledIntegrationIds, toggleFeature } =
-    useAppStore();
+  const {
+    providers,
+    integrations,
+    clients,
+    activeWorkspaceId,
+    disabledIntegrationIds,
+    toggleFeature,
+  } = useAppStore();
 
   const actorId = ACTOR_MAP[role] ?? "act-nathaniel";
   const { feature, missingCaps } = status;
   const ready = missingCaps.length === 0;
 
-  const providerMap = useMemo(
-    () => new Map(providers.map((p) => [p.id, p])),
-    [providers],
-  );
+  const providerMap = useMemo(() => new Map(providers.map((p) => [p.id, p])), [providers]);
 
   const wsIntegrations = useMemo(
     () => integrations.filter((i) => i.workspaceId === activeWorkspaceId),
@@ -114,9 +117,7 @@ function FeatureDetail({ status, onClose }: FeatureDetailProps) {
                   key={cap}
                   className="flex items-center justify-between gap-3 rounded-ctl border border-line/50 bg-bg-0 px-3 py-2"
                 >
-                  <span
-                    className={`font-mono text-[11px] ${isMissing ? "text-err" : "text-tx-2"}`}
-                  >
+                  <span className={`font-mono text-[11px] ${isMissing ? "text-err" : "text-tx-2"}`}>
                     {cap}
                   </span>
                   <div className="flex items-center gap-1.5">
@@ -285,9 +286,7 @@ export default function Features() {
                         <span
                           key={cap}
                           className={`rounded-ctl px-1.5 py-0.5 font-mono text-[10px] ${
-                            missingCaps.includes(cap)
-                              ? "bg-err/15 text-err"
-                              : "bg-bg-2 text-tx-3"
+                            missingCaps.includes(cap) ? "bg-err/15 text-err" : "bg-bg-2 text-tx-3"
                           }`}
                         >
                           {cap}
