@@ -561,7 +561,11 @@ export default function Integrations() {
             <Activity size={11} className="text-warn" />
             <span className="font-mono text-[10px] text-warn">
               {disabledIntegrationIds.length}{" "}
-              {t(disabledIntegrationIds.length === 1 ? "int_badge_disabled_one" : "int_badge_disabled_many")}
+              {t(
+                disabledIntegrationIds.length === 1
+                  ? "int_badge_disabled_one"
+                  : "int_badge_disabled_many",
+              )}
             </span>
           </div>
         )}
