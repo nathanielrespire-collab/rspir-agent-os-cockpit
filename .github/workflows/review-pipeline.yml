@@ -29,6 +29,8 @@ jobs:
   review:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
     outputs:
       verdict: ${{ steps.read.outputs.verdict }}
     steps:
@@ -40,7 +42,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--model claude-opus-4-8 --max-turns 40"
+          claude_args: '--model claude-opus-4-8 --max-turns 40 --allowedTools "Bash,Read,Write,Edit,Glob,Grep"'
           prompt: |
             UNIT_ID: ${{ inputs.unit_id }}
             PR: ${{ inputs.pr }}

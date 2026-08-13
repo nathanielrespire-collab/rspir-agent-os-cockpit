@@ -42,15 +42,26 @@ jobs:
     needs: guard
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Identité git du builder
+        run: |
+          git config user.name "builder-bot"
+          git config user.email "actions@github.com"
       - name: Builder (Claude Code)
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--model ${{ needs.guard.outputs.model }} --max-turns 80"
+          claude_args: '--model ${{ needs.guard.outputs.model }} --max-turns 80 --allowedTools "Bash,Read,Write,Edit,Glob,Grep"'
           prompt: |
             UNIT_ID: ${{ inputs.unit_id }}
             ATTEMPT: ${{ inputs.attempt }}
