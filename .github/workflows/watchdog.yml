@@ -1,0 +1,42 @@
+name: watchdog
+
+# Chien de garde 100% déterministe (tools/watchdog.mjs) — zéro LLM. Vérifie périodiquement que
+# la chaîne unit-pipeline -> review-pipeline n'est pas restée stallée à attendre un humain
+# (ex: redispatch mort parce qu'un pipeline était désactivé), et relance ce qui est nécessaire.
+# Ne fait jamais rien pendant une maintenance humaine (pipelines désactivés) ni pendant un run
+# en vol — voir les gardes dans tools/watchdog.mjs.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+  issues: write
+
+concurrency:
+  group: watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Identité git (au cas où le watchdog doive committer)
+        run: |
+          git config user.name "watchdog-bot"
+          git config user.email "actions@github.com"
+      - name: Chien de garde
+        run: node tools/watchdog.mjs
