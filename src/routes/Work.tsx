@@ -53,6 +53,7 @@ interface Filters {
   statuses: WorkStatus[];
   clientIds: string[];
   projectIds: string[];
+  actorIds: string[];
   priorities: WorkItem["priority"][];
   risks: WorkItem["risk"][];
   externalEffect: boolean | null;
@@ -63,6 +64,7 @@ const INIT_FILTERS: Filters = {
   statuses: [],
   clientIds: [],
   projectIds: [],
+  actorIds: [],
   priorities: [],
   risks: [],
   externalEffect: null,
@@ -172,6 +174,7 @@ function hasFilters(f: Filters): boolean {
     f.statuses.length > 0 ||
     f.clientIds.length > 0 ||
     f.projectIds.length > 0 ||
+    f.actorIds.length > 0 ||
     f.priorities.length > 0 ||
     f.risks.length > 0 ||
     f.externalEffect !== null
@@ -1130,7 +1133,7 @@ function CreateDialog({
                       type="button"
                       onClick={() => setCriteria((cr) => cr.filter((_, j) => j !== i))}
                       className="text-tx-3 hover:text-err"
-                      aria-label="Supprimer"
+                      aria-label={t("work_form_remove_criterion")}
                     >
                       <X size={12} />
                     </button>
@@ -1496,6 +1499,13 @@ export default function Work() {
     if (filters.projectIds.length) {
       items = items.filter((wi) => wi.projectId && filters.projectIds.includes(wi.projectId));
     }
+    if (filters.actorIds.length) {
+      items = items.filter(
+        (wi) =>
+          filters.actorIds.includes(wi.ownerActorId) ||
+          (wi.assignedActorId && filters.actorIds.includes(wi.assignedActorId)),
+      );
+    }
     if (filters.priorities.length) {
       items = items.filter((wi) => filters.priorities.includes(wi.priority));
     }
@@ -1625,6 +1635,22 @@ export default function Work() {
             {wsProjects.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
+              </option>
+            ))}
+          </SelectField>
+        </div>
+
+        {/* Actor */}
+        <div className="border-l border-line pl-2">
+          <SelectField
+            value={filters.actorIds[0] ?? ""}
+            onChange={(v) => setFilters((f) => ({ ...f, actorIds: v ? [v] : [] }))}
+            className="h-7 w-32 text-[12px]"
+          >
+            <option value="">{t("work_filter_actor")}</option>
+            {actors.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.name}
               </option>
             ))}
           </SelectField>

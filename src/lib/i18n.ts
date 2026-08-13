@@ -193,6 +193,7 @@ const dict = {
     work_ext_filter_all: "Tout",
     work_ext_filter_yes: "Ext. oui",
     work_ext_filter_no: "Ext. non",
+    work_filter_actor: "Acteur",
 
     // Work — actions
     work_action_assign: "Assigner",
@@ -212,6 +213,7 @@ const dict = {
     work_form_acceptance_label: "Critères d'acceptation",
     work_form_acceptance_ph: "Ajouter un critère...",
     work_form_add_criterion: "Ajouter",
+    work_form_remove_criterion: "Supprimer",
     work_form_policy: "Politique",
     work_form_policy_value: "Création manuelle autorisée",
     work_form_none_option: "— sélectionner —",
@@ -447,6 +449,7 @@ const dict = {
     work_ext_filter_all: "All",
     work_ext_filter_yes: "Ext. yes",
     work_ext_filter_no: "Ext. no",
+    work_filter_actor: "Actor",
 
     // Work — actions
     work_action_assign: "Assign",
@@ -466,6 +469,7 @@ const dict = {
     work_form_acceptance_label: "Acceptance criteria",
     work_form_acceptance_ph: "Add a criterion...",
     work_form_add_criterion: "Add",
+    work_form_remove_criterion: "Remove",
     work_form_policy: "Policy",
     work_form_policy_value: "Manual creation allowed",
     work_form_none_option: "— select —",
