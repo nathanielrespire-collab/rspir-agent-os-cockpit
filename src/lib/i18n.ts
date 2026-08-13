@@ -133,6 +133,112 @@ const dict = {
     home_stage_update: "Mettre à jour",
     home_stage_continue: "Continuer",
 
+    // Work — view toggle
+    work_view_table: "Table",
+    work_view_kanban: "Kanban",
+
+    // Work — toolbar
+    work_new_item: "Nouveau",
+    work_search_placeholder: "Rechercher...",
+    work_clear_filters: "Effacer",
+    work_items_count: "items",
+
+    // Work — status labels
+    work_status_todo: "À faire",
+    work_status_ready: "Prêt",
+    work_status_claimed: "Réclamé",
+    work_status_running: "En cours",
+    work_status_verification: "Vérification",
+    work_status_a_valider: "À valider",
+    work_status_blocked: "Bloqué",
+    work_status_failed: "Échoué",
+    work_status_done: "Terminé",
+
+    // Work — risk labels
+    work_risk_low: "Faible",
+    work_risk_medium: "Moyen",
+    work_risk_high: "Élevé",
+
+    // Work — table columns
+    work_col_title: "Titre",
+    work_col_status: "Statut",
+    work_col_priority: "Priorité",
+    work_col_client: "Client",
+    work_col_project: "Projet",
+    work_col_owner: "Responsable",
+    work_col_assigned: "Assigné",
+    work_col_risk: "Risque",
+    work_col_ext: "Ext.",
+    work_col_updated: "Màj",
+
+    // Work — panel
+    work_panel_owner_label: "Responsable (OWNER)",
+    work_panel_assigned_label: "Assigné (ASSIGNED)",
+    work_panel_capabilities: "Capacités requises",
+    work_panel_depends: "Dépendances",
+    work_panel_blocker: "Bloqueur",
+    work_panel_estimated: "Durée estimée",
+    work_panel_risk_label: "Risque",
+    work_panel_external_label: "Effet externe",
+    work_panel_acceptance: "Critères d'acceptation",
+    work_panel_artifacts: "Artefacts",
+    work_panel_evidence_label: "Preuves",
+    work_panel_activity: "Historique",
+    work_panel_no_activity: "Aucune activité",
+    work_panel_no_criteria: "Aucun critère",
+    work_panel_no_blocker: "Aucun bloqueur",
+    work_panel_stage: "Étape runtime",
+    work_ext_yes: "Oui",
+    work_ext_no: "Non",
+    work_ext_filter_all: "Tout",
+    work_ext_filter_yes: "Ext. oui",
+    work_ext_filter_no: "Ext. non",
+
+    // Work — actions
+    work_action_assign: "Assigner",
+    work_action_transition: "Changer statut",
+
+    // Work — create form
+    work_form_create_title: "Créer un work item",
+    work_form_title_label: "Titre *",
+    work_form_title_ph: "Description de la tâche...",
+    work_form_client_label: "Client",
+    work_form_project_label: "Projet",
+    work_form_priority_label: "Priorité *",
+    work_form_owner_label: "Responsable *",
+    work_form_estimated_label: "Durée (min)",
+    work_form_risk_label: "Risque *",
+    work_form_external_label: "Effet externe",
+    work_form_acceptance_label: "Critères d'acceptation",
+    work_form_acceptance_ph: "Ajouter un critère...",
+    work_form_add_criterion: "Ajouter",
+    work_form_policy: "Politique",
+    work_form_policy_value: "Création manuelle autorisée",
+    work_form_none_option: "— sélectionner —",
+    work_form_submit: "Créer",
+
+    // Work — assign dialog
+    work_assign_title: "Assigner",
+    work_assign_current: "Actuel",
+    work_assign_none: "Non assigné",
+    work_assign_select: "Sélectionner un acteur",
+    work_assign_policy: "Politique",
+    work_assign_policy_value: "Assignation manuelle autorisée",
+    work_assign_confirm: "Assigner",
+
+    // Work — transition dialog
+    work_transition_title: "Changer le statut",
+    work_transition_current: "Statut actuel",
+    work_transition_target: "Nouveau statut",
+    work_transition_no_options: "Aucune transition",
+    work_transition_policy: "Politique",
+    work_transition_policy_value: "Transition manuelle autorisée",
+    work_transition_no_evidence_warn: "Evidence requise pour done",
+    work_transition_confirm: "Confirmer",
+
+    // Work — common
+    work_cancel: "Annuler",
+
     // Settings — demo reset
     settings_demo_section: "Données de démo",
     settings_demo_reset_label: "Réinitialiser la démo",
@@ -280,6 +386,112 @@ const dict = {
     home_stage_verify: "Verify",
     home_stage_update: "Update",
     home_stage_continue: "Continue",
+
+    // Work — view toggle
+    work_view_table: "Table",
+    work_view_kanban: "Kanban",
+
+    // Work — toolbar
+    work_new_item: "New",
+    work_search_placeholder: "Search...",
+    work_clear_filters: "Clear",
+    work_items_count: "items",
+
+    // Work — status labels
+    work_status_todo: "To do",
+    work_status_ready: "Ready",
+    work_status_claimed: "Claimed",
+    work_status_running: "Running",
+    work_status_verification: "Verification",
+    work_status_a_valider: "To validate",
+    work_status_blocked: "Blocked",
+    work_status_failed: "Failed",
+    work_status_done: "Done",
+
+    // Work — risk labels
+    work_risk_low: "Low",
+    work_risk_medium: "Medium",
+    work_risk_high: "High",
+
+    // Work — table columns
+    work_col_title: "Title",
+    work_col_status: "Status",
+    work_col_priority: "Priority",
+    work_col_client: "Client",
+    work_col_project: "Project",
+    work_col_owner: "Owner",
+    work_col_assigned: "Assigned",
+    work_col_risk: "Risk",
+    work_col_ext: "Ext.",
+    work_col_updated: "Updated",
+
+    // Work — panel
+    work_panel_owner_label: "Owner (OWNER)",
+    work_panel_assigned_label: "Assigned (ASSIGNED)",
+    work_panel_capabilities: "Required capabilities",
+    work_panel_depends: "Dependencies",
+    work_panel_blocker: "Blocker",
+    work_panel_estimated: "Estimated",
+    work_panel_risk_label: "Risk",
+    work_panel_external_label: "External effect",
+    work_panel_acceptance: "Acceptance criteria",
+    work_panel_artifacts: "Artifacts",
+    work_panel_evidence_label: "Evidence",
+    work_panel_activity: "Activity history",
+    work_panel_no_activity: "No activity",
+    work_panel_no_criteria: "No criteria",
+    work_panel_no_blocker: "No blocker",
+    work_panel_stage: "Runtime stage",
+    work_ext_yes: "Yes",
+    work_ext_no: "No",
+    work_ext_filter_all: "All",
+    work_ext_filter_yes: "Ext. yes",
+    work_ext_filter_no: "Ext. no",
+
+    // Work — actions
+    work_action_assign: "Assign",
+    work_action_transition: "Change status",
+
+    // Work — create form
+    work_form_create_title: "Create work item",
+    work_form_title_label: "Title *",
+    work_form_title_ph: "Task description...",
+    work_form_client_label: "Client",
+    work_form_project_label: "Project",
+    work_form_priority_label: "Priority *",
+    work_form_owner_label: "Owner *",
+    work_form_estimated_label: "Duration (min)",
+    work_form_risk_label: "Risk *",
+    work_form_external_label: "External effect",
+    work_form_acceptance_label: "Acceptance criteria",
+    work_form_acceptance_ph: "Add a criterion...",
+    work_form_add_criterion: "Add",
+    work_form_policy: "Policy",
+    work_form_policy_value: "Manual creation allowed",
+    work_form_none_option: "— select —",
+    work_form_submit: "Create",
+
+    // Work — assign dialog
+    work_assign_title: "Assign",
+    work_assign_current: "Current",
+    work_assign_none: "Unassigned",
+    work_assign_select: "Select actor",
+    work_assign_policy: "Policy",
+    work_assign_policy_value: "Manual assignment allowed",
+    work_assign_confirm: "Assign",
+
+    // Work — transition dialog
+    work_transition_title: "Change status",
+    work_transition_current: "Current status",
+    work_transition_target: "New status",
+    work_transition_no_options: "No transitions",
+    work_transition_policy: "Policy",
+    work_transition_policy_value: "Manual transition allowed",
+    work_transition_no_evidence_warn: "Evidence required for done",
+    work_transition_confirm: "Confirm",
+
+    // Work — common
+    work_cancel: "Cancel",
 
     // Settings — demo reset
     settings_demo_section: "Demo data",

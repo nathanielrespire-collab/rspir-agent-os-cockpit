@@ -5,6 +5,7 @@ import type {
   AppState,
   Id,
   WorkItem,
+  WorkStatus,
   Blocker,
   Evidence,
   Decision,
@@ -43,6 +44,33 @@ import {
   msEvidence,
   type UnsignedExecution,
 } from "@/lib/fixtures";
+
+// ─── Work status transition graph ──────────────────────────────────────────
+
+export const VALID_TRANSITIONS: Record<WorkStatus, WorkStatus[]> = {
+  todo: ["ready"],
+  ready: ["claimed", "todo"],
+  claimed: ["running", "ready"],
+  running: ["verification", "claimed"],
+  verification: ["a_valider", "running"],
+  a_valider: ["done", "running"],
+  blocked: ["ready"],
+  failed: ["todo"],
+  done: [],
+};
+
+type TransitionError = "invalid_transition" | "evidence_required";
+
+export function validateTransition(
+  from: WorkStatus,
+  to: WorkStatus,
+  hasEvidence: boolean,
+): { ok: true } | { ok: false; error: TransitionError } {
+  const valid = VALID_TRANSITIONS[from] ?? [];
+  if (!valid.includes(to)) return { ok: false, error: "invalid_transition" };
+  if (to === "done" && !hasEvidence) return { ok: false, error: "evidence_required" };
+  return { ok: true };
+}
 
 // ─── UI store ──────────────────────────────────────────────────────────────
 
@@ -219,6 +247,8 @@ interface AppDataStore extends AppState {
     requestedByActorId: Id,
   ) => Promise<void>;
   assignWorkItem: (workItemId: Id, actorId: Id, requestedByActorId: Id) => Promise<void>;
+  /** Transitions a work item status through the valid graph; throws on invalid or missing evidence for done. */
+  transitionWorkItemStatus: (id: Id, to: WorkStatus, requestedByActorId: Id) => Promise<void>;
 
   approveApproval: (id: Id, actorId: Id) => Promise<void>;
   rejectApproval: (id: Id, actorId: Id) => Promise<void>;
@@ -340,6 +370,14 @@ export const useAppStore = create<AppDataStore>()(
           workItems: s.workItems.map((w) => (w.id === id ? { ...w, ...patch, updatedAt: now } : w)),
           events: [...s.events, event],
         }));
+      },
+
+      transitionWorkItemStatus: async (id, to, requestedByActorId) => {
+        const item = get().workItems.find((w) => w.id === id);
+        if (!item) throw new Error("work_item_not_found");
+        const result = validateTransition(item.status, to, item.evidenceIds.length > 0);
+        if (!result.ok) throw new Error(result.error);
+        await get().updateWorkItem(id, { status: to }, requestedByActorId);
       },
 
       assignWorkItem: async (workItemId, actorId, requestedByActorId) => {
