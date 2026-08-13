@@ -302,6 +302,8 @@ const dict = {
     cli_active_client: "Client actif",
     cli_all_clients: "Tous les clients",
     cli_value_cad: "Valeur (CAD)",
+    cli_commitments: "Engagements",
+    cli_tabs_nav: "Sections du client",
 
     // Settings — demo reset
     settings_demo_section: "Données de démo",
@@ -620,6 +622,8 @@ const dict = {
     cli_active_client: "Active client",
     cli_all_clients: "All clients",
     cli_value_cad: "Value (CAD)",
+    cli_commitments: "Commitments",
+    cli_tabs_nav: "Client sections",
 
     // Settings — demo reset
     settings_demo_section: "Demo data",

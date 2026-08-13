@@ -375,7 +375,7 @@ function MeetingsTab({ clientId }: { clientId: string }) {
               {m.outcomes.commitments.length > 0 && (
                 <div>
                   <p className="mb-1 font-mono text-[9px] uppercase tracking-wide text-tx-3">
-                    Engagements
+                    {t("cli_commitments")}
                   </p>
                   <div className="space-y-0.5">
                     {m.outcomes.commitments.map((c, i) => (
@@ -674,7 +674,7 @@ export default function ClientDetail() {
 
       {/* Tab strip */}
       <nav
-        aria-label="Sections"
+        aria-label={t("cli_tabs_nav")}
         className="flex gap-0.5 overflow-x-auto border-b border-line pb-px"
       >
         {TABS.map(({ key, labelKey, icon: Icon }) => (
