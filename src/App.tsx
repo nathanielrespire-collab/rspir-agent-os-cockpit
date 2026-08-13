@@ -12,6 +12,7 @@ import AgentDetail from "@/routes/AgentDetail";
 import Approvals from "@/routes/Approvals";
 import Blockers from "@/routes/Blockers";
 import Meetings from "@/routes/Meetings";
+import MeetingDetail from "@/routes/MeetingDetail";
 import Crm from "@/routes/Crm";
 import Automations from "@/routes/Automations";
 import Websites from "@/routes/Websites";
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="approvals" element={<Approvals />} />
           <Route path="blockers" element={<Blockers />} />
           <Route path="meetings" element={<Meetings />} />
+          <Route path="meetings/:id" element={<MeetingDetail />} />
           <Route path="crm" element={<Crm />} />
           <Route path="automations" element={<Automations />} />
           <Route path="websites" element={<Websites />} />

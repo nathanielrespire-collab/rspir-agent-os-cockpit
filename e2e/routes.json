@@ -13,6 +13,8 @@
   { "path": "/approvals", "name": "approvals" },
   { "path": "/blockers", "name": "blockers" },
   { "path": "/meetings", "name": "meetings" },
+  { "path": "/meetings/mtg-001", "name": "meeting-detail-bellerive" },
+  { "path": "/meetings/mtg-002", "name": "meeting-detail-1867" },
   { "path": "/crm", "name": "crm" },
   { "path": "/automations", "name": "automations" },
   { "path": "/websites", "name": "websites" },
