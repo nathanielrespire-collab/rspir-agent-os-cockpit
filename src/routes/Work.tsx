@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ListTodo,
   X,
@@ -552,7 +553,8 @@ interface WorkPanelProps {
 function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
   const t = useT();
   const closeRef = useRef<HTMLButtonElement>(null);
-  const { actors, evidence, executions, blockers, artifacts, workItems } = useAppStore();
+  const navigate = useNavigate();
+  const { actors, evidence, executions, blockers, artifacts, workItems, projects } = useAppStore();
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -576,6 +578,7 @@ function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
     return dep ? [dep] : [];
   });
   const stage = getEffectiveStage(item);
+  const project = item.projectId ? projects.find((p) => p.id === item.projectId) : null;
 
   return (
     <>
@@ -689,6 +692,17 @@ function WorkPanel({ item, onClose, onAssign, onTransition }: WorkPanelProps) {
                 {item.externalEffect ? t("work_ext_yes") : t("work_ext_no")}
               </span>
             </MetaRow>
+            {project && (
+              <MetaRow label={t("proj_project_link")}>
+                <button
+                  className="flex items-center gap-1 font-mono text-[12px] text-laiton underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-or"
+                  onClick={() => navigate(`/projects/${project.id}`)}
+                  aria-label={project.name}
+                >
+                  {project.name}
+                </button>
+              </MetaRow>
+            )}
           </div>
 
           {/* Capabilities */}

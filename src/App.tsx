@@ -3,6 +3,7 @@ import { Shell } from "@/components/layout/Shell";
 import Home from "@/routes/Home";
 import Work from "@/routes/Work";
 import Projects from "@/routes/Projects";
+import ProjectDetail from "@/routes/ProjectDetail";
 import Clients from "@/routes/Clients";
 import Team from "@/routes/Team";
 import Agents from "@/routes/Agents";
@@ -27,6 +28,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="work" element={<Work />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="projects/:id" element={<ProjectDetail />} />
           <Route path="clients" element={<Clients />} />
           <Route path="team" element={<Team />} />
           <Route path="agents" element={<Agents />} />
