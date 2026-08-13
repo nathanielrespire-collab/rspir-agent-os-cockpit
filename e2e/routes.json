@@ -18,6 +18,7 @@
   { "path": "/websites", "name": "websites" },
   { "path": "/knowledge", "name": "knowledge" },
   { "path": "/integrations", "name": "integrations" },
+  { "path": "/features", "name": "features" },
   { "path": "/evidence", "name": "evidence" },
   { "path": "/analytics", "name": "analytics" },
   { "path": "/agent-builder", "name": "agent-builder" },

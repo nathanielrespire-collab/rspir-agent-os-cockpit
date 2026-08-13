@@ -17,6 +17,7 @@ import Automations from "@/routes/Automations";
 import Websites from "@/routes/Websites";
 import Knowledge from "@/routes/Knowledge";
 import Integrations from "@/routes/Integrations";
+import Features from "@/routes/Features";
 import Evidence from "@/routes/Evidence";
 import Analytics from "@/routes/Analytics";
 import AgentBuilder from "@/routes/AgentBuilder";
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="websites" element={<Websites />} />
           <Route path="knowledge" element={<Knowledge />} />
           <Route path="integrations" element={<Integrations />} />
+          <Route path="features" element={<Features />} />
           <Route path="evidence" element={<Evidence />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="agent-builder" element={<AgentBuilder />} />
