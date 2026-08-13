@@ -97,11 +97,7 @@ export function CommandPalette() {
           autoComplete="off"
         />
       </div>
-      <div
-        className="border-t border-line"
-        role="listbox"
-        aria-label={t("cmd_label")}
-      >
+      <div className="border-t border-line" role="listbox" aria-label={t("cmd_label")}>
         {filtered.length === 0 ? (
           <p className="px-3 py-4 text-center font-mono text-[13px] text-tx-3">
             {t("cmd_no_results")}
@@ -112,9 +108,7 @@ export function CommandPalette() {
               <li key={item.path} role="option" aria-selected={i === active}>
                 <button
                   className={`flex w-full items-center px-3 py-2 text-left text-[13px] transition-colors ${
-                    i === active
-                      ? "bg-bg-2 text-tx-1"
-                      : "text-tx-2 hover:bg-bg-2 hover:text-tx-1"
+                    i === active ? "bg-bg-2 text-tx-1" : "text-tx-2 hover:bg-bg-2 hover:text-tx-1"
                   }`}
                   onClick={() => select(item.path)}
                   onMouseEnter={() => setActive(i)}

@@ -65,7 +65,9 @@ export function Topbar() {
           size="sm"
           className="h-7 gap-1 font-mono text-[11px] text-tx-3"
           onClick={() => {
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true }));
+            document.dispatchEvent(
+              new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true }),
+            );
           }}
           aria-label={t("cmd_label")}
         >

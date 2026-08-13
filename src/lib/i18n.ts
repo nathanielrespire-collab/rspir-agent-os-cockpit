@@ -73,7 +73,8 @@ const dict = {
     action_clients: "Isolez chaque client dans son propre espace.",
     action_team: "Invitez des collaborateurs et définissez leurs capacités.",
     action_agents: "Configurez des agents pour automatiser le travail récurrent.",
-    action_approvals: "Les approbations apparaissent ici quand l'agent attend une décision humaine.",
+    action_approvals:
+      "Les approbations apparaissent ici quand l'agent attend une décision humaine.",
     action_blockers: "Les bloquants s'affichent ici quand un agent ne peut pas avancer.",
     action_meetings: "Planifiez des réunions et laissez les agents préparer le contexte.",
     action_crm: "Connectez votre CRM pour que les agents accèdent aux données clients.",
