@@ -110,7 +110,9 @@ export default function ProjectDetail() {
 
   // Dependencies: items that have dependsOn pointing to other items in this project
   const withDeps = projectItems.filter(
-    (wi) => wi.dependsOn.length > 0 && wi.dependsOn.some((dep) => projectItems.find((pi) => pi.id === dep)),
+    (wi) =>
+      wi.dependsOn.length > 0 &&
+      wi.dependsOn.some((dep) => projectItems.find((pi) => pi.id === dep)),
   );
 
   // Blockers: those whose workItemIds intersect with this project's items
@@ -152,7 +154,9 @@ export default function ProjectDetail() {
           <FolderKanban size={16} className="mt-0.5 shrink-0 text-tx-3" aria-hidden />
           <div className="min-w-0 flex-1">
             <h1 className="text-sm font-semibold text-tx-1">{project.name}</h1>
-            <p className="mt-0.5 font-mono text-[11px] text-tx-3">{client?.name ?? project.clientId}</p>
+            <p className="mt-0.5 font-mono text-[11px] text-tx-3">
+              {client?.name ?? project.clientId}
+            </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <Badge variant={PROJ_STATUS_VARIANT[project.status]} className="text-[10px]">
@@ -295,10 +299,7 @@ export default function ProjectDetail() {
         ) : (
           <div className="space-y-2">
             {activeBlockers.map((b) => (
-              <div
-                key={b.id}
-                className="rounded-ctl border border-err/25 bg-err/5 px-3 py-2.5"
-              >
+              <div key={b.id} className="rounded-ctl border border-err/25 bg-err/5 px-3 py-2.5">
                 <div className="flex items-start gap-2">
                   <AlertTriangle size={12} className="mt-0.5 shrink-0 text-err" aria-hidden />
                   <div className="min-w-0">
@@ -336,7 +337,10 @@ export default function ProjectDetail() {
                         <div key={dep.id} className="flex items-center gap-2">
                           <GitBranch size={10} className="text-tx-3" aria-hidden />
                           <span className="font-mono text-[11px] text-tx-3">{dep.title}</span>
-                          <Badge variant={STATUS_BADGE[dep.status]} className="font-mono text-[9px]">
+                          <Badge
+                            variant={STATUS_BADGE[dep.status]}
+                            className="font-mono text-[9px]"
+                          >
                             {t(STATUS_KEY[dep.status])}
                           </Badge>
                         </div>
@@ -398,10 +402,7 @@ export default function ProjectDetail() {
         ) : (
           <div className="space-y-2">
             {clientAutomations.map((atm) => (
-              <div
-                key={atm.id}
-                className="rounded-ctl border border-line bg-bg-1 px-3 py-2.5"
-              >
+              <div key={atm.id} className="rounded-ctl border border-line bg-bg-1 px-3 py-2.5">
                 <div className="flex items-start gap-2">
                   <Zap size={12} className="mt-0.5 shrink-0 text-laiton" aria-hidden />
                   <div className="min-w-0 flex-1">

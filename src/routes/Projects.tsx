@@ -62,9 +62,7 @@ function Triptych({ project }: { project: Project }) {
       <div
         className={cn(
           "rounded-ctl border px-3 py-2",
-          transferable
-            ? "border-ok/25 bg-ok/5"
-            : "border-err/25 bg-err/5",
+          transferable ? "border-ok/25 bg-ok/5" : "border-err/25 bg-err/5",
         )}
       >
         <p className="font-mono text-[9px] uppercase tracking-wide text-tx-3">
