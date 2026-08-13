@@ -2046,10 +2046,7 @@ export const websites: Website[] = [
     providerId: "prv-webflow",
     pages: ["Accueil", "Productions", "À propos", "Contact"],
     deployments: casseauDeployments,
-    openIssues: [
-      "Test formulaire de contact échoué",
-      "Intégration analytics non configurée",
-    ],
+    openIssues: ["Test formulaire de contact échoué", "Intégration analytics non configurée"],
   },
 ];
 

@@ -219,10 +219,7 @@ export default function WebsiteDetail() {
           <div key={label} className="rounded-ctl border border-line bg-bg-1 px-3 py-2">
             <div className="font-mono text-[10px] text-tx-3">{label}</div>
             <div
-              className={cn(
-                "mt-0.5 font-mono text-[12px]",
-                highlight ? "text-ok" : "text-tx-1",
-              )}
+              className={cn("mt-0.5 font-mono text-[12px]", highlight ? "text-ok" : "text-tx-1")}
             >
               {value}
             </div>
