@@ -1,0 +1,11 @@
+# Fichiers de gouvernance / protocole — le builder ne les reformate jamais.
+# L'autofix gate (npx prettier -w .) doit les laisser intacts, sinon il
+# réintroduit des modifications interdites (cf. review BUILD-005 sur queue.json).
+.build/queue.json
+.build/protocol.md
+CLAUDE.md
+
+# Artefacts générés
+dist/
+e2e/shots/
+playwright-report/

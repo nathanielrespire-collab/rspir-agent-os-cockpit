@@ -241,6 +241,31 @@ const dict = {
     // Work — common
     work_cancel: "Annuler",
 
+    // Projects — list + detail
+    proj_tasks_pct: "Tâches",
+    proj_operational_pct: "Opérationnel",
+    proj_transferable: "Transférable",
+    proj_transferable_yes: "Oui",
+    proj_transferable_no: "Non",
+    proj_transferable_reason: "Raison du blocage",
+    proj_status_active: "Actif",
+    proj_status_paused: "En pause",
+    proj_status_delivered: "Livré",
+    proj_deliverables: "Livrables vérifiés",
+    proj_blockers: "Bloquants",
+    proj_dependencies: "Dépendances",
+    proj_next_work: "Prochain travail admissible",
+    proj_team: "Équipe",
+    proj_automations_activity: "Activité automatisations",
+    proj_no_deliverables: "Aucun livrable vérifié",
+    proj_no_blockers: "Aucun bloquant actif",
+    proj_no_next_work: "Aucun travail admissible",
+    proj_no_automations: "Aucune automatisation",
+    proj_back: "Retour aux projets",
+    proj_view_work: "Filtrer le travail",
+    proj_last_run: "Dernier run",
+    proj_project_link: "Projet",
+
     // Settings — demo reset
     settings_demo_section: "Données de démo",
     settings_demo_reset_label: "Réinitialiser la démo",
@@ -496,6 +521,31 @@ const dict = {
 
     // Work — common
     work_cancel: "Cancel",
+
+    // Projects — list + detail
+    proj_tasks_pct: "Tasks",
+    proj_operational_pct: "Operational",
+    proj_transferable: "Transferable",
+    proj_transferable_yes: "Yes",
+    proj_transferable_no: "No",
+    proj_transferable_reason: "Blocking reason",
+    proj_status_active: "Active",
+    proj_status_paused: "Paused",
+    proj_status_delivered: "Delivered",
+    proj_deliverables: "Verified deliverables",
+    proj_blockers: "Blockers",
+    proj_dependencies: "Dependencies",
+    proj_next_work: "Next admissible work",
+    proj_team: "Team",
+    proj_automations_activity: "Automation activity",
+    proj_no_deliverables: "No verified deliverables",
+    proj_no_blockers: "No active blockers",
+    proj_no_next_work: "No admissible work",
+    proj_no_automations: "No automations",
+    proj_back: "Back to projects",
+    proj_view_work: "Filter work",
+    proj_last_run: "Last run",
+    proj_project_link: "Project",
 
     // Settings — demo reset
     settings_demo_section: "Demo data",

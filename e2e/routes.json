@@ -2,6 +2,8 @@
   { "path": "/", "name": "home" },
   { "path": "/work", "name": "work" },
   { "path": "/projects", "name": "projects" },
+  { "path": "/projects/prj-1867-crm", "name": "project-detail-1867" },
+  { "path": "/projects/prj-bellerive-web", "name": "project-detail-bellerive" },
   { "path": "/clients", "name": "clients" },
   { "path": "/team", "name": "team" },
   { "path": "/agents", "name": "agents" },
