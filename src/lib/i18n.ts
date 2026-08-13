@@ -87,6 +87,50 @@ const dict = {
     action_agent_builder: "Créez et testez de nouveaux agents avant de les déployer.",
     action_settings: "Configurez le workspace, les politiques et les préférences système.",
 
+    // Home — bandeau TODAY
+    home_mock_badge: "MOCK",
+    home_active_units: "unités actives",
+    home_agents_at_work: "agents au travail",
+    home_verified_today: "vérifiés aujourd'hui",
+    home_decisions_req: "décisions requises",
+    home_blockers_ext: "bloqueurs",
+
+    // Home — sections
+    home_your_attention: "Votre attention",
+    home_system_working: "Système au travail",
+    home_recent_verified: "Travaux vérifiés",
+
+    // Home — empty states
+    home_no_attention: "Aucune décision en attente",
+    home_no_verified: "Aucun travail vérifié",
+    home_no_agents: "Aucun agent actif",
+
+    // Home — approval row
+    home_review_btn: "Revoir",
+    home_min_est: "min",
+
+    // Home — evidence drawer
+    home_evidence: "Preuves",
+    home_close: "Fermer",
+    home_requested_by: "Demandé par",
+    home_executed_by: "Exécuté par",
+    home_policy_label: "Politique",
+    home_no_assignee: "Non assigné",
+    home_evidence_none: "Aucune preuve",
+    home_acceptance: "Critères d'acceptation",
+
+    // Home — runtime spine
+    home_spine_label: "Cycle runtime",
+    home_stage_reconcile: "Réconcilier",
+    home_stage_select: "Sélectionner",
+    home_stage_claim: "Réserver",
+    home_stage_context: "Contexte",
+    home_stage_policy: "Politique",
+    home_stage_execute: "Exécuter",
+    home_stage_verify: "Vérifier",
+    home_stage_update: "Mettre à jour",
+    home_stage_continue: "Continuer",
+
     // Settings — demo reset
     settings_demo_section: "Données de démo",
     settings_demo_reset_label: "Réinitialiser la démo",
@@ -188,6 +232,50 @@ const dict = {
     action_analytics: "Visualize activity, performance, and system progress.",
     action_agent_builder: "Create and test new agents before deploying.",
     action_settings: "Configure the workspace, policies, and system preferences.",
+
+    // Home — bandeau TODAY
+    home_mock_badge: "MOCK",
+    home_active_units: "active units",
+    home_agents_at_work: "agents at work",
+    home_verified_today: "verified today",
+    home_decisions_req: "decisions required",
+    home_blockers_ext: "blockers",
+
+    // Home — sections
+    home_your_attention: "Your attention",
+    home_system_working: "System working now",
+    home_recent_verified: "Verified work",
+
+    // Home — empty states
+    home_no_attention: "No pending decisions",
+    home_no_verified: "No verified work",
+    home_no_agents: "No active agents",
+
+    // Home — approval row
+    home_review_btn: "Review",
+    home_min_est: "min",
+
+    // Home — evidence drawer
+    home_evidence: "Evidence",
+    home_close: "Close",
+    home_requested_by: "Requested by",
+    home_executed_by: "Executed by",
+    home_policy_label: "Policy",
+    home_no_assignee: "Unassigned",
+    home_evidence_none: "No evidence",
+    home_acceptance: "Acceptance criteria",
+
+    // Home — runtime spine
+    home_spine_label: "Runtime cycle",
+    home_stage_reconcile: "Reconcile",
+    home_stage_select: "Select",
+    home_stage_claim: "Claim",
+    home_stage_context: "Context",
+    home_stage_policy: "Policy",
+    home_stage_execute: "Execute",
+    home_stage_verify: "Verify",
+    home_stage_update: "Update",
+    home_stage_continue: "Continue",
 
     // Settings — demo reset
     settings_demo_section: "Demo data",
