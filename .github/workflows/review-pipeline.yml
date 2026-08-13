@@ -43,7 +43,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           allowed_bots: "github-actions"
-          claude_args: '--model claude-opus-4-8 --max-turns 40 --allowedTools "Bash,Read,Write,Edit,Glob,Grep"'
+          claude_args: '--model claude-opus-4-8 --max-turns 60 --allowedTools "Bash,Read,Write,Edit,Glob,Grep"'
           prompt: |
             UNIT_ID: ${{ inputs.unit_id }}
             PR: ${{ inputs.pr }}

@@ -62,7 +62,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           allowed_bots: "github-actions"
-          claude_args: '--model ${{ needs.guard.outputs.model }} --max-turns 80 --allowedTools "Bash,Read,Write,Edit,Glob,Grep"'
+          claude_args: '--model ${{ needs.guard.outputs.model }} --max-turns 120 --allowedTools "Bash,Read,Write,Edit,Glob,Grep"'
           prompt: |
             UNIT_ID: ${{ inputs.unit_id }}
             ATTEMPT: ${{ inputs.attempt }}
@@ -101,29 +101,56 @@ jobs:
             git commit -am "chore: autofix (eslint --fix + prettier)"
             git push origin "unit/${{ inputs.unit_id }}"
           fi
+      # Chaque gate loggue sa sortie complète (tee) et propage le code de npm via
+      # PIPESTATUS[0] — sans lui, tee (exit 0) masquerait l'échec. shell: bash requis.
       - id: typecheck
-        run: npm run typecheck
+        shell: bash
+        run: |
+          npm run typecheck 2>&1 | tee /tmp/gate-typecheck.log
+          exit ${PIPESTATUS[0]}
         continue-on-error: true
       - id: lint
-        run: npm run lint
+        shell: bash
+        run: |
+          npm run lint 2>&1 | tee /tmp/gate-lint.log
+          exit ${PIPESTATUS[0]}
         continue-on-error: true
       - id: buildstep
-        run: npm run build
+        shell: bash
+        run: |
+          npm run build 2>&1 | tee /tmp/gate-buildstep.log
+          exit ${PIPESTATUS[0]}
         continue-on-error: true
       - id: unit
-        run: npm run test
+        shell: bash
+        run: |
+          npm run test 2>&1 | tee /tmp/gate-unit.log
+          exit ${PIPESTATUS[0]}
         continue-on-error: true
+      - name: Cache navigateurs Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
       - id: e2e
         name: Screenshots Playwright
+        shell: bash
         run: |
-          npx playwright install --with-deps chromium
-          npm run e2e
+          npx playwright install --with-deps chromium 2>&1 | tee /tmp/gate-e2e.log
+          npm run e2e 2>&1 | tee -a /tmp/gate-e2e.log
+          exit ${PIPESTATUS[0]}
         continue-on-error: true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: shots-${{ inputs.unit_id }}-a${{ inputs.attempt }}
           path: e2e/shots/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gate-logs-${{ inputs.unit_id }}-a${{ inputs.attempt }}
+          path: /tmp/gate-*.log
           if-no-files-found: ignore
       - id: pr
         name: Trouver la PR de l'unité
@@ -133,7 +160,8 @@ jobs:
           n=$(gh pr list --head "unit/${{ inputs.unit_id }}" --json number --jq '.[0].number // empty')
           echo "number=$n" >> "$GITHUB_OUTPUT"
       - id: verdict
-        name: Verdict gates (JSON signé) + commentaire PR
+        name: Verdict gates (JSON signé + erreurs réelles) + commentaire PR
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -156,7 +184,30 @@ jobs:
             "run": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
           EOF
-          if grep -q '"failure"' /tmp/gate-body.json; then r=fail; else r=pass; fi
+          declare -A OUT=(
+            [typecheck]="${{ steps.typecheck.outcome }}"
+            [lint]="${{ steps.lint.outcome }}"
+            [buildstep]="${{ steps.buildstep.outcome }}"
+            [unit]="${{ steps.unit.outcome }}"
+            [e2e]="${{ steps.e2e.outcome }}"
+          )
+          r=pass
+          FAILED=()
+          for g in typecheck lint buildstep unit e2e; do
+            if [ "${OUT[$g]}" = "failure" ]; then r=fail; FAILED+=("$g"); fi
+          done
+          # errors: extraits réels des logs de chaque gate en échec, ajoutés au corps AVANT le hash.
+          # Le || est obligatoire: grep retourne 1 sans match et tuerait le step sous -e.
+          # sed neutralise les backticks triples (sinon ils cassent les clôtures markdown du commentaire).
+          # Assemblage UNIQUEMENT via jq --rawfile — jamais d'interpolation shell de contenu de log dans du JSON.
+          for g in "${FAILED[@]}"; do
+            if [ -f "/tmp/gate-$g.log" ]; then
+              { grep -iE "error|fail|✘|cannot|expected" "/tmp/gate-$g.log" || tail -40 "/tmp/gate-$g.log"; } \
+                | head -40 | head -c 3000 | sed 's/```/`` `/g' > "/tmp/err-$g.txt"
+              jq --rawfile e "/tmp/err-$g.txt" --arg g "$g" '.errors[$g] = $e' /tmp/gate-body.json \
+                > /tmp/gate-body.tmp && mv /tmp/gate-body.tmp /tmp/gate-body.json
+            fi
+          done
           # Le verdict lui-même fait partie du contenu haché.
           jq --arg r "$r" '. + {result: $r}' /tmp/gate-body.json > /tmp/gate-signed-body.json
           # hash = sha256 de la forme canonique (clés triées, compacte, sans saut de ligne final)
@@ -169,12 +220,48 @@ jobs:
           if [ -n "${{ steps.pr.outputs.number }}" ]; then
             { echo "### GATES: $r (attempt ${{ inputs.attempt }})";
               echo '```json'; cat /tmp/gate-report.json; echo '```';
-              echo "_hash = sha256 de \`jq -S -c\` du verdict privé de son champ \`hash\`._"; } \
+              for g in "${FAILED[@]}"; do
+                if [ -f "/tmp/err-$g.txt" ]; then
+                  echo; echo "#### Erreurs — $g"; echo '```text'; cat "/tmp/err-$g.txt"; echo; echo '```';
+                fi
+              done;
+              echo "_hash = sha256 de \`jq -S -c\` du verdict privé de son champ \`hash\`. Logs bruts complets: artifact \`gate-logs-${{ inputs.unit_id }}-a${{ inputs.attempt }}\`._"; } \
               | gh pr comment "${{ steps.pr.outputs.number }}" --body-file -
           fi
 
-  route:
+  superviseur:
     needs: [guard, gates]
+    # attempt est une STRING (input workflow_dispatch) — comparaison de strings obligatoire.
+    if: always() && needs.gates.outputs.result == 'fail' && inputs.attempt == '2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: unit/${{ inputs.unit_id }}
+          fetch-depth: 0
+      - name: Superviseur (Claude Code — lecture seule, plan de correction)
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions"
+          claude_args: '--model claude-opus-4-8 --max-turns 40 --allowedTools "Read,Grep,Glob,Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh run view:*),Bash(gh api:*),Bash(gh pr comment:*),Bash(cat:*),Bash(ls:*),Bash(grep:*)"'
+          prompt: |
+            UNIT_ID: ${{ inputs.unit_id }}
+            ATTEMPT: ${{ inputs.attempt }}
+            PR: ${{ needs.gates.outputs.pr }}
+            RUN_ID: ${{ github.run_id }}
+            TITRE: ${{ needs.guard.outputs.title }}
+            CONTRAT: ${{ needs.guard.outputs.contract }}
+
+            Lis dans cet ordre: CLAUDE.md, .build/protocol.md, .build/prompts/superviseur.md,
+            puis le fichier CONTRAT ci-dessus. Exécute la mission décrite dans superviseur.md
+            pour cette unité et cette tentative. Ne fais rien d'autre.
+
+  route:
+    needs: [guard, gates, superviseur]
     if: always() && needs.guard.result == 'success'
     runs-on: ubuntu-latest
     env:
