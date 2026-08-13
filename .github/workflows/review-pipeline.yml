@@ -54,11 +54,35 @@ jobs:
             Décision finale OBLIGATOIRE: écris /tmp/verdict.txt dont la première ligne est
             exactement APPROVE ou CHANGES.
       - id: read
-        name: Lire le verdict
+        name: Lire et signer le verdict
         run: |
           v=$(head -n1 /tmp/verdict.txt 2>/dev/null || echo "CHANGES")
           case "$v" in APPROVE|CHANGES) ;; *) v=CHANGES ;; esac
+          # COMMIT = l'arbre réellement relu par le reviewer.
+          COMMIT="$(git rev-parse HEAD)"
+          AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          cat > /tmp/review-body.json << EOF
+          {
+            "unit": "${{ inputs.unit_id }}",
+            "pr": "${{ inputs.pr }}",
+            "attempt": ${{ inputs.attempt }},
+            "verdict": "$v",
+            "at": "$AT",
+            "commit": "$COMMIT",
+            "run": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          EOF
+          # hash = sha256 de la forme canonique (clés triées, compacte, sans saut de ligne final)
+          # du verdict SANS le champ hash. Reproductible tel quel depuis le verdict publié:
+          #   printf '%s' "$(jq -S -c 'del(.hash)' verdict.json)" | sha256sum
+          CANON="$(jq -S -c . /tmp/review-body.json)"
+          HASH="$(printf '%s' "$CANON" | sha256sum | cut -d' ' -f1)"
+          jq -S --arg h "$HASH" '. + {hash: $h}' /tmp/review-body.json > /tmp/review-report.json
           echo "verdict=$v" >> "$GITHUB_OUTPUT"
+          { echo "### REVIEW: $v (attempt ${{ inputs.attempt }})";
+            echo '```json'; cat /tmp/review-report.json; echo '```';
+            echo "_hash = sha256 de \`jq -S -c\` du verdict privé de son champ \`hash\`._"; } \
+            | gh pr comment "${{ inputs.pr }}" --body-file -
 
   act:
     needs: review

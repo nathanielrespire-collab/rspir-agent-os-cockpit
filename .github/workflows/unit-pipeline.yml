@@ -133,11 +133,14 @@ jobs:
           n=$(gh pr list --head "unit/${{ inputs.unit_id }}" --json number --jq '.[0].number // empty')
           echo "number=$n" >> "$GITHUB_OUTPUT"
       - id: verdict
-        name: Verdict gates (JSON) + commentaire PR
+        name: Verdict gates (JSON signé) + commentaire PR
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cat > /tmp/gate-report.json << EOF
+          # COMMIT = l'arbre réellement testé (après l'éventuel commit d'autofix), pas le ref demandé.
+          COMMIT="$(git rev-parse HEAD)"
+          AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          cat > /tmp/gate-body.json << EOF
           {
             "unit": "${{ inputs.unit_id }}",
             "attempt": ${{ inputs.attempt }},
@@ -148,13 +151,25 @@ jobs:
               "unit_tests": "${{ steps.unit.outcome }}",
               "e2e": "${{ steps.e2e.outcome }}"
             },
+            "at": "$AT",
+            "commit": "$COMMIT",
             "run": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
           EOF
-          if grep -q '"failure"' /tmp/gate-report.json; then r=fail; else r=pass; fi
+          if grep -q '"failure"' /tmp/gate-body.json; then r=fail; else r=pass; fi
+          # Le verdict lui-même fait partie du contenu haché.
+          jq --arg r "$r" '. + {result: $r}' /tmp/gate-body.json > /tmp/gate-signed-body.json
+          # hash = sha256 de la forme canonique (clés triées, compacte, sans saut de ligne final)
+          # du verdict SANS le champ hash. Reproductible tel quel depuis le verdict publié:
+          #   printf '%s' "$(jq -S -c 'del(.hash)' verdict.json)" | sha256sum
+          CANON="$(jq -S -c . /tmp/gate-signed-body.json)"
+          HASH="$(printf '%s' "$CANON" | sha256sum | cut -d' ' -f1)"
+          jq -S --arg h "$HASH" '. + {hash: $h}' /tmp/gate-signed-body.json > /tmp/gate-report.json
           echo "result=$r" >> "$GITHUB_OUTPUT"
           if [ -n "${{ steps.pr.outputs.number }}" ]; then
-            { echo "### GATES: $r (attempt ${{ inputs.attempt }})"; echo '```json'; cat /tmp/gate-report.json; echo '```'; } \
+            { echo "### GATES: $r (attempt ${{ inputs.attempt }})";
+              echo '```json'; cat /tmp/gate-report.json; echo '```';
+              echo "_hash = sha256 de \`jq -S -c\` du verdict privé de son champ \`hash\`._"; } \
               | gh pr comment "${{ steps.pr.outputs.number }}" --body-file -
           fi
 

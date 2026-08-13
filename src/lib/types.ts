@@ -7,6 +7,35 @@
 export type Id = string;
 export type ISODate = string; // ISO 8601
 
+// ---------- Signature & chaînage ----------
+
+/**
+ * Signature portée par toute entrée append-only (Decision, Evidence, ExecutionStep).
+ *
+ * `hash` = SHA-256( contenu canonique de l'entrée + prevHash ).
+ *
+ * Le contenu canonique est produit par `canonicalize()` (`src/lib/signature.ts`): clés d'objet
+ * triées, ordre des tableaux conservé, champs `undefined` omis, `hash` et `prevHash` exclus du
+ * corps puis `prevHash` concaténé explicitement. Un même contenu donne donc toujours le même hash,
+ * indépendamment de l'ordre d'écriture des champs.
+ *
+ * C'est le CHAÎNAGE qui fait la preuve, pas le hash seul: un hash isolé ne prouve rien, puisque
+ * quiconque réécrit le contenu peut recalculer son hash. Comme `prevHash` entre dans le calcul,
+ * modifier une entrée invalide son propre hash ET tous ceux qui suivent — la réécriture devient
+ * détectable au lieu d'être silencieuse.
+ *
+ * Une chaîne par workspace, partagée par toutes les entrées signées, ordonnée par `seq`.
+ * Vérification: `verifyChain()` retourne l'index de la première rupture, ou `null` si intacte.
+ */
+export interface ChainedSignature {
+  /** Numéro d'ordre dans la chaîne du workspace, à partir de 0. Strictement croissant, contigu. */
+  seq: number;
+  /** `hash` de l'entrée précédente. `GENESIS_HASH` (64 zéros) pour la première entrée. */
+  prevHash: string;
+  /** SHA-256 en hexadécimal minuscule (64 caractères). */
+  hash: string;
+}
+
 // ---------- Capabilities & policies ----------
 
 export type CapabilityId =
@@ -246,7 +275,8 @@ export interface Approval {
 
 // ---------- Evidence & executions ----------
 
-export interface Evidence {
+/** Append-only et signée: voir `ChainedSignature`. */
+export interface Evidence extends ChainedSignature {
   id: Id;
   workspaceId: Id;
   label: string; // ex: "Make scenario ID #91827", "Test webhook PASS"
@@ -256,7 +286,8 @@ export interface Evidence {
   createdAt: ISODate;
 }
 
-export interface ExecutionStep {
+/** Append-only et signée: voir `ChainedSignature`. Chaînée sur le workspace de l'Execution parente. */
+export interface ExecutionStep extends ChainedSignature {
   stage: "select" | "claim" | "execute" | "verify" | "update";
   summary: string;
   actorId?: Id;
@@ -432,7 +463,8 @@ export interface KnowledgeItem {
   createdAt: ISODate;
 }
 
-export interface Decision {
+/** Append-only et signée: voir `ChainedSignature`. */
+export interface Decision extends ChainedSignature {
   id: Id;
   workspaceId: Id;
   at: ISODate;
