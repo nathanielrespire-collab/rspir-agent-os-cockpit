@@ -96,7 +96,7 @@
       "deps": [
         "BUILD-004"
       ],
-      "status": "todo",
+      "status": "done",
       "contract": ".build/units/BUILD-009.md"
     },
     {
