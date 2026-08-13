@@ -88,13 +88,39 @@ un humain opère, watchdog ne touche à rien.` Conforme à la table: garde 2 sor
   - Commit `43ff541` "feat(watchdog): chien de garde déterministe pour la chaîne unit/review",
     push sur main, check.yml run 31729407769 → succès.
 
-## Reste à faire
+## Phase C — REMISE EN MARCHE ET PREUVE — TERMINÉE (2026-08-13, itérations: 0 — la machine a réussi seule)
 
-- Phase C: réactivation des pipelines, redispatch BUILD-002 attempt 2, preuve watchdog garde 4,
-  drop stash@{0}, fermeture des escalades résolues.
+- **C1**: `gh workflow enable unit-pipeline.yml && gh workflow enable review-pipeline.yml` →
+  les deux `active`. `watchdog.yml` déjà `active` depuis la phase B (schedule).
+- **C2**: `gh workflow run unit-pipeline.yml -f unit_id="BUILD-002" -f attempt="2"` (noms
+  d'inputs vérifiés via `gh workflow view unit-pipeline.yml --yaml` avant dispatch) →
+  run 31729580298.
+- **C3**: surveillance. Cycle complet observé dans les commentaires de PR #5:
+  attempt 1: GATES pass, REVIEW CHANGES. attempt 2: GATES pass, REVIEW APPROVE → merge squash
+  → `queue.mjs done BUILD-002` (commit `b040d93` sur main, poussé par le job `act` avec le
+  `GITHUB_TOKEN` — ce commit n'a pas déclenché `check.yml`: comportement standard de GitHub
+  Actions, les push via `GITHUB_TOKEN` depuis un run n'émettent pas d'événement `push` pour
+  d'autres workflows, pas un bug) → unité suivante (BUILD-003, premier `todo` avec deps
+  `done`) dispatchée automatiquement, run 31730749755 (guard validé, build en cours au moment
+  du rapport — machine saine, aucune intervention nécessaire).
+- **C4 — preuve du watchdog**: déclenché manuellement (`gh workflow run watchdog.yml`) pendant
+  que le run unit-pipeline 31729580298 était `queued`/`in_progress`. Résultat exact dans le
+  step summary/log: `DÉCISION: en vol: 1 run(s) actif(s)
+  (.../actions/runs/31729580298) — rien à faire.` → garde 4 confirmée en conditions réelles.
+- **C5**: `git stash show -p --include-untracked stash@{0}` confirmé = uniquement
+  `builder-log.txt` (binaire, sans valeur) → `git stash drop stash@{0}`. Escalades: `gh issue
+  list --state open` = vide, rien à fermer. Deux anciennes issues d'escalade (#1, #3) déjà
+  `closed` avant cette session — aucune action requise.
+
+## TERMINÉ
+
+PR #5 mergée ✓ · unité suivante (BUILD-003) dispatchée seule par la machine ✓ · watchdog
+prouvé en conditions réelles (garde 4) ✓ · zéro escalade ouverte ✓ · stash@{0} drop ✓.
+Aucun budget de correction consommé sur aucune des 3 phases.
 
 ## Écarts par rapport au prompt
 
 - Aucun écart en phase A.
 - Phase B: une extension additive documentée ci-dessus (route morte généralisée aux gates FAIL) —
   n'enlève rien de demandé, ajoute une couverture symétrique au cas BUILD-002 explicitement cité.
+- Aucun écart en phase C.
