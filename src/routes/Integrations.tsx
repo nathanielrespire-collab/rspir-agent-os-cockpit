@@ -1,11 +1,5 @@
 import { useMemo, useState } from "react";
-import {
-  Plug,
-  CheckCircle2,
-  AlertTriangle,
-  Circle,
-  Activity,
-} from "lucide-react";
+import { Plug, CheckCircle2, AlertTriangle, Circle, Activity } from "lucide-react";
 import { useT } from "@/lib/hooks";
 import { useAppStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
@@ -176,9 +170,7 @@ function ProviderCard({
             )}
           </span>
         )}
-        {provider.auth && (
-          <span>{t(authLabel[provider.auth] as TKey)}</span>
-        )}
+        {provider.auth && <span>{t(authLabel[provider.auth] as TKey)}</span>}
         {provider.lastCheckAt && (
           <span>
             {t("int_last_check")} {fmt(provider.lastCheckAt)}
@@ -352,9 +344,7 @@ function DoctorTab({ t, coreOk, stateOk, capRows, featureStatus }: DoctorTabProp
                 className="flex items-start justify-between gap-3 rounded-card border border-line bg-bg-1 px-4 py-3"
               >
                 <div className="flex flex-col gap-1">
-                  <span className="text-[13px] font-medium text-tx-1">
-                    {feature.name.fr}
-                  </span>
+                  <span className="text-[13px] font-medium text-tx-1">{feature.name.fr}</span>
                   <span className="text-[11px] text-tx-3">{feature.description.fr}</span>
                   <div className="mt-1 flex flex-wrap items-center gap-1">
                     <span className="font-mono text-[10px] text-tx-3">
@@ -364,9 +354,7 @@ function DoctorTab({ t, coreOk, stateOk, capRows, featureStatus }: DoctorTabProp
                       <span
                         key={cap}
                         className={`rounded-ctl px-1.5 py-0.5 font-mono text-[10px] ${
-                          missingCaps.includes(cap)
-                            ? "bg-err/15 text-err"
-                            : "bg-bg-2 text-tx-3"
+                          missingCaps.includes(cap) ? "bg-err/15 text-err" : "bg-bg-2 text-tx-3"
                         }`}
                       >
                         {cap}
@@ -380,9 +368,7 @@ function DoctorTab({ t, coreOk, stateOk, capRows, featureStatus }: DoctorTabProp
                   ) : (
                     <Badge variant="err">{t("int_feature_missing")}</Badge>
                   )}
-                  <span className="font-mono text-[10px] text-tx-3">
-                    v{feature.version}
-                  </span>
+                  <span className="font-mono text-[10px] text-tx-3">v{feature.version}</span>
                   <span
                     className={`font-mono text-[10px] ${
                       feature.acceptanceStatus === "pass"
@@ -418,16 +404,10 @@ function StatusPill({
   return (
     <div
       className={`flex items-center gap-1.5 rounded-card border px-3 py-1.5 ${
-        ok
-          ? "border-ok/30 bg-ok/10 text-ok"
-          : "border-warn/30 bg-warn/10 text-warn"
+        ok ? "border-ok/30 bg-ok/10 text-ok" : "border-warn/30 bg-warn/10 text-warn"
       }`}
     >
-      {ok ? (
-        <CheckCircle2 size={12} />
-      ) : (
-        <AlertTriangle size={12} />
-      )}
+      {ok ? <CheckCircle2 size={12} /> : <AlertTriangle size={12} />}
       <span className="font-mono text-[11px] font-semibold">{ok ? okLabel : warnLabel}</span>
     </div>
   );
@@ -578,7 +558,8 @@ export default function Integrations() {
           <div className="ml-auto flex items-center gap-1.5 pb-1">
             <Activity size={11} className="text-warn" />
             <span className="font-mono text-[10px] text-warn">
-              {disabledIntegrationIds.length} {disabledIntegrationIds.length === 1 ? "désactivé" : "désactivés"}
+              {disabledIntegrationIds.length}{" "}
+              {disabledIntegrationIds.length === 1 ? "désactivé" : "désactivés"}
             </span>
           </div>
         )}
