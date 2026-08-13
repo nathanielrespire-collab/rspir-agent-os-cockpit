@@ -56,7 +56,7 @@ Tag de session: `session-longue-20260813-1401`
     chaque verdict). C'est plus robuste que du log-scraping et couvre nativement les 3 branches
     "gates pass sans review", "review CHANGES sans redispatch (route morte — le cas BUILD-002)"
     et "dernier run échoué sans verdict (transitoire)" avec une seule fonction (`analyzePending`
-    + comparaison des runs après le dernier verdict).
+    - comparaison des runs après le dernier verdict).
   - Extension au-delà des 5 puces demandées (documentée, pas un écart caché): la route morte est
     généralisée aux gates FAIL (pas seulement review CHANGES) — même classe de bug (un
     `gh workflow run` qui 422 parce qu'un pipeline est désactivé), même mécanisme de détection.
@@ -83,7 +83,7 @@ Tag de session: `session-longue-20260813-1401`
   - Test à blanc OBLIGATOIRE exécuté contre l'état réel (pipelines encore `disabled_manually`):
     `DRY_RUN=1 node tools/watchdog.mjs` →
     `DÉCISION: maintenance: unit-pipeline=disabled_manually review-pipeline=disabled_manually —
-    un humain opère, watchdog ne touche à rien.` Conforme à la table: garde 2 sort en premier,
+un humain opère, watchdog ne touche à rien.` Conforme à la table: garde 2 sort en premier,
     comme attendu tant que les pipelines sont coupés.
   - Commit `43ff541` "feat(watchdog): chien de garde déterministe pour la chaîne unit/review",
     push sur main, check.yml run 31729407769 → succès.

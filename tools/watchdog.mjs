@@ -155,9 +155,7 @@ function handleMergedNotUpdated(unit, pr) {
 }
 
 function openStallIssue(unit, pending, context) {
-  const dedup = shJson(
-    `gh issue list --label watchdog-stall --state open --json number,title`,
-  );
+  const dedup = shJson(`gh issue list --label watchdog-stall --state open --json number,title`);
   if (dedup.length > 0) {
     log(
       `disjoncteur: issue de stall déjà ouverte (#${dedup.map((i) => i.number).join(", #")}) — pas de doublon.`,
@@ -189,14 +187,18 @@ function openStallIssue(unit, pending, context) {
     "   ou donner une consigne `@claude` sur la PR.",
   ].join("\n");
   if (DRY) {
-    log(`[DRY_RUN] gh issue create --title "watchdog: stall persistant — ${unit.id}" --label watchdog-stall,escalation`);
+    log(
+      `[DRY_RUN] gh issue create --title "watchdog: stall persistant — ${unit.id}" --label watchdog-stall,escalation`,
+    );
     return;
   }
   writeFileSync("/tmp/watchdog-stall.md", body);
   sh(
     `gh issue create --title "watchdog: stall persistant — ${unit.id}" --body-file /tmp/watchdog-stall.md --label watchdog-stall --label escalation`,
   );
-  log(`issue "watchdog: stall persistant — ${unit.id}" créée (label escalation — la porte humaine s'arme).`);
+  log(
+    `issue "watchdog: stall persistant — ${unit.id}" créée (label escalation — la porte humaine s'arme).`,
+  );
 }
 
 function analyzePending(lastGate, lastReview) {
@@ -214,7 +216,11 @@ function analyzePending(lastGate, lastReview) {
           why: `review CHANGES après ${lastReview.attempt} tentatives`,
         };
   }
-  if (lastGate && lastGate.result === "fail" && (!lastReview || lastReview.attempt < lastGate.attempt)) {
+  if (
+    lastGate &&
+    lastGate.result === "fail" &&
+    (!lastReview || lastReview.attempt < lastGate.attempt)
+  ) {
     const nextAttempt = lastGate.attempt + 1;
     return nextAttempt <= MAX_ATTEMPTS
       ? {
@@ -228,7 +234,11 @@ function analyzePending(lastGate, lastReview) {
           why: `gates fail après ${lastGate.attempt} tentatives`,
         };
   }
-  if (lastGate && lastGate.result === "pass" && (!lastReview || lastReview.attempt < lastGate.attempt)) {
+  if (
+    lastGate &&
+    lastGate.result === "pass" &&
+    (!lastReview || lastReview.attempt < lastGate.attempt)
+  ) {
     return {
       type: "review",
       attempt: lastGate.attempt,
@@ -265,7 +275,9 @@ function handleOpenPR(unit, pr) {
     (r) => r.status === "completed",
   );
   const runsAfter = allRuns
-    .filter((r) => r.workflow === relevantWorkflow && new Date(r.createdAt) > new Date(referenceTime))
+    .filter(
+      (r) => r.workflow === relevantWorkflow && new Date(r.createdAt) > new Date(referenceTime),
+    )
     .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   const failedRunsAfter = runsAfter.filter((r) => r.conclusion !== "success");
   const commitDate = latestCommitDate(`unit/${unit.id}`);
@@ -322,7 +334,9 @@ function main() {
     (r) => r.status === "in_progress" || r.status === "queued",
   );
   if (inFlight.length > 0) {
-    decide(`en vol: ${inFlight.length} run(s) actif(s) (${inFlight.map((r) => r.url).join(", ")}) — rien à faire.`);
+    decide(
+      `en vol: ${inFlight.length} run(s) actif(s) (${inFlight.map((r) => r.url).join(", ")}) — rien à faire.`,
+    );
   }
 
   const queue = JSON.parse(readFileSync(".build/queue.json", "utf8"));
@@ -334,7 +348,9 @@ function main() {
   const depsDone = (u) => (u.deps || []).every((d) => byId[d]?.status === "done");
   const current = queue.units.find((u) => u.status === "todo" && depsDone(u));
   if (!current) {
-    decide("aucune unité admissible (todo avec dépendances done) — file bloquée par les dépendances, hors scope watchdog.");
+    decide(
+      "aucune unité admissible (todo avec dépendances done) — file bloquée par les dépendances, hors scope watchdog.",
+    );
   }
 
   const pr = findPR(current.id);
@@ -358,7 +374,9 @@ function main() {
     return;
   }
 
-  log(`${current.id}: PR #${pr.number} état ${pr.state} inattendu (ni OPEN ni MERGED) — aucune action.`);
+  log(
+    `${current.id}: PR #${pr.number} état ${pr.state} inattendu (ni OPEN ni MERGED) — aucune action.`,
+  );
   flushSummary();
 }
 

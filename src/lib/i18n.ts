@@ -86,6 +86,23 @@ const dict = {
     action_analytics: "Visualisez l'activité, les performances et la progression du système.",
     action_agent_builder: "Créez et testez de nouveaux agents avant de les déployer.",
     action_settings: "Configurez le workspace, les politiques et les préférences système.",
+
+    // Settings — demo reset
+    settings_demo_section: "Données de démo",
+    settings_demo_reset_label: "Réinitialiser la démo",
+    settings_demo_reset_desc:
+      "Recharge les fixtures initiales et rescelle les chaînes de signatures. Irréversible.",
+    settings_demo_confirm_title: "Confirmer la réinitialisation",
+    settings_demo_confirm_body:
+      "L'état courant sera effacé et remplacé par les données de démo initiales. Cette action est irréversible.",
+    settings_demo_requested_by: "Demandé par",
+    settings_demo_executed_by: "Exécuté par",
+    settings_demo_executed_by_value: "Système — local, aucun appel réseau",
+    settings_demo_policy: "Politique",
+    settings_demo_policy_value: "Réinitialisation mock autorisée · aucune donnée réelle",
+    settings_demo_cancel: "Annuler",
+    settings_demo_confirm: "Réinitialiser",
+    settings_demo_success: "Démo réinitialisée.",
   },
   en: {
     app_title: "RSPIR Agent OS",
@@ -171,6 +188,23 @@ const dict = {
     action_analytics: "Visualize activity, performance, and system progress.",
     action_agent_builder: "Create and test new agents before deploying.",
     action_settings: "Configure the workspace, policies, and system preferences.",
+
+    // Settings — demo reset
+    settings_demo_section: "Demo data",
+    settings_demo_reset_label: "Reset demo",
+    settings_demo_reset_desc:
+      "Reloads the initial fixtures and reseals all signature chains. Irreversible.",
+    settings_demo_confirm_title: "Confirm reset",
+    settings_demo_confirm_body:
+      "The current state will be wiped and replaced by the initial demo data. This action is irreversible.",
+    settings_demo_requested_by: "Requested by",
+    settings_demo_executed_by: "Executed by",
+    settings_demo_executed_by_value: "System — local, no network calls",
+    settings_demo_policy: "Policy",
+    settings_demo_policy_value: "Mock reset allowed · no real data",
+    settings_demo_cancel: "Cancel",
+    settings_demo_confirm: "Reset",
+    settings_demo_success: "Demo reset.",
   },
 } as const;
 
