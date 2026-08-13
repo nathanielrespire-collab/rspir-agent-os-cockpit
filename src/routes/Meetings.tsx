@@ -74,9 +74,7 @@ export default function Meetings() {
 
                 <div className="mt-1 flex flex-wrap items-center gap-2">
                   <span className="font-mono text-[10px] text-tx-3">{meetingDate}</span>
-                  {client && (
-                    <span className="font-mono text-[10px] text-info">{client.name}</span>
-                  )}
+                  {client && <span className="font-mono text-[10px] text-info">{client.name}</span>}
                   {hasOutcomes && taskCount > 0 && (
                     <Badge variant="laiton" className="text-[9px]">
                       {taskCount} {t("mtg_section_tasks").toLowerCase()}

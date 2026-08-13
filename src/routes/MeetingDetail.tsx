@@ -35,9 +35,7 @@ type FluxStep = {
 // ─── Section heading ─────────────────────────────────────────────────────────
 
 function SectionLabel({ label }: { label: string }) {
-  return (
-    <p className="mb-2 font-mono text-[9px] uppercase tracking-widest text-tx-3">{label}</p>
-  );
+  return <p className="mb-2 font-mono text-[9px] uppercase tracking-widest text-tx-3">{label}</p>;
 }
 
 // ─── Bullet list ─────────────────────────────────────────────────────────────
@@ -196,10 +194,7 @@ export default function MeetingDetail() {
                   {t(step.labelKey)}
                 </span>
                 <div
-                  className={cn(
-                    "h-1 w-1 rounded-full",
-                    step.done ? "bg-laiton" : "bg-tx-3/40",
-                  )}
+                  className={cn("h-1 w-1 rounded-full", step.done ? "bg-laiton" : "bg-tx-3/40")}
                 />
               </div>
               {idx < fluxSteps.length - 1 && (
@@ -327,9 +322,7 @@ export default function MeetingDetail() {
                       {transcript.excerpt}
                     </blockquote>
                     {transcript.fullTextAvailable && (
-                      <p className="mt-2 font-mono text-[9px] text-ok">
-                        · {t("mtg_full_text")}
-                      </p>
+                      <p className="mt-2 font-mono text-[9px] text-ok">· {t("mtg_full_text")}</p>
                     )}
                   </div>
                 )}
@@ -369,9 +362,7 @@ export default function MeetingDetail() {
                             <span className="flex-1 font-mono text-[11px] text-tx-2 group-hover:text-tx-1">
                               {wi.title}
                             </span>
-                            <span className="shrink-0 font-mono text-[9px] text-tx-3">
-                              {wi.id}
-                            </span>
+                            <span className="shrink-0 font-mono text-[9px] text-tx-3">{wi.id}</span>
                             <span className="shrink-0 font-mono text-[9px] text-info">
                               {t("mtg_view_in_work")} →
                             </span>
