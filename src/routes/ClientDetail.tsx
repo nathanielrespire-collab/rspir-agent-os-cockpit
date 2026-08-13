@@ -27,14 +27,7 @@ import type { TKey } from "@/lib/i18n";
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 type Tab =
-  | "overview"
-  | "work"
-  | "contacts"
-  | "meetings"
-  | "crm"
-  | "automations"
-  | "features"
-  | "policies";
+  "overview" | "work" | "contacts" | "meetings" | "crm" | "automations" | "features" | "policies";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -165,10 +158,7 @@ function OverviewTab({ clientId }: { clientId: string }) {
                     <span className="font-mono text-[11px] text-tx-3">
                       {p.taskCompletionPct}% {t("proj_tasks_pct")}
                     </span>
-                    <Badge
-                      variant={p.transferable ? "ok" : "err"}
-                      className="font-mono text-[9px]"
-                    >
+                    <Badge variant={p.transferable ? "ok" : "err"} className="font-mono text-[9px]">
                       {p.transferable ? t("proj_transferable_yes") : t("proj_transferable_no")}
                     </Badge>
                   </div>
@@ -240,9 +230,7 @@ function OverviewTab({ clientId }: { clientId: string }) {
               >
                 <User size={11} className="shrink-0 text-tx-3" aria-hidden />
                 <span className="text-[12px] text-tx-1">{c.name}</span>
-                {c.role && (
-                  <span className="font-mono text-[10px] text-tx-3">· {c.role}</span>
-                )}
+                {c.role && <span className="font-mono text-[10px] text-tx-3">· {c.role}</span>}
               </div>
             ))}
           </div>
@@ -461,9 +449,7 @@ function AutomationsTab({ clientId }: { clientId: string }) {
               <div className="flex items-center gap-2">
                 <span className="text-[12px] font-medium text-tx-1">{a.name}</span>
                 <Badge
-                  variant={
-                    a.stage === "deployed" ? "ok" : a.stage === "test" ? "warn" : "default"
-                  }
+                  variant={a.stage === "deployed" ? "ok" : a.stage === "test" ? "warn" : "default"}
                   className="font-mono text-[9px]"
                 >
                   {a.stage}
@@ -553,9 +539,7 @@ function FeaturesTab({ clientId }: { clientId: string }) {
                 </div>
               </div>
               <button
-                onClick={() =>
-                  toggleFeature(clientId, f.id, !enabled, actorId)
-                }
+                onClick={() => toggleFeature(clientId, f.id, !enabled, actorId)}
                 className={cn(
                   "flex shrink-0 items-center gap-1.5 rounded-ctl border px-2 py-1 font-mono text-[10px] transition-colors focus-visible:outline-2 focus-visible:outline-or",
                   enabled
@@ -577,9 +561,7 @@ function FeaturesTab({ clientId }: { clientId: string }) {
             {/* Evidence metadata for toggle */}
             {enabled && (
               <div className="mt-2 flex items-center gap-2 border-t border-line/50 pt-1.5 pl-1">
-                <span className="font-mono text-[9px] text-tx-3">
-                  {t("home_policy_label")}:
-                </span>
+                <span className="font-mono text-[9px] text-tx-3">{t("home_policy_label")}:</span>
                 <Badge variant="laiton" className="font-mono text-[9px]">
                   auto
                 </Badge>
