@@ -563,10 +563,10 @@ function FeaturesTab({ clientId }: { clientId: string }) {
               <div className="mt-2 flex items-center gap-2 border-t border-line/50 pt-1.5 pl-1">
                 <span className="font-mono text-[9px] text-tx-3">{t("home_policy_label")}:</span>
                 <Badge variant="laiton" className="font-mono text-[9px]">
-                  auto
+                  {t("cli_policy_auto")}
                 </Badge>
                 <span className="font-mono text-[9px] text-tx-3">
-                  {t("work_form_policy_value")}
+                  {t("cli_feature_policy_note")}
                 </span>
               </div>
             )}
@@ -673,13 +673,15 @@ export default function ClientDetail() {
       </div>
 
       {/* Tab strip */}
-      <nav
+      <div
+        role="tablist"
         aria-label={t("cli_tabs_nav")}
         className="flex gap-0.5 overflow-x-auto border-b border-line pb-px"
       >
         {TABS.map(({ key, labelKey, icon: Icon }) => (
           <button
             key={key}
+            id={`tab-${key}`}
             onClick={() => setTab(key)}
             className={cn(
               "flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2 font-mono text-[11px] transition-colors focus-visible:outline-2 focus-visible:outline-or",
@@ -688,16 +690,17 @@ export default function ClientDetail() {
                 : "border-transparent text-tx-3 hover:border-line hover:text-tx-2",
             )}
             aria-selected={tab === key}
+            aria-controls="client-tabpanel"
             role="tab"
           >
             <Icon size={11} aria-hidden />
             {t(labelKey)}
           </button>
         ))}
-      </nav>
+      </div>
 
       {/* Tab content */}
-      <div role="tabpanel">
+      <div id="client-tabpanel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
         {tab === "overview" && <OverviewTab clientId={client.id} />}
         {tab === "work" && <WorkTab clientId={client.id} />}
         {tab === "contacts" && <ContactsTab clientId={client.id} />}

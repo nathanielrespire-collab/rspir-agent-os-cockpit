@@ -304,6 +304,7 @@ const dict = {
     cli_value_cad: "Valeur (CAD)",
     cli_commitments: "Engagements",
     cli_tabs_nav: "Sections du client",
+    cli_feature_policy_note: "Appliqué automatiquement",
 
     // Settings — demo reset
     settings_demo_section: "Données de démo",
@@ -624,6 +625,7 @@ const dict = {
     cli_value_cad: "Value (CAD)",
     cli_commitments: "Commitments",
     cli_tabs_nav: "Client sections",
+    cli_feature_policy_note: "Applied automatically",
 
     // Settings — demo reset
     settings_demo_section: "Demo data",
