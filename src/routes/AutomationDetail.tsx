@@ -116,7 +116,7 @@ function LifecycleViz({ stage }: { stage: AutomationStage }) {
                   isCurrent ? STAGE_COLORS[s] : "border-line bg-bg-0 text-tx-3/30",
                 )}
               >
-                {isCurrent ? "← actuel" : isPast ? "✓" : "—"}
+                {isCurrent ? t("atm_lifecycle_current") : isPast ? "✓" : "—"}
               </span>
             </div>
             {!isLast && (
@@ -190,7 +190,7 @@ function TransitionDialog({
         <div className="flex items-center gap-2 rounded-ctl border border-ok/40 bg-ok/10 px-3 py-2">
           <CheckCircle2 size={14} className="text-ok" />
           <span className="text-[13px] text-ok">
-            {selected && t(stageKey(selected))} — transition enregistrée.
+            {selected && t(stageKey(selected))} {t("atm_transition_recorded")}
           </span>
         </div>
         <button

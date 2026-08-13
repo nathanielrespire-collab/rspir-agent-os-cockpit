@@ -652,6 +652,8 @@ const dict = {
     atm_form_policy: "Politique",
     atm_form_policy_value: "Création manuelle autorisée · aucun appel réseau",
     atm_form_submit: "Créer le brouillon",
+    atm_lifecycle_current: "← actuel",
+    atm_transition_recorded: "— transition enregistrée.",
   },
   en: {
     app_title: "RSPIR Agent OS",
@@ -1303,6 +1305,8 @@ const dict = {
     atm_form_policy: "Policy",
     atm_form_policy_value: "Manual creation allowed · no network call",
     atm_form_submit: "Create draft",
+    atm_lifecycle_current: "← current",
+    atm_transition_recorded: "— transition recorded.",
   },
 } as const;
 
