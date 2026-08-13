@@ -64,10 +64,7 @@ function StatTile({ count, label, icon: Icon, highlight = false, warn = false }:
       )}
     >
       <div className="mb-1 flex items-center gap-2">
-        <Icon
-          size={14}
-          className={cn(highlight ? "text-or" : warn ? "text-warn" : "text-tx-3")}
-        />
+        <Icon size={14} className={cn(highlight ? "text-or" : warn ? "text-warn" : "text-tx-3")} />
         <span
           className={cn(
             "font-mono text-2xl font-semibold leading-none",
@@ -134,9 +131,7 @@ function AgentRow({ agent, items }: AgentRowProps) {
         {firstItem && (
           <p className="mt-0.5 truncate font-mono text-[11px] text-tx-2">{firstItem.title}</p>
         )}
-        {items.length > 1 && (
-          <p className="font-mono text-[9px] text-tx-3">+{items.length - 1}</p>
-        )}
+        {items.length > 1 && <p className="font-mono text-[9px] text-tx-3">+{items.length - 1}</p>}
       </div>
       <div className="flex flex-shrink-0 flex-col items-end gap-1">
         <span className="font-mono text-[11px] text-laiton">{agent.workloadPct}%</span>
@@ -167,19 +162,13 @@ function VerifiedWorkCard({ item, actors, onClick }: VerifiedWorkCardProps) {
       aria-label={`${item.title} — ${t("home_evidence")}`}
     >
       <div className="mb-2 flex items-start gap-2">
-        <CheckCircle2
-          size={12}
-          className="mt-0.5 flex-shrink-0 text-ok"
-          aria-hidden="true"
-        />
+        <CheckCircle2 size={12} className="mt-0.5 flex-shrink-0 text-ok" aria-hidden="true" />
         <span className="line-clamp-2 text-[13px] font-medium leading-snug text-tx-1">
           {item.title}
         </span>
       </div>
       <div className="flex items-center gap-2">
-        {assignee && (
-          <span className="font-mono text-[11px] text-laiton">{assignee.name}</span>
-        )}
+        {assignee && <span className="font-mono text-[11px] text-laiton">{assignee.name}</span>}
         <span className="ml-auto flex items-center gap-1 font-mono text-[10px] text-tx-3">
           <Shield size={10} aria-hidden="true" />
           {item.evidenceIds.length}
@@ -206,10 +195,14 @@ function EvidenceKindIcon({
   result?: Evidence["result"];
 }) {
   const cls = "mt-0.5 flex-shrink-0";
-  if (kind === "screenshot") return <Camera size={14} className={cn(cls, "text-info")} aria-hidden="true" />;
-  if (kind === "artifact") return <FileText size={14} className={cn(cls, "text-laiton")} aria-hidden="true" />;
-  if (kind === "external_id") return <Hash size={14} className={cn(cls, "text-tx-2")} aria-hidden="true" />;
-  if (kind === "log") return <Terminal size={14} className={cn(cls, "text-tx-3")} aria-hidden="true" />;
+  if (kind === "screenshot")
+    return <Camera size={14} className={cn(cls, "text-info")} aria-hidden="true" />;
+  if (kind === "artifact")
+    return <FileText size={14} className={cn(cls, "text-laiton")} aria-hidden="true" />;
+  if (kind === "external_id")
+    return <Hash size={14} className={cn(cls, "text-tx-2")} aria-hidden="true" />;
+  if (kind === "log")
+    return <Terminal size={14} className={cn(cls, "text-tx-3")} aria-hidden="true" />;
   return (
     <CheckCircle2
       size={14}
@@ -230,15 +223,8 @@ export default function Home() {
   const [drawerItem, setDrawerItem] = useState<WorkItem | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  const {
-    workItems,
-    actors,
-    approvals,
-    blockers,
-    evidence,
-    policies,
-    activeWorkspaceId,
-  } = useAppStore();
+  const { workItems, actors, approvals, blockers, evidence, policies, activeWorkspaceId } =
+    useAppStore();
 
   // Focus close button when drawer opens; close on Escape
   useEffect(() => {
@@ -336,16 +322,8 @@ export default function Home() {
 
       {/* TODAY bandeau */}
       <div className="grid grid-cols-5 gap-3" role="region" aria-label="Aujourd'hui">
-        <StatTile
-          count={activeWorkItems.length}
-          label={t("home_active_units")}
-          icon={Activity}
-        />
-        <StatTile
-          count={busyAgents.length}
-          label={t("home_agents_at_work")}
-          icon={Bot}
-        />
+        <StatTile count={activeWorkItems.length} label={t("home_active_units")} icon={Activity} />
+        <StatTile count={busyAgents.length} label={t("home_agents_at_work")} icon={Bot} />
         <StatTile
           count={verifiedItems.length}
           label={t("home_verified_today")}
@@ -376,23 +354,15 @@ export default function Home() {
             <AlertCircle size={14} className="text-or" aria-hidden="true" />
             <h2 className="text-sm font-semibold text-or">{t("home_your_attention")}</h2>
             {pendingApprovals.length > 0 && (
-              <span className="ml-auto font-mono text-xs text-or">
-                {pendingApprovals.length}
-              </span>
+              <span className="ml-auto font-mono text-xs text-or">{pendingApprovals.length}</span>
             )}
           </div>
           <div className="divide-y divide-line/50">
             {pendingApprovals.length === 0 ? (
-              <p className="px-4 py-8 text-center text-xs text-tx-3">
-                {t("home_no_attention")}
-              </p>
+              <p className="px-4 py-8 text-center text-xs text-tx-3">{t("home_no_attention")}</p>
             ) : (
               pendingApprovals.map((apr) => (
-                <ApprovalRow
-                  key={apr.id}
-                  approval={apr}
-                  onReview={() => navigate("/approvals")}
-                />
+                <ApprovalRow key={apr.id} approval={apr} onReview={() => navigate("/approvals")} />
               ))
             )}
           </div>
@@ -407,9 +377,7 @@ export default function Home() {
             <Bot size={14} className="text-laiton" aria-hidden="true" />
             <h2 className="text-sm font-semibold text-laiton">{t("home_system_working")}</h2>
             {workingAgents.length > 0 && (
-              <span className="ml-auto font-mono text-xs text-laiton">
-                {workingAgents.length}
-              </span>
+              <span className="ml-auto font-mono text-xs text-laiton">{workingAgents.length}</span>
             )}
           </div>
 
@@ -424,11 +392,7 @@ export default function Home() {
               <p className="px-4 py-6 text-center text-xs text-tx-3">{t("home_no_agents")}</p>
             ) : (
               workingAgents.map((agent) => (
-                <AgentRow
-                  key={agent.id}
-                  agent={agent}
-                  items={agentItemsMap.get(agent.id) ?? []}
-                />
+                <AgentRow key={agent.id} agent={agent} items={agentItemsMap.get(agent.id) ?? []} />
               ))
             )}
           </div>
@@ -479,9 +443,7 @@ export default function Home() {
             <div className="flex items-center gap-3 border-b border-line px-5 py-4">
               <Shield size={16} className="flex-shrink-0 text-ok" aria-hidden="true" />
               <div className="min-w-0 flex-1">
-                <h3 className="truncate text-sm font-semibold text-tx-1">
-                  {drawerItem.title}
-                </h3>
+                <h3 className="truncate text-sm font-semibold text-tx-1">{drawerItem.title}</h3>
                 <p className="font-mono text-[11px] text-tx-3">{drawerItem.id}</p>
               </div>
               <button
@@ -539,9 +501,7 @@ export default function Home() {
                       >
                         <EvidenceKindIcon kind={ev.kind} result={ev.result} />
                         <div className="min-w-0 flex-1">
-                          <p className="font-mono text-[12px] leading-snug text-tx-1">
-                            {ev.label}
-                          </p>
+                          <p className="font-mono text-[12px] leading-snug text-tx-1">{ev.label}</p>
                           <p className="font-mono text-[10px] text-tx-3">
                             {ev.kind} · {ev.id}
                           </p>
@@ -563,9 +523,7 @@ export default function Home() {
               {/* Acceptance criteria */}
               {drawerItem.acceptanceCriteria.length > 0 && (
                 <div>
-                  <h4 className="mb-2 text-xs font-semibold text-tx-2">
-                    {t("home_acceptance")}
-                  </h4>
+                  <h4 className="mb-2 text-xs font-semibold text-tx-2">{t("home_acceptance")}</h4>
                   <ul className="space-y-1.5" role="list">
                     {drawerItem.acceptanceCriteria.map((c, i) => (
                       <li key={i} className="flex items-start gap-2">

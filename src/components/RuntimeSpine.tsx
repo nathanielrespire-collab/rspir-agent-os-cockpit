@@ -94,7 +94,10 @@ export function RuntimeSpine({
         return (
           <Fragment key={stage}>
             {/* Stage node */}
-            <div className="flex flex-col items-center" style={{ minWidth: size === "sm" ? 26 : 40 }}>
+            <div
+              className="flex flex-col items-center"
+              style={{ minWidth: size === "sm" ? 26 : 40 }}
+            >
               <div className="relative">
                 <div
                   className={cn(
