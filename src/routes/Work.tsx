@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   ListTodo,
   X,
@@ -1452,9 +1452,13 @@ export default function Work() {
   const t = useT();
   const { role } = useUIStore();
   const { workItems, actors, clients, projects, activeWorkspaceId } = useAppStore();
+  const [searchParams] = useSearchParams();
 
   const [view, setView] = useState<View>("table");
-  const [filters, setFilters] = useState<Filters>(INIT_FILTERS);
+  const [filters, setFilters] = useState<Filters>(() => {
+    const projectParam = searchParams.get("project");
+    return projectParam ? { ...INIT_FILTERS, projectIds: [projectParam] } : INIT_FILTERS;
+  });
   const [sort, setSort] = useState<{ field: SortField; dir: "asc" | "desc" }>({
     field: "updatedAt",
     dir: "desc",
