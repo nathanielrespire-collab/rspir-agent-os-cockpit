@@ -235,11 +235,13 @@ function newId(prefix: string): Id {
 
 interface AppDataStore extends AppState {
   _hydrated: boolean;
+  disabledIntegrationIds: Id[];
 
   hydrateDemo: () => Promise<void>;
   resetDemo: () => Promise<void>;
 
   setActiveWorkspace: (id: Id) => void;
+  toggleIntegration: (integrationId: Id) => void;
 
   createWorkItem: (
     data: Omit<WorkItem, "id" | "createdAt" | "updatedAt" | "evidenceIds" | "artifactIds">,
@@ -272,6 +274,7 @@ export const useAppStore = create<AppDataStore>()(
     (set, get) => ({
       ...EMPTY_APP_STATE,
       _hydrated: false,
+      disabledIntegrationIds: [],
 
       // ── Hydration ─────────────────────────────────────────────────────
 
@@ -324,13 +327,24 @@ export const useAppStore = create<AppDataStore>()(
       },
 
       resetDemo: async () => {
-        set({ ...EMPTY_APP_STATE, _hydrated: false });
+        set({ ...EMPTY_APP_STATE, _hydrated: false, disabledIntegrationIds: [] });
         await get().hydrateDemo();
       },
 
       // ── Workspace ─────────────────────────────────────────────────────
 
       setActiveWorkspace: (id) => set({ activeWorkspaceId: id }),
+
+      toggleIntegration: (integrationId) => {
+        set((s) => {
+          const isDisabled = s.disabledIntegrationIds.includes(integrationId);
+          return {
+            disabledIntegrationIds: isDisabled
+              ? s.disabledIntegrationIds.filter((id) => id !== integrationId)
+              : [...s.disabledIntegrationIds, integrationId],
+          };
+        });
+      },
 
       // ── Work items ────────────────────────────────────────────────────
 
