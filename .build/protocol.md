@@ -22,9 +22,10 @@ Règles machine. Les workflows implémentent ce protocole; toute divergence est 
    le redispatch attempt 3; le builder attempt 3 exécute ce plan à la lettre (fallback: champ
    `errors` si aucun plan). FAIL + attempt ≥ MAX → escalade (l'issue inclut le dernier
    PLAN-SUPERVISEUR s'il existe).
-6. PASS → dispatch `review` (Opus `claude-opus-4-8`, indépendant du builder): conformité au contrat,
-   scope, checklist sécurité, qualité UI vs CLAUDE.md. Verdict `APPROVE` ou `CHANGES` (précises).
-   `CHANGES` + attempt < MAX → redispatch builder avec le feedback. Sinon escalade.
+6. PASS → dispatch `review` (indépendant du builder, modèle selon attempt — voir Constantes):
+   conformité au contrat, scope, checklist sécurité, qualité UI vs CLAUDE.md. Verdict `APPROVE`
+   ou `CHANGES` (précises). `CHANGES` + attempt < MAX → redispatch builder avec le feedback.
+   Sinon escalade.
 7. `APPROVE` → approve PR → squash-merge → branche supprimée → `queue.json` marqué `done` (commit
    sur main) → l'unité suivante admissible (deps `done`, statut `todo`, premier de la file) est
    dispatchée automatiquement. La chaîne continue sans humain.
@@ -32,9 +33,11 @@ Règles machine. Les workflows implémentent ce protocole; toute divergence est 
 ## Constantes
 
 - `MAX_ATTEMPTS = 3` (1 build initial + 2 corrections, toutes sources confondues).
-- Modèles: builder/repair `claude-sonnet-4-6`; review `claude-opus-4-8`; superviseur
-  `claude-opus-4-8` (lecture seule, plan uniquement); escalade builder vers `claude-opus-4-8`
-  permise uniquement à l'attempt 3 (dernier essai avant humain).
+- Modèles: builder/repair `claude-sonnet-4-6` (`claude-opus-4-8` à l'attempt 3, dernier essai
+  avant humain — `tools/queue.mjs validate`). Review suit le même seuil, même mécanisme,
+  calculé indépendamment dans `review-pipeline.yml`: `claude-sonnet-4-6` aux attempts 1-2,
+  `claude-opus-4-8` à l'attempt 3. Superviseur `claude-opus-4-8` (lecture seule, plan uniquement).
+  Aucune gate ni critère de review n'est assoupli par ce choix de modèle — seul le modèle change.
 - Budgets de tours: builder 120, review 60, superviseur 40.
 - Sécurité fusionnée dans la review tant que le repo reste 100% mock/zéro secret.
 
