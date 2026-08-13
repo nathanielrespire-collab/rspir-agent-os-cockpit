@@ -68,7 +68,7 @@ function ConfirmDialog({
           </div>
           <div className="flex items-center gap-3 text-[12px]">
             <span className="text-tx-3 w-28 shrink-0">{t("apr_policy_label")}</span>
-            <Badge variant="or">approval_required</Badge>
+            <Badge variant="or">{t("apr_policy_slug")}</Badge>
           </div>
         </div>
 
@@ -179,7 +179,7 @@ function PendingCard({
           <div className="flex items-center gap-2">
             <Shield size={11} className="text-or/70" />
             <span className="text-[11px] text-tx-3">{t("apr_policy_label")}:</span>
-            <Badge variant="or">approval_required</Badge>
+            <Badge variant="or">{t("apr_policy_slug")}</Badge>
             <span className="text-[11px] text-tx-3">· {t("apr_policy_value")}</span>
           </div>
 

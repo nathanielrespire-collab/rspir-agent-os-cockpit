@@ -92,7 +92,9 @@ function WorkContinuingPanel({ blockedIds, allWorkItems, workspaceId }: WorkCont
             ))
           )}
           {continuing.length > 8 && (
-            <p className="text-[11px] text-tx-3 pl-3.5">+{continuing.length - 8} autres</p>
+            <p className="text-[11px] text-tx-3 pl-3.5">
+              {t("blk_more_items").replace("{n}", String(continuing.length - 8))}
+            </p>
           )}
         </div>
       )}

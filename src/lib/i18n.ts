@@ -369,6 +369,7 @@ const dict = {
     apr_approve_btn: "Approuver",
     apr_reject_btn: "Refuser",
     apr_policy_label: "Politique",
+    apr_policy_slug: "approval_required",
     apr_policy_value: "Décision humaine requise · effet externe",
     apr_decided_by: "Décidé par",
     apr_status_approved: "Approuvé",
@@ -412,6 +413,7 @@ const dict = {
     blk_created_at: "Créé",
     blk_no_default: "Aucune",
     blk_count_active: "actifs",
+    blk_more_items: "+{n} autres",
   },
   en: {
     app_title: "RSPIR Agent OS",
@@ -780,6 +782,7 @@ const dict = {
     apr_approve_btn: "Approve",
     apr_reject_btn: "Reject",
     apr_policy_label: "Policy",
+    apr_policy_slug: "approval_required",
     apr_policy_value: "Human decision required · external effect",
     apr_decided_by: "Decided by",
     apr_status_approved: "Approved",
@@ -823,6 +826,7 @@ const dict = {
     blk_created_at: "Created",
     blk_no_default: "None",
     blk_count_active: "active",
+    blk_more_items: "+{n} more",
   },
 } as const;
 
