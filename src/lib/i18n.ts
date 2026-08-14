@@ -876,6 +876,10 @@ const dict = {
     sec_least_privilege: "Principe du moindre privilège",
     sec_workspace_isolation: "Isolation workspace",
     sec_prompt_injection_protection: "Protection injection de prompt",
+    sec_posture_note_least_privilege: "Aria: crm.write non justifié",
+    sec_posture_note_workspace_isolation: "ws-rspir / ws-ms isolés",
+    sec_posture_note_prompt_injection: "Transcriptions non sanitisées",
+    sec_high_risk_caps_marked: "marquées",
   },
   en: {
     app_title: "RSPIR Agent OS",
@@ -1750,6 +1754,10 @@ const dict = {
     sec_least_privilege: "Least privilege",
     sec_workspace_isolation: "Workspace isolation",
     sec_prompt_injection_protection: "Prompt injection protection",
+    sec_posture_note_least_privilege: "Aria: crm.write unjustified",
+    sec_posture_note_workspace_isolation: "ws-rspir / ws-ms isolated",
+    sec_posture_note_prompt_injection: "Transcripts not sanitized",
+    sec_high_risk_caps_marked: "marked",
   },
 } as const;
 

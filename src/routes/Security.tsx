@@ -56,6 +56,7 @@ function ConnectionStateBadge({ state }: { state: "mock" | "connected" | "not_co
 }
 
 function RuleBadge({ rule }: { rule: PolicyRule }) {
+  const t = useT();
   const variant =
     rule === "auto"
       ? "ok"
@@ -65,10 +66,10 @@ function RuleBadge({ rule }: { rule: PolicyRule }) {
           ? "err"
           : ("warn" as const);
   const labels: Record<PolicyRule, string> = {
-    auto: "AUTO",
-    approval_required: "APPROVAL",
-    forbidden: "FORBIDDEN",
-    human_only: "HUMAN ONLY",
+    auto: t("pol_rule_auto"),
+    approval_required: t("pol_rule_approval"),
+    forbidden: t("pol_rule_forbidden"),
+    human_only: t("pol_rule_human"),
   };
   return (
     <Badge variant={variant} className="font-mono text-[10px]">
@@ -110,12 +111,20 @@ const SECRETS = [
 function PostureSummary() {
   const t = useT();
   const checks = [
-    { label: t("sec_least_privilege"), ok: false, note: "Aria: crm.write non justifié" },
-    { label: t("sec_workspace_isolation"), ok: true, note: "ws-rspir / ws-ms isolés" },
+    {
+      label: t("sec_least_privilege"),
+      ok: false,
+      note: t("sec_posture_note_least_privilege"),
+    },
+    {
+      label: t("sec_workspace_isolation"),
+      ok: true,
+      note: t("sec_posture_note_workspace_isolation"),
+    },
     {
       label: t("sec_prompt_injection_protection"),
       ok: false,
-      note: "Transcriptions non sanitisées",
+      note: t("sec_posture_note_prompt_injection"),
     },
   ];
 
@@ -231,7 +240,8 @@ function IdentitiesTab() {
         <AlertTriangle size={12} className="mt-0.5 shrink-0 text-warn" />
         <p className="font-mono text-[11px] text-tx-2">
           {t("sec_high_risk_caps")}: spend_money, contract_commitment, automation.deploy,
-          website.deploy, email.send — marquées <span className="text-warn">⚠</span>
+          website.deploy, email.send — {t("sec_high_risk_caps_marked")}{" "}
+          <span className="text-warn">⚠</span>
         </p>
       </div>
     </div>
