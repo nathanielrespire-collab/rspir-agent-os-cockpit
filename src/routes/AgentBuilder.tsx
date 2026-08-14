@@ -316,7 +316,7 @@ function StepCapabilities({ t }: { t: (key: TKey) => string }) {
 }
 
 function StepPolicies({ t }: { t: (key: TKey) => string }) {
-  const ruleVariant: Record<string, "ok" | "warn" | "err" | "laiton"> = {
+  const ruleVariant: Record<string, "ok" | "warn" | "err" | "laiton" | "or"> = {
     auto: "laiton",
     approval_required: "warn",
     human_only: "or",
