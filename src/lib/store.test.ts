@@ -14,9 +14,9 @@ describe("hydrateDemo", () => {
   it("peuple le store avec les données démo", async () => {
     const s = await freshStore();
     expect(s.workspaces.length).toBe(2);
-    expect(s.clients.length).toBe(4);
+    expect(s.clients.length).toBe(5); // 4 ws-rspir + 1 ws-ms (BUILD-019)
     expect(s.actors.length).toBe(9);
-    expect(s.providers.length).toBe(14);
+    expect(s.providers.length).toBe(25); // 14 original + 11 MS stack (BUILD-019)
     expect(s.workItems.length).toBe(30);
     expect(s.projects.length).toBe(4);
     expect(s.blockers.length).toBe(3);
