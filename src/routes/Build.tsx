@@ -165,7 +165,9 @@ export default function Build() {
               <th className="px-3 py-2 text-left text-[11px] font-medium text-tx-3">
                 {t("bz_role_label" as TKey)}
               </th>
-              <th className="px-3 py-2 text-left text-[11px] font-medium text-tx-3">Nom</th>
+              <th className="px-3 py-2 text-left text-[11px] font-medium text-tx-3">
+                {t("bz_name_label" as TKey)}
+              </th>
               <th className="px-3 py-2 text-left text-[11px] font-medium text-tx-3">
                 {t("bz_provider_label" as TKey)}
               </th>

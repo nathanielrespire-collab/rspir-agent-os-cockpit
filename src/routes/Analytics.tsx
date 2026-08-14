@@ -72,6 +72,7 @@ export default function Analytics() {
     automations,
     proposals,
     activeWorkspaceId,
+    build,
   } = useAppStore();
 
   const metrics = useMemo(() => {
@@ -122,7 +123,7 @@ export default function Analytics() {
       .filter((p) => p.status === "deployed" || p.status === "building" || p.status === "approved")
       .reduce((sum, p) => sum + p.estimatedSavedHoursPerMonth, 0);
 
-    const hourlyRate = 60;
+    const hourlyRate = build.hourlyRateEstimation;
     const operationalValue = savedHoursPerMonth * hourlyRate;
 
     return {
@@ -147,6 +148,7 @@ export default function Analytics() {
     automations,
     proposals,
     activeWorkspaceId,
+    build,
   ]);
 
   return (
@@ -252,7 +254,7 @@ export default function Analytics() {
       </div>
 
       <p className="mt-6 text-[11px] text-tx-3">
-        {t("anl_estimation_badge" as TKey)} — toutes les métriques sont dérivées du store local.
+        {t("anl_estimation_badge" as TKey)} {t("anl_store_note" as TKey)}
       </p>
     </div>
   );

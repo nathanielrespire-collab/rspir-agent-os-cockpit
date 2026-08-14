@@ -969,6 +969,7 @@ const dict = {
 
     // Analytics — BUILD-020
     anl_estimation_badge: "ESTIMATION",
+    anl_store_note: "— toutes les métriques sont dérivées du store local.",
     anl_section_work: "Travail",
     anl_section_agents: "Agents",
     anl_section_verification: "Vérification",
@@ -1003,6 +1004,7 @@ const dict = {
     bz_no_features_dev: "Toutes les features sont en production.",
     bz_provider_label: "Fournisseur",
     bz_role_label: "Rôle",
+    bz_name_label: "Nom",
     bz_acceptance_label: "Acceptance",
     bz_pipeline_spec: "SPEC",
     bz_pipeline_build: "BUILD",
@@ -2031,6 +2033,7 @@ const dict = {
 
     // Analytics — BUILD-020
     anl_estimation_badge: "ESTIMATION",
+    anl_store_note: "— all metrics are derived from the local store.",
     anl_section_work: "Work",
     anl_section_agents: "Agents",
     anl_section_verification: "Verification",
@@ -2065,6 +2068,7 @@ const dict = {
     bz_no_features_dev: "All features are in production.",
     bz_provider_label: "Provider",
     bz_role_label: "Role",
+    bz_name_label: "Name",
     bz_acceptance_label: "Acceptance",
     bz_pipeline_spec: "SPEC",
     bz_pipeline_build: "BUILD",

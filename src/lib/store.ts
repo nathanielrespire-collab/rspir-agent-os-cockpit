@@ -167,6 +167,7 @@ const EMPTY_APP_STATE: AppState = {
     pipeline: ["spec", "build"],
     unitsDone: 20,
     unitsTotal: 30,
+    hourlyRateEstimation: 60,
   },
 };
 
@@ -367,7 +368,7 @@ export const useAppStore = create<AppDataStore>()(
           executions: [...rspir.executions],
           events: [],
           securityFindings,
-          build: { version: "0.20.0", pipeline: ["spec", "build"], unitsDone: 20, unitsTotal: 30 },
+          build: { version: "0.20.0", pipeline: ["spec", "build"], unitsDone: 20, unitsTotal: 30, hourlyRateEstimation: 60 },
           _hydrated: true,
         });
       },
