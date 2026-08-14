@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Play, Pause, SkipForward, RotateCcw } from "lucide-react";
 import { useT } from "@/lib/hooks";
 import { useSimStore, SCENARIO_STEPS, TOTAL_STEPS } from "@/lib/simulation";
+import { useUIStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
@@ -11,6 +12,7 @@ const PLAY_INTERVAL_MS = 2200;
 
 export function SimBanner() {
   const t = useT();
+  const lang = useUIStore((s) => s.lang);
   const { active, paused, step, resetting, pause, resume, advance, resetSim } = useSimStore();
 
   const isDone = step >= TOTAL_STEPS;
@@ -31,7 +33,9 @@ export function SimBanner() {
     ? t(`sim_day_${currentStep.day}` as Parameters<typeof t>[0])
     : t("sim_done_label");
 
-  const stepLabel = currentStep ? currentStep.labelFr : t("sim_done_label");
+  const stepLabel = currentStep
+    ? currentStep[lang === "fr" ? "labelFr" : "labelEn"]
+    : t("sim_done_label");
 
   const stepCount = t("sim_step_of")
     .replace("{n}", String(Math.min(step, TOTAL_STEPS)))

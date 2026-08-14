@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 export default function Settings() {
   const t = useT();
   const role = useUIStore((s) => s.role);
+  const lang = useUIStore((s) => s.lang);
   const resetDemo = useAppStore((s) => s.resetDemo);
   const { active, paused, step, resetting, start, pause, resume, advance, resetSim } =
     useSimStore();
@@ -86,7 +87,7 @@ export default function Settings() {
               {currentStep && (
                 <span className="font-mono text-[12px] text-tx-2">
                   {t(`sim_day_${currentStep.day}` as Parameters<typeof t>[0])} —{" "}
-                  {currentStep.labelFr}
+                  {currentStep[lang === "fr" ? "labelFr" : "labelEn"]}
                 </span>
               )}
               {simDone && (
