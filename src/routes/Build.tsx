@@ -103,20 +103,20 @@ function HealthBadge({ health }: { health: "ok" | "degraded" | "down" | undefine
 interface ChecklistItem {
   labelKey: TKey;
   route: string;
-  routeLabel: string;
+  routeLabelKey: TKey;
 }
 
 const CHECKLIST_ITEMS: ChecklistItem[] = [
-  { labelKey: "bz_checklist_what_is", route: "/", routeLabel: "Home" },
-  { labelKey: "bz_checklist_what_running", route: "/work", routeLabel: "Work" },
-  { labelKey: "bz_checklist_attention", route: "/approvals", routeLabel: "Approvals" },
-  { labelKey: "bz_checklist_which_agent", route: "/agents", routeLabel: "Agents" },
-  { labelKey: "bz_checklist_proof", route: "/evidence", routeLabel: "Evidence" },
-  { labelKey: "bz_checklist_blocked", route: "/blockers", routeLabel: "Blockers" },
-  { labelKey: "bz_checklist_providers", route: "/agent-builder", routeLabel: "Agent Builder" },
-  { labelKey: "bz_checklist_feature", route: "/features", routeLabel: "Features" },
-  { labelKey: "bz_checklist_duplicate", route: "/clients", routeLabel: "Clients" },
-  { labelKey: "bz_checklist_security", route: "/security", routeLabel: "Security" },
+  { labelKey: "bz_checklist_what_is", route: "/", routeLabelKey: "nav_home" },
+  { labelKey: "bz_checklist_what_running", route: "/work", routeLabelKey: "nav_work" },
+  { labelKey: "bz_checklist_attention", route: "/approvals", routeLabelKey: "nav_approvals" },
+  { labelKey: "bz_checklist_which_agent", route: "/agents", routeLabelKey: "nav_agents" },
+  { labelKey: "bz_checklist_proof", route: "/evidence", routeLabelKey: "nav_evidence" },
+  { labelKey: "bz_checklist_blocked", route: "/blockers", routeLabelKey: "nav_blockers" },
+  { labelKey: "bz_checklist_providers", route: "/agent-builder", routeLabelKey: "nav_agent_builder" },
+  { labelKey: "bz_checklist_feature", route: "/features", routeLabelKey: "nav_features" },
+  { labelKey: "bz_checklist_duplicate", route: "/clients", routeLabelKey: "nav_clients" },
+  { labelKey: "bz_checklist_security", route: "/security", routeLabelKey: "nav_security" },
 ];
 
 function Spec38Checklist() {
@@ -137,9 +137,9 @@ function Spec38Checklist() {
             <Link
               to={item.route}
               className="font-mono text-[11px] text-laiton hover:text-tx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-or rounded-sm px-1"
-              aria-label={`${t("bz_checklist_screen" as TKey)}: ${item.routeLabel}`}
+              aria-label={`${t("bz_checklist_screen" as TKey)}: ${t(item.routeLabelKey)}`}
             >
-              {item.routeLabel} →
+              {t(item.routeLabelKey)} →
             </Link>
           </li>
         ))}
