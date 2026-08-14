@@ -199,9 +199,9 @@ function NotionPanel() {
         <div className="flex items-center gap-2 rounded-ctl border border-laiton/30 bg-laiton/5 px-2.5 py-1.5">
           <span className="font-mono text-[10px] text-tx-3">{t("kn_notion_direction")}</span>
           <div className="flex flex-1 items-center justify-end gap-1 font-mono text-[10px] text-laiton">
-            <span>Agent OS</span>
+            <span>{t("kn_notion_src")}</span>
             <ArrowRight size={10} aria-hidden />
-            <span>Notion</span>
+            <span>{t("kn_notion_dest")}</span>
           </div>
         </div>
 
