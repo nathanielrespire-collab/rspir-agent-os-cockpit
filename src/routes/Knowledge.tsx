@@ -63,7 +63,10 @@ function HashCell({ hash }: { hash: string }) {
 
 function ConfidenceBadge({ confidence }: { confidence: KnowledgeItem["confidence"] }) {
   const t = useT();
-  const map: Record<KnowledgeItem["confidence"], { label: () => string; variant: "ok" | "warn" | "err" }> = {
+  const map: Record<
+    KnowledgeItem["confidence"],
+    { label: () => string; variant: "ok" | "warn" | "err" }
+  > = {
     high: { label: () => t("kn_conf_high"), variant: "ok" },
     medium: { label: () => t("kn_conf_medium"), variant: "warn" },
     low: { label: () => t("kn_conf_low"), variant: "err" },
@@ -80,7 +83,10 @@ function ConfidenceBadge({ confidence }: { confidence: KnowledgeItem["confidence
 
 function FreshnessBadge({ freshness }: { freshness: KnowledgeItem["freshness"] }) {
   const t = useT();
-  const map: Record<KnowledgeItem["freshness"], { label: () => string; variant: "ok" | "warn" | "err" }> = {
+  const map: Record<
+    KnowledgeItem["freshness"],
+    { label: () => string; variant: "ok" | "warn" | "err" }
+  > = {
     fresh: { label: () => t("kn_fresh_fresh"), variant: "ok" },
     aging: { label: () => t("kn_fresh_aging"), variant: "warn" },
     stale: { label: () => t("kn_fresh_stale"), variant: "err" },
@@ -95,13 +101,7 @@ function FreshnessBadge({ freshness }: { freshness: KnowledgeItem["freshness"] }
 
 // ─── KnowledgeCard ───────────────────────────────────────────────────────────
 
-function KnowledgeCard({
-  item,
-  clientName,
-}: {
-  item: KnowledgeItem;
-  clientName?: string;
-}) {
+function KnowledgeCard({ item, clientName }: { item: KnowledgeItem; clientName?: string }) {
   const t = useT();
   return (
     <div className="flex flex-col gap-2 rounded-card border border-line bg-bg-1/50 p-4">
@@ -235,10 +235,7 @@ function Row({
     <div className="flex items-center justify-between gap-2">
       <span className="font-mono text-[10px] text-tx-3">{label}</span>
       <span
-        className={cn(
-          "font-mono text-[11px]",
-          ok ? "text-ok" : err ? "text-err" : "text-tx-2",
-        )}
+        className={cn("font-mono text-[11px]", ok ? "text-ok" : err ? "text-err" : "text-tx-2")}
       >
         {value}
       </span>
@@ -260,14 +257,13 @@ export default function Knowledge() {
 
   const wsDecisions = useMemo(
     () =>
-      decisions
-        .filter((d) => d.workspaceId === activeWorkspaceId)
-        .sort((a, b) => a.seq - b.seq),
+      decisions.filter((d) => d.workspaceId === activeWorkspaceId).sort((a, b) => a.seq - b.seq),
     [decisions, activeWorkspaceId],
   );
 
   const currentItems = useMemo(
-    () => knowledge.filter((k) => k.workspaceId === activeWorkspaceId && k.layer === "current_state"),
+    () =>
+      knowledge.filter((k) => k.workspaceId === activeWorkspaceId && k.layer === "current_state"),
     [knowledge, activeWorkspaceId],
   );
 
@@ -321,9 +317,7 @@ export default function Knowledge() {
                 type="button"
                 className={cn(
                   "px-3 py-1.5 text-[12px] font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-or",
-                  tab === id
-                    ? "border-b-2 border-or text-tx-1"
-                    : "text-tx-3 hover:text-tx-2",
+                  tab === id ? "border-b-2 border-or text-tx-1" : "text-tx-3 hover:text-tx-2",
                 )}
               >
                 {label}

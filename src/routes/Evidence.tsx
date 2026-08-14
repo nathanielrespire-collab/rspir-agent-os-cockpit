@@ -1,12 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import {
-  BookOpen,
-  AlertTriangle,
-  Copy,
-  Check,
-  ChevronDown,
-  ChevronRight,
-} from "lucide-react";
+import { BookOpen, AlertTriangle, Copy, Check, ChevronDown, ChevronRight } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useT } from "@/lib/hooks";
 import { useAppStore, getWorkspaceChain } from "@/lib/store";
