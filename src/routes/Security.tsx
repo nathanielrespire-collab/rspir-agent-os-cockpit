@@ -155,13 +155,13 @@ function IdentitiesTab() {
           <thead>
             <tr className="border-b border-line bg-bg-0">
               <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
-                Nom
+                {t("sec_identity_name")}
               </th>
               <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
                 {t("sec_identity_role")}
               </th>
               <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
-                Type
+                {t("sec_identity_type")}
               </th>
               <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
                 {t("sec_identity_provider")}
@@ -187,7 +187,7 @@ function IdentitiesTab() {
                         <AlertTriangle
                           size={11}
                           className="text-warn"
-                          aria-label="capacités à risque élevé"
+                          aria-label={t("sec_high_risk_caps")}
                         />
                       )}
                     </div>
@@ -323,10 +323,7 @@ function SecretsTab() {
     <div className="space-y-3">
       <div className="flex items-start gap-2 rounded border border-line bg-bg-0 px-3 py-2">
         <Key size={12} className="mt-0.5 shrink-0 text-tx-3" />
-        <p className="font-mono text-[11px] text-tx-3">
-          État des secrets uniquement — aucune valeur n'est affichée. Les clés et tokens restent
-          dans les variables d'environnement du système.
-        </p>
+        <p className="font-mono text-[11px] text-tx-3">{t("sec_secrets_note")}</p>
       </div>
       <div className="overflow-hidden rounded border border-line">
         <table className="w-full text-[13px]">
@@ -544,14 +541,14 @@ function FindingsTab() {
             </div>
           )}
           <p className="mt-2 font-mono text-[10px] text-tx-3">
-            Détecté: {finding.detectedAt.slice(0, 10)}
+            {t("sec_finding_detected_at").replace("{date}", finding.detectedAt.slice(0, 10))}
           </p>
         </div>
       ))}
       {resolved.length > 0 && (
         <details className="rounded border border-line">
           <summary className="cursor-pointer px-4 py-2.5 font-mono text-[12px] text-tx-3">
-            {resolved.length} finding(s) résolu(s)
+            {t("sec_findings_resolved_count").replace("{n}", String(resolved.length))}
           </summary>
           <div className="space-y-2 p-4 pt-0">
             {resolved.map((finding) => (

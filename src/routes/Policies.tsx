@@ -194,10 +194,10 @@ export default function Policies() {
             <div key={r} className="flex items-center gap-1.5">
               <RuleLabel rule={r} />
               <span className="font-mono text-[11px] text-tx-3">
-                {r === "auto" && "— agents agissent sans confirmation"}
-                {r === "approval_required" && "— humain valide avant exécution"}
-                {r === "forbidden" && "— bloqué pour tous, y compris le chat"}
-                {r === "human_only" && "— agents exclus, humain uniquement"}
+                {r === "auto" && t("pol_rule_desc_auto")}
+                {r === "approval_required" && t("pol_rule_desc_approval")}
+                {r === "forbidden" && t("pol_rule_desc_forbidden")}
+                {r === "human_only" && t("pol_rule_desc_human")}
               </span>
             </div>
           ))}
@@ -216,9 +216,7 @@ export default function Policies() {
 
           {wsPolicies.length === 0 ? (
             <div className="rounded border border-line bg-bg-1 px-4 py-8 text-center">
-              <p className="font-mono text-[12px] text-tx-3">
-                Aucune politique configurée pour cet espace.
-              </p>
+              <p className="font-mono text-[12px] text-tx-3">{t("pol_empty")}</p>
             </div>
           ) : (
             <div className="overflow-hidden rounded border border-line">
@@ -291,7 +289,7 @@ export default function Policies() {
         {/* Other workspace policies */}
         {otherPolicies.length > 0 && (
           <section>
-            <h2 className="mb-3 text-[13px] font-medium text-tx-2">Autres espaces de travail</h2>
+            <h2 className="mb-3 text-[13px] font-medium text-tx-2">{t("pol_other_workspaces")}</h2>
             <div className="overflow-hidden rounded border border-line opacity-60">
               <table className="w-full text-[13px]">
                 <thead>
@@ -337,11 +335,7 @@ export default function Policies() {
         {/* Chat integration notice */}
         <div className="mt-6 flex items-start gap-2 rounded border border-laiton/20 bg-laiton/5 px-4 py-3">
           <CheckCircle2 size={13} className="mt-0.5 shrink-0 text-laiton" />
-          <p className="font-mono text-[11px] text-tx-2">
-            Les changements de politique s'appliquent immédiatement au chat et aux actions de tous
-            les agents. Une policy INTERDIT bloque la commande dans le chat avec un message d'erreur
-            visible.
-          </p>
+          <p className="font-mono text-[11px] text-tx-2">{t("pol_chat_notice")}</p>
         </div>
       </div>
 
