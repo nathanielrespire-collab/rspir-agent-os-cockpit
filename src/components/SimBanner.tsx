@@ -97,11 +97,7 @@ export function SimBanner() {
           disabled={resetting}
           className="rounded-ctl p-1.5 text-tx-3 transition-colors hover:bg-bg-2 hover:text-tx-1 focus-visible:outline-2 focus-visible:outline-or disabled:opacity-40"
         >
-          {resetting ? (
-            <span className="font-mono text-[10px]">…</span>
-          ) : (
-            <RotateCcw size={13} />
-          )}
+          {resetting ? <span className="font-mono text-[10px]">…</span> : <RotateCcw size={13} />}
         </button>
       </div>
     </div>
