@@ -199,7 +199,7 @@
         "BUILD-011",
         "BUILD-018"
       ],
-      "status": "todo",
+      "status": "done",
       "contract": ".build/units/BUILD-019.md"
     },
     {
