@@ -163,10 +163,11 @@ const EMPTY_APP_STATE: AppState = {
   proposals: [],
   securityFindings: [],
   build: {
-    version: "0.2.0",
+    version: "0.20.0",
     pipeline: ["spec", "build"],
-    unitsDone: 2,
-    unitsTotal: 20,
+    unitsDone: 20,
+    unitsTotal: 30,
+    hourlyRateEstimation: 60,
   },
 };
 
@@ -308,6 +309,10 @@ interface AppDataStore extends AppState {
   ) => Promise<Website>;
 
   updatePolicy: (policyId: Id, rule: PolicyRule, requestedByActorId: Id) => Promise<void>;
+
+  investigateProposal: (id: Id, actorId: Id) => Promise<void>;
+  approveProposal: (id: Id, actorId: Id) => Promise<void>;
+  rejectProposal: (id: Id, actorId: Id) => Promise<void>;
 }
 
 export const useAppStore = create<AppDataStore>()(
@@ -363,7 +368,13 @@ export const useAppStore = create<AppDataStore>()(
           executions: [...rspir.executions],
           events: [],
           securityFindings,
-          build: { version: "0.2.0", pipeline: ["spec", "build"], unitsDone: 2, unitsTotal: 20 },
+          build: {
+            version: "0.20.0",
+            pipeline: ["spec", "build"],
+            unitsDone: 20,
+            unitsTotal: 30,
+            hourlyRateEstimation: 60,
+          },
           _hydrated: true,
         });
       },
@@ -871,6 +882,85 @@ export const useAppStore = create<AppDataStore>()(
 
         set((s) => ({
           policies: s.policies.map((p) => (p.id === policyId ? ({ ...p, rule } as Policy) : p)),
+          events: [...s.events, event],
+        }));
+      },
+
+      // ── Improvement proposals ─────────────────────────────────────────
+
+      investigateProposal: async (id, actorId) => {
+        const now = new Date().toISOString();
+        const prop = get().proposals.find((p) => p.id === id);
+        if (!prop || prop.status !== "proposed") return;
+        const event: Event = {
+          id: newId("evt"),
+          workspaceId: prop.workspaceId,
+          at: now,
+          requestedByActorId: actorId,
+          executedByActorId: actorId,
+          action: "proposal.investigate",
+          targetId: id,
+          result: "ok",
+        };
+        set((s) => ({
+          proposals: s.proposals.map((p) =>
+            p.id === id ? { ...p, status: "investigating" as const } : p,
+          ),
+          events: [...s.events, event],
+        }));
+      },
+
+      approveProposal: async (id, actorId) => {
+        const now = new Date().toISOString();
+        const prop = get().proposals.find((p) => p.id === id);
+        if (!prop) return;
+        if (prop.status !== "proposed" && prop.status !== "investigating") return;
+        const pipelineActions = [
+          "proposal.build",
+          "proposal.test",
+          "proposal.security",
+          "proposal.verify",
+        ] as const;
+        const newEvents: Event[] = pipelineActions.map((action, i) => ({
+          id: newId("evt"),
+          workspaceId: prop.workspaceId,
+          at: now,
+          requestedByActorId: actorId,
+          executedByActorId: i === 0 ? actorId : "act-builder",
+          capability: "worker.code" as const,
+          policyResult: i === 0 ? ("approval_required" as const) : ("auto" as const),
+          action,
+          targetId: id,
+          result: "ok" as const,
+        }));
+        set((s) => ({
+          proposals: s.proposals.map((p) =>
+            p.id === id ? { ...p, status: "building" as const } : p,
+          ),
+          events: [...s.events, ...newEvents],
+        }));
+      },
+
+      rejectProposal: async (id, actorId) => {
+        const now = new Date().toISOString();
+        const prop = get().proposals.find((p) => p.id === id);
+        if (!prop) return;
+        if (prop.status === "rejected" || prop.status === "deployed") return;
+        const event: Event = {
+          id: newId("evt"),
+          workspaceId: prop.workspaceId,
+          at: now,
+          requestedByActorId: actorId,
+          executedByActorId: actorId,
+          policyResult: "approval_required",
+          action: "proposal.reject",
+          targetId: id,
+          result: "ok",
+        };
+        set((s) => ({
+          proposals: s.proposals.map((p) =>
+            p.id === id ? { ...p, status: "rejected" as const } : p,
+          ),
           events: [...s.events, event],
         }));
       },

@@ -26,6 +26,8 @@ import Policies from "@/routes/Policies";
 import Security from "@/routes/Security";
 import Evidence from "@/routes/Evidence";
 import Analytics from "@/routes/Analytics";
+import Build from "@/routes/Build";
+import Proposals from "@/routes/Proposals";
 import AgentBuilder from "@/routes/AgentBuilder";
 import Settings from "@/routes/Settings";
 
@@ -60,6 +62,8 @@ export default function App() {
           <Route path="security" element={<Security />} />
           <Route path="evidence" element={<Evidence />} />
           <Route path="analytics" element={<Analytics />} />
+          <Route path="build" element={<Build />} />
+          <Route path="proposals" element={<Proposals />} />
           <Route path="agent-builder" element={<AgentBuilder />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" replace />} />

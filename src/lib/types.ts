@@ -511,6 +511,7 @@ export interface BuildInfo {
   pipeline: ("spec" | "build" | "test" | "verify" | "review" | "deploy")[];
   unitsDone: number;
   unitsTotal: number;
+  hourlyRateEstimation: number;
 }
 
 // ---------- Racine de l'état ----------
