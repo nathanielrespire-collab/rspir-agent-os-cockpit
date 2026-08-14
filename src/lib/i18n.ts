@@ -785,7 +785,8 @@ const dict = {
 
     // Policy Engine
     pol_page_title: "Politiques",
-    pol_page_subtitle: "Règles par capacité — définissent ce que les agents peuvent faire automatiquement, ce qui nécessite une approbation, ce qui est interdit.",
+    pol_page_subtitle:
+      "Règles par capacité — définissent ce que les agents peuvent faire automatiquement, ce qui nécessite une approbation, ce qui est interdit.",
     pol_capability: "Capacité",
     pol_rule: "Règle",
     pol_condition: "Condition",
@@ -796,7 +797,8 @@ const dict = {
     pol_change_to: "Changer vers",
     pol_change_confirm_title: "Confirmer le changement de politique",
     pol_change_confirm_body: "Changer la règle de {cap} de {from} à {to} ?",
-    pol_change_confirm_note: "Ce changement s'applique immédiatement à toutes les actions et au chat.",
+    pol_change_confirm_note:
+      "Ce changement s'applique immédiatement à toutes les actions et au chat.",
     pol_change_execute: "Appliquer",
     pol_change_cancel: "Annuler",
     pol_change_done: "Politique mise à jour.",
@@ -1649,7 +1651,8 @@ const dict = {
 
     // Policy Engine
     pol_page_title: "Policies",
-    pol_page_subtitle: "Rules per capability — define what agents can do automatically, what requires approval, what is forbidden.",
+    pol_page_subtitle:
+      "Rules per capability — define what agents can do automatically, what requires approval, what is forbidden.",
     pol_capability: "Capability",
     pol_rule: "Rule",
     pol_condition: "Condition",

@@ -870,9 +870,7 @@ export const useAppStore = create<AppDataStore>()(
         };
 
         set((s) => ({
-          policies: s.policies.map((p) =>
-            p.id === policyId ? ({ ...p, rule } as Policy) : p,
-          ),
+          policies: s.policies.map((p) => (p.id === policyId ? ({ ...p, rule } as Policy) : p)),
           events: [...s.events, event],
         }));
       },

@@ -489,12 +489,7 @@ export interface ImprovementProposal {
 
 export type FindingSeverity = "HIGH" | "MEDIUM" | "LOW";
 export type FindingCategory =
-  | "prompt_injection"
-  | "credential"
-  | "permission"
-  | "isolation"
-  | "privacy"
-  | "supply_chain";
+  "prompt_injection" | "credential" | "permission" | "isolation" | "privacy" | "supply_chain";
 
 export interface SecurityFinding {
   id: Id;

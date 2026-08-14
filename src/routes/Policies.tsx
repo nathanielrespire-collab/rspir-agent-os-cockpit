@@ -101,7 +101,9 @@ function ConfirmDialog({ pending, onConfirm, onCancel }: ConfirmDialogProps) {
           </div>
           {pending.policy.condition && (
             <div className="flex gap-2">
-              <dt className="w-28 shrink-0 font-mono text-[11px] text-tx-3">{t("pol_condition")}</dt>
+              <dt className="w-28 shrink-0 font-mono text-[11px] text-tx-3">
+                {t("pol_condition")}
+              </dt>
               <dd className="font-mono text-[11px] text-tx-2">{pending.policy.condition[lang]}</dd>
             </div>
           )}
@@ -214,7 +216,9 @@ export default function Policies() {
 
           {wsPolicies.length === 0 ? (
             <div className="rounded border border-line bg-bg-1 px-4 py-8 text-center">
-              <p className="font-mono text-[12px] text-tx-3">Aucune politique configurée pour cet espace.</p>
+              <p className="font-mono text-[12px] text-tx-3">
+                Aucune politique configurée pour cet espace.
+              </p>
             </div>
           ) : (
             <div className="overflow-hidden rounded border border-line">
@@ -242,7 +246,9 @@ export default function Policies() {
                       className={`border-b border-line last:border-0 ${i % 2 === 0 ? "bg-bg-1" : "bg-bg-0"}`}
                     >
                       <td className="px-4 py-2.5">
-                        <span className="font-mono text-[12px] text-laiton">{policy.capability}</span>
+                        <span className="font-mono text-[12px] text-laiton">
+                          {policy.capability}
+                        </span>
                       </td>
                       <td className="px-4 py-2.5">
                         <RuleLabel rule={policy.rule} />
@@ -308,10 +314,14 @@ export default function Policies() {
                       className={`border-b border-line last:border-0 ${i % 2 === 0 ? "bg-bg-1" : "bg-bg-0"}`}
                     >
                       <td className="px-4 py-2.5">
-                        <span className="font-mono text-[11px] text-tx-3">{policy.workspaceId}</span>
+                        <span className="font-mono text-[11px] text-tx-3">
+                          {policy.workspaceId}
+                        </span>
                       </td>
                       <td className="px-4 py-2.5">
-                        <span className="font-mono text-[12px] text-laiton">{policy.capability}</span>
+                        <span className="font-mono text-[12px] text-laiton">
+                          {policy.capability}
+                        </span>
                       </td>
                       <td className="px-4 py-2.5">
                         <RuleLabel rule={policy.rule} />
@@ -328,7 +338,9 @@ export default function Policies() {
         <div className="mt-6 flex items-start gap-2 rounded border border-laiton/20 bg-laiton/5 px-4 py-3">
           <CheckCircle2 size={13} className="mt-0.5 shrink-0 text-laiton" />
           <p className="font-mono text-[11px] text-tx-2">
-            Les changements de politique s'appliquent immédiatement au chat et aux actions de tous les agents. Une policy INTERDIT bloque la commande dans le chat avec un message d'erreur visible.
+            Les changements de politique s'appliquent immédiatement au chat et aux actions de tous
+            les agents. Une policy INTERDIT bloque la commande dans le chat avec un message d'erreur
+            visible.
           </p>
         </div>
       </div>

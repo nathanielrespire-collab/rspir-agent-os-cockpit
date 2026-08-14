@@ -24,8 +24,7 @@ function SeverityBadge({ severity }: { severity: FindingSeverity }) {
     MEDIUM: t("sec_finding_severity_MEDIUM"),
     LOW: t("sec_finding_severity_LOW"),
   };
-  const variant =
-    severity === "HIGH" ? "err" : severity === "MEDIUM" ? "warn" : ("info" as const);
+  const variant = severity === "HIGH" ? "err" : severity === "MEDIUM" ? "warn" : ("info" as const);
   return (
     <Badge variant={variant} className="font-mono text-[10px] uppercase">
       {labels[severity]}
@@ -78,11 +77,22 @@ function RuleBadge({ rule }: { rule: PolicyRule }) {
   );
 }
 
-const HIGH_RISK_CAPS: CapabilityId[] = ["spend_money", "contract_commitment", "automation.deploy", "website.deploy", "email.send"];
+const HIGH_RISK_CAPS: CapabilityId[] = [
+  "spend_money",
+  "contract_commitment",
+  "automation.deploy",
+  "website.deploy",
+  "email.send",
+];
 
 // Simulated secrets state — never real values, only status
 const SECRETS = [
-  { name: "Pipedrive API Key", provider: "prv-pipedrive", status: "rotation_due" as const, ageDays: 97 },
+  {
+    name: "Pipedrive API Key",
+    provider: "prv-pipedrive",
+    status: "rotation_due" as const,
+    ageDays: 97,
+  },
   { name: "Gmail OAuth Token", provider: "prv-gmail", status: "ok" as const, ageDays: 12 },
   { name: "Google Calendar OAuth", provider: "prv-gcal", status: "ok" as const, ageDays: 12 },
   { name: "Google Drive OAuth", provider: "prv-gdrive", status: "ok" as const, ageDays: 12 },
@@ -102,7 +112,11 @@ function PostureSummary() {
   const checks = [
     { label: t("sec_least_privilege"), ok: false, note: "Aria: crm.write non justifié" },
     { label: t("sec_workspace_isolation"), ok: true, note: "ws-rspir / ws-ms isolés" },
-    { label: t("sec_prompt_injection_protection"), ok: false, note: "Transcriptions non sanitisées" },
+    {
+      label: t("sec_prompt_injection_protection"),
+      ok: false,
+      note: "Transcriptions non sanitisées",
+    },
   ];
 
   return (
@@ -140,11 +154,21 @@ function IdentitiesTab() {
         <table className="w-full text-[13px]">
           <thead>
             <tr className="border-b border-line bg-bg-0">
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">Nom</th>
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_identity_role")}</th>
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">Type</th>
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_identity_provider")}</th>
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_identity_capabilities")}</th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                Nom
+              </th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                {t("sec_identity_role")}
+              </th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                Type
+              </th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                {t("sec_identity_provider")}
+              </th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                {t("sec_identity_capabilities")}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -160,14 +184,21 @@ function IdentitiesTab() {
                     <div className="flex items-center gap-2">
                       <span className="text-[13px] font-medium text-tx-1">{actor.name}</span>
                       {hasHighRisk && (
-                        <AlertTriangle size={11} className="text-warn" aria-label="capacités à risque élevé" />
+                        <AlertTriangle
+                          size={11}
+                          className="text-warn"
+                          aria-label="capacités à risque élevé"
+                        />
                       )}
                     </div>
                     <span className="font-mono text-[10px] text-tx-3">{actor.id}</span>
                   </td>
                   <td className="px-4 py-2.5 font-mono text-[12px] text-tx-2">{actor.role}</td>
                   <td className="px-4 py-2.5">
-                    <Badge variant={actor.type === "human" ? "info" : "laiton"} className="font-mono text-[10px]">
+                    <Badge
+                      variant={actor.type === "human" ? "info" : "laiton"}
+                      className="font-mono text-[10px]"
+                    >
                       {actor.type === "human" ? t("sec_identity_human") : t("sec_identity_agent")}
                     </Badge>
                   </td>
@@ -199,7 +230,8 @@ function IdentitiesTab() {
       <div className="flex items-start gap-2 rounded border border-warn/20 bg-warn/5 px-3 py-2">
         <AlertTriangle size={12} className="mt-0.5 shrink-0 text-warn" />
         <p className="font-mono text-[11px] text-tx-2">
-          {t("sec_high_risk_caps")}: spend_money, contract_commitment, automation.deploy, website.deploy, email.send — marquées <span className="text-warn">⚠</span>
+          {t("sec_high_risk_caps")}: spend_money, contract_commitment, automation.deploy,
+          website.deploy, email.send — marquées <span className="text-warn">⚠</span>
         </p>
       </div>
     </div>
@@ -212,14 +244,10 @@ function PermissionsTab() {
   const t = useT();
   const { actors, policies, activeWorkspaceId } = useAppStore();
 
-  const allCaps = Array.from(
-    new Set(actors.flatMap((a) => a.capabilities))
-  ).sort();
+  const allCaps = Array.from(new Set(actors.flatMap((a) => a.capabilities))).sort();
 
   const policyMap = new Map(
-    policies
-      .filter((p) => p.workspaceId === activeWorkspaceId)
-      .map((p) => [p.capability, p])
+    policies.filter((p) => p.workspaceId === activeWorkspaceId).map((p) => [p.capability, p]),
   );
 
   return (
@@ -227,9 +255,15 @@ function PermissionsTab() {
       <table className="w-full text-[13px]">
         <thead>
           <tr className="border-b border-line bg-bg-0">
-            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_perm_capability")}</th>
-            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_perm_policy")}</th>
-            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_perm_actors")}</th>
+            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+              {t("sec_perm_capability")}
+            </th>
+            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+              {t("sec_perm_policy")}
+            </th>
+            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+              {t("sec_perm_actors")}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -243,19 +277,26 @@ function PermissionsTab() {
                 className={`border-b border-line last:border-0 ${i % 2 === 0 ? "bg-bg-1" : "bg-bg-0"}`}
               >
                 <td className="px-4 py-2.5">
-                  <span className={`font-mono text-[12px] ${isHighRisk ? "text-warn" : "text-laiton"}`}>
+                  <span
+                    className={`font-mono text-[12px] ${isHighRisk ? "text-warn" : "text-laiton"}`}
+                  >
                     {cap}
                   </span>
                 </td>
                 <td className="px-4 py-2.5">
-                  {pol ? <RuleBadge rule={pol.rule} /> : (
+                  {pol ? (
+                    <RuleBadge rule={pol.rule} />
+                  ) : (
                     <span className="font-mono text-[11px] text-tx-3">—</span>
                   )}
                 </td>
                 <td className="px-4 py-2.5">
                   <div className="flex flex-wrap gap-1">
                     {authorized.map((a) => (
-                      <span key={a.id} className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-tx-2">
+                      <span
+                        key={a.id}
+                        className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-tx-2"
+                      >
                         {a.name}
                       </span>
                     ))}
@@ -283,16 +324,23 @@ function SecretsTab() {
       <div className="flex items-start gap-2 rounded border border-line bg-bg-0 px-3 py-2">
         <Key size={12} className="mt-0.5 shrink-0 text-tx-3" />
         <p className="font-mono text-[11px] text-tx-3">
-          État des secrets uniquement — aucune valeur n'est affichée. Les clés et tokens restent dans les variables d'environnement du système.
+          État des secrets uniquement — aucune valeur n'est affichée. Les clés et tokens restent
+          dans les variables d'environnement du système.
         </p>
       </div>
       <div className="overflow-hidden rounded border border-line">
         <table className="w-full text-[13px]">
           <thead>
             <tr className="border-b border-line bg-bg-0">
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_secret_name")}</th>
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_secret_status")}</th>
-              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_secret_age")}</th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                {t("sec_secret_name")}
+              </th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                {t("sec_secret_status")}
+              </th>
+              <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                {t("sec_secret_age")}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -345,10 +393,18 @@ function ProvidersTab() {
       <table className="w-full text-[13px]">
         <thead>
           <tr className="border-b border-line bg-bg-0">
-            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_provider_name")}</th>
-            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_provider_state")}</th>
-            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_provider_health")}</th>
-            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_provider_capabilities")}</th>
+            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+              {t("sec_provider_name")}
+            </th>
+            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+              {t("sec_provider_state")}
+            </th>
+            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+              {t("sec_provider_health")}
+            </th>
+            <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+              {t("sec_provider_capabilities")}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -376,12 +432,17 @@ function ProvidersTab() {
               <td className="px-4 py-2.5">
                 <div className="flex flex-wrap gap-1">
                   {p.capabilities.slice(0, 4).map((cap) => (
-                    <span key={cap} className="rounded bg-bg-0 px-1 py-0.5 font-mono text-[10px] text-tx-3">
+                    <span
+                      key={cap}
+                      className="rounded bg-bg-0 px-1 py-0.5 font-mono text-[10px] text-tx-3"
+                    >
                       {cap}
                     </span>
                   ))}
                   {p.capabilities.length > 4 && (
-                    <span className="font-mono text-[10px] text-tx-3">+{p.capabilities.length - 4}</span>
+                    <span className="font-mono text-[10px] text-tx-3">
+                      +{p.capabilities.length - 4}
+                    </span>
                   )}
                 </div>
               </td>
@@ -423,7 +484,9 @@ function FindingsTab() {
 
   return (
     <div className="space-y-4">
-      {open.length === 0 && <p className="font-mono text-[12px] text-tx-3">{t("sec_findings_empty")}</p>}
+      {open.length === 0 && (
+        <p className="font-mono text-[12px] text-tx-3">{t("sec_findings_empty")}</p>
+      )}
       {open.map((finding) => (
         <div
           key={finding.id}
@@ -459,7 +522,10 @@ function FindingsTab() {
           {finding.affectedActorIds && finding.affectedActorIds.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {finding.affectedActorIds.map((id) => (
-                <span key={id} className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-tx-3">
+                <span
+                  key={id}
+                  className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-tx-3"
+                >
                   {actorMap.get(id)?.name ?? id}
                 </span>
               ))}
@@ -468,7 +534,10 @@ function FindingsTab() {
           {finding.affectedCapabilities && finding.affectedCapabilities.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {finding.affectedCapabilities.map((cap) => (
-                <span key={cap} className="rounded bg-bg-0 px-1 py-0.5 font-mono text-[10px] text-laiton">
+                <span
+                  key={cap}
+                  className="rounded bg-bg-0 px-1 py-0.5 font-mono text-[10px] text-laiton"
+                >
                   {cap}
                 </span>
               ))}
@@ -531,12 +600,24 @@ function AuditTab() {
           <table className="w-full text-[13px]">
             <thead>
               <tr className="border-b border-line bg-bg-0">
-                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_audit_at")}</th>
-                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_audit_action")}</th>
-                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_audit_actor")}</th>
-                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_audit_capability")}</th>
-                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_audit_policy")}</th>
-                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">{t("sec_audit_result")}</th>
+                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                  {t("sec_audit_at")}
+                </th>
+                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                  {t("sec_audit_action")}
+                </th>
+                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                  {t("sec_audit_actor")}
+                </th>
+                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                  {t("sec_audit_capability")}
+                </th>
+                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                  {t("sec_audit_policy")}
+                </th>
+                <th className="px-4 py-2.5 text-left font-mono text-[11px] font-medium text-tx-3">
+                  {t("sec_audit_result")}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -554,9 +635,15 @@ function AuditTab() {
                       ? (actorMap.get(ev.requestedByActorId)?.name ?? ev.requestedByActorId)
                       : "—"}
                   </td>
-                  <td className="px-4 py-2 font-mono text-[11px] text-laiton">{ev.capability ?? "—"}</td>
+                  <td className="px-4 py-2 font-mono text-[11px] text-laiton">
+                    {ev.capability ?? "—"}
+                  </td>
                   <td className="px-4 py-2">
-                    {ev.policyResult ? <RuleBadge rule={ev.policyResult} /> : <span className="font-mono text-[11px] text-tx-3">—</span>}
+                    {ev.policyResult ? (
+                      <RuleBadge rule={ev.policyResult} />
+                    ) : (
+                      <span className="font-mono text-[11px] text-tx-3">—</span>
+                    )}
                   </td>
                   <td className="px-4 py-2">
                     {ev.result === "ok" ? (
@@ -614,9 +701,7 @@ export default function Security() {
               key={id}
               onClick={() => setActiveTab(id)}
               className={`px-4 py-2 font-mono text-[12px] transition-colors ${
-                activeTab === id
-                  ? "border-b-2 border-tx-1 text-tx-1"
-                  : "text-tx-3 hover:text-tx-2"
+                activeTab === id ? "border-b-2 border-tx-1 text-tx-1" : "text-tx-3 hover:text-tx-2"
               }`}
               aria-selected={activeTab === id}
               role="tab"
