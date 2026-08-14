@@ -381,7 +381,7 @@ export function ChatPanel() {
     // Build PendingAction per command kind
     if (cmd.kind === "create_work_item") {
       setPending({
-        description: `${t("chat_confirm_action")}: créer work item "${cmd.title}"`,
+        description: `${t("chat_confirm_create_wi")} "${cmd.title}"`,
         actor: uiRole,
         capability: cap,
         policy: rule,
@@ -419,7 +419,7 @@ export function ChatPanel() {
         return;
       }
       setPending({
-        description: `Assigner "${wi.title}" → ${actor.name}`,
+        description: `${t("chat_confirm_assign")} "${wi.title}" → ${actor.name}`,
         actor: uiRole,
         capability: cap,
         policy: rule,
@@ -438,11 +438,11 @@ export function ChatPanel() {
         return;
       }
       if (apr.status !== "pending") {
-        addMsg({ kind: "result", text: `Approbation ${apr.id} déjà décidée (${apr.status}).` });
+        addMsg({ kind: "result", text: t("chat_approval_already_decided").replace("{id}", apr.id).replace("{status}", apr.status) });
         return;
       }
       setPending({
-        description: `Approuver: "${apr.title}"`,
+        description: `${t("chat_confirm_approve")} "${apr.title}"`,
         actor: uiRole,
         capability: cap,
         policy: rule,
@@ -461,11 +461,11 @@ export function ChatPanel() {
         return;
       }
       if (apr.status !== "pending") {
-        addMsg({ kind: "result", text: `Approbation ${apr.id} déjà décidée (${apr.status}).` });
+        addMsg({ kind: "result", text: t("chat_approval_already_decided").replace("{id}", apr.id).replace("{status}", apr.status) });
         return;
       }
       setPending({
-        description: `Rejeter: "${apr.title}"`,
+        description: `${t("chat_confirm_reject")} "${apr.title}"`,
         actor: uiRole,
         capability: cap,
         policy: rule,
@@ -479,7 +479,7 @@ export function ChatPanel() {
 
     if (cmd.kind === "create_blocker") {
       setPending({
-        description: `Créer bloquant: "${cmd.description}"`,
+        description: `${t("chat_confirm_create_blocker")} "${cmd.description}"`,
         actor: uiRole,
         capability: cap,
         policy: rule,
@@ -509,11 +509,11 @@ export function ChatPanel() {
         return;
       }
       if (blk.resolved) {
-        addMsg({ kind: "result", text: `Bloquant ${blk.id} déjà résolu.` });
+        addMsg({ kind: "result", text: t("chat_blocker_already_resolved").replace("{id}", blk.id) });
         return;
       }
       setPending({
-        description: `Résoudre bloquant: "${blk.question.slice(0, 60)}…"`,
+        description: `${t("chat_confirm_resolve_blocker")} "${blk.question.slice(0, 60)}…"`,
         actor: uiRole,
         capability: cap,
         policy: rule,
@@ -536,15 +536,11 @@ export function ChatPanel() {
         addMsg({ kind: "result", text: `${t("chat_ref_not_found")} client "${cmd.clientRef}"` });
         return;
       }
-      const verb = cmd.enabled
-        ? uiLang === "fr"
-          ? "Activer"
-          : "Enable"
-        : uiLang === "fr"
-          ? "Désactiver"
-          : "Disable";
       setPending({
-        description: `${verb} feature "${feat.name[uiLang]}" pour ${client.name}`,
+        description: t("chat_confirm_toggle_feature")
+          .replace("{verb}", t(cmd.enabled ? "chat_verb_enable" : "chat_verb_disable"))
+          .replace("{name}", feat.name[uiLang])
+          .replace("{client}", client.name),
         actor: uiRole,
         capability: cap,
         policy: rule,
@@ -564,7 +560,7 @@ export function ChatPanel() {
       await pending.execute();
       addMsg({ kind: "result", text: t("chat_executed") });
     } catch {
-      addMsg({ kind: "result", text: "Erreur lors de l'exécution." });
+      addMsg({ kind: "result", text: t("chat_execute_error") });
     } finally {
       setPending(null);
       setExecuting(false);
