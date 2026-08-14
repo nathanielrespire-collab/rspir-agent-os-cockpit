@@ -1,4 +1,5 @@
-import { Moon, Sun, Command, MessageSquare } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Moon, Sun, Command, MessageSquare, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUIStore, useAppStore, type Role } from "@/lib/store";
 import { useT } from "@/lib/hooks";
@@ -10,14 +11,67 @@ const ROLES: Role[] = ["Nathaniel", "Manny", "Antoine", "Agent"];
 export function Topbar() {
   const t = useT();
   const { lang, theme, role, activeClientId, setLang, setTheme, setRole } = useUIStore();
-  const { clients } = useAppStore();
+  const { clients, workspaces, activeWorkspaceId, setActiveWorkspace } = useAppStore();
   const activeClient = activeClientId ? clients.find((c) => c.id === activeClientId) : null;
+  const activeWorkspace = workspaces.find((w) => w.id === activeWorkspaceId);
+  const [wsOpen, setWsOpen] = useState(false);
+  const wsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!wsOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (wsRef.current && !wsRef.current.contains(e.target as Node)) setWsOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [wsOpen]);
 
   return (
     <header className="flex h-11 shrink-0 items-center justify-between border-b border-line bg-bg-1 px-4">
       <div className="flex items-center gap-2">
         <span className="text-xs text-tx-3">{t("workspace_label")}</span>
-        <span className="font-mono text-[13px] text-tx-2">RSPIR</span>
+        <div className="relative" ref={wsRef}>
+          <button
+            onClick={() => setWsOpen((o) => !o)}
+            aria-haspopup="listbox"
+            aria-expanded={wsOpen}
+            aria-label={t("workspace_switch_label")}
+            className="flex items-center gap-1 rounded-ctl px-1.5 py-0.5 font-mono text-[13px] text-tx-2 hover:bg-bg-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-or"
+          >
+            {activeWorkspace?.name ?? "RSPIR"}
+            <ChevronDown size={11} className="text-tx-3" />
+          </button>
+          {wsOpen && (
+            <div
+              role="listbox"
+              aria-label={t("workspace_switch_label")}
+              className="absolute left-0 top-full z-50 mt-1 min-w-[140px] rounded-card border border-line bg-bg-1 py-1 shadow-lg"
+            >
+              {workspaces.map((ws) => (
+                <button
+                  key={ws.id}
+                  role="option"
+                  aria-selected={ws.id === activeWorkspaceId}
+                  onClick={() => {
+                    setActiveWorkspace(ws.id);
+                    setWsOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-2 px-3 py-1.5 text-left font-mono text-[12px] hover:bg-bg-2 focus-visible:outline-none focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-or ${
+                    ws.id === activeWorkspaceId ? "text-or" : "text-tx-2"
+                  }`}
+                >
+                  {ws.id === activeWorkspaceId && (
+                    <span className="h-1.5 w-1.5 rounded-full bg-or" aria-hidden="true" />
+                  )}
+                  {ws.name}
+                  <span className="ml-auto text-[10px] text-tx-3">
+                    {ws.kind === "internal" ? "internal" : "client"}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         {activeClient ? (
           <>
             <span className="font-mono text-[11px] text-tx-3">·</span>

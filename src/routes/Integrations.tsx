@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
-import { Plug, CheckCircle2, AlertTriangle, Circle, Activity } from "lucide-react";
+import { Plug, CheckCircle2, AlertTriangle, Circle, Activity, ArrowRightLeft } from "lucide-react";
 import { useT, useFeatureStatus, type FeatureStatus } from "@/lib/hooks";
 import { useAppStore, useUIStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
 import type { CapabilityId, Provider, ProviderCategory } from "@/lib/types";
 import type { Lang, TKey } from "@/lib/i18n";
 
-type Tab = "providers" | "doctor";
+type Tab = "providers" | "doctor" | "swap";
 
 const CATEGORY_ORDER: ProviderCategory[] = [
   "email",
@@ -431,17 +431,222 @@ function HealthDot({
   );
 }
 
+// ── Sub-component: Swap tab ────────────────────────────────────────────────
+
+const SWAP_CAPS: CapabilityId[] = [
+  "transcripts.read",
+  "transcripts.search",
+  "meeting.read",
+  "meeting.process",
+];
+
+const SWAP_FEATURES: { name: Record<Lang, string>; key: string }[] = [
+  { name: { fr: "Préparation de réunion", en: "Meeting preparation" }, key: "feat-meeting-prep" },
+  {
+    name: { fr: "Capture de connaissances", en: "Knowledge capture" },
+    key: "feat-knowledge-capture",
+  },
+];
+
+const SWAP_ACCEPTANCE_TESTS: Record<Lang, string>[] = [
+  { fr: "Transcription de réunion accessible", en: "Meeting transcript accessible" },
+  { fr: "Recherche dans les transcriptions", en: "Transcript search" },
+  { fr: "Brief de réunion généré", en: "Meeting brief generated" },
+  { fr: "Connaissances capturées", en: "Knowledge captured" },
+  { fr: "Pipeline meeting-prep opérationnel", en: "meeting-prep pipeline operational" },
+  { fr: "Pipeline knowledge-capture opérationnel", en: "knowledge-capture pipeline operational" },
+  { fr: "Doctor reflète le nouveau provider", en: "Doctor reflects the new provider" },
+];
+
+function SwapTab({
+  t,
+  lang,
+  swapped,
+  onSwap,
+}: {
+  t: (key: TKey) => string;
+  lang: Lang;
+  swapped: boolean;
+  onSwap: () => void;
+}) {
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <ArrowRightLeft size={14} className="text-or" />
+        <h2 className="text-[13px] font-semibold text-tx-1">{t("swap_title")}</h2>
+        <Badge variant="laiton">{t("bld_mock_badge")}</Badge>
+      </div>
+
+      {/* Source → Target */}
+      <div className="flex items-stretch gap-3">
+        <div className="flex flex-1 flex-col gap-1 rounded-card border border-line bg-bg-1 px-4 py-3">
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-tx-3">
+            {t("swap_from")}
+          </span>
+          <span className="font-mono text-[14px] font-semibold text-tx-1">Fireflies.ai</span>
+          <span className="font-mono text-[11px] text-tx-3">transcripts · api_key</span>
+          {swapped && (
+            <Badge variant="err" className="self-start text-[10px] mt-1">
+              {t("swap_replaced")}
+            </Badge>
+          )}
+        </div>
+        <div className="flex items-center">
+          <ArrowRightLeft size={16} className="text-or" aria-hidden="true" />
+        </div>
+        <div className="flex flex-1 flex-col gap-1 rounded-card border border-ok/40 bg-ok/5 px-4 py-3">
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-tx-3">
+            {t("swap_to")}
+          </span>
+          <span className="font-mono text-[14px] font-semibold text-tx-1">Google Meet</span>
+          <span className="font-mono text-[11px] text-tx-3">transcripts · oauth</span>
+          {swapped && (
+            <Badge variant="ok" className="self-start text-[10px] mt-1">
+              {t("swap_active")}
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      {/* Capability compatibility */}
+      <section>
+        <h3 className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-tx-3">
+          {t("swap_compatibility")}
+        </h3>
+        <div className="overflow-hidden rounded-card border border-line">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-line bg-bg-0">
+                <th className="px-3 py-2 text-left font-mono text-[10px] font-semibold uppercase tracking-widest text-tx-3">
+                  {t("swap_cap_col")}
+                </th>
+                <th className="px-3 py-2 text-left font-mono text-[10px] font-semibold uppercase tracking-widest text-tx-3">
+                  {t("swap_result_col")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {SWAP_CAPS.map((cap, i) => (
+                <tr
+                  key={cap}
+                  className={`border-b border-line/40 last:border-0 ${i % 2 === 0 ? "bg-bg-1" : "bg-bg-0"}`}
+                >
+                  <td className="px-3 py-1.5 font-mono text-[11px] text-tx-2">{cap}</td>
+                  <td className="px-3 py-1.5">
+                    <span className="flex items-center gap-1.5 font-mono text-[11px] font-semibold text-ok">
+                      <CheckCircle2 size={11} aria-hidden="true" />
+                      {t("swap_pass")}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* Features affected */}
+      <section>
+        <h3 className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-tx-3">
+          {t("swap_features_affected")}
+        </h3>
+        <div className="flex flex-col gap-2">
+          {SWAP_FEATURES.map((f) => (
+            <div
+              key={f.key}
+              className="flex items-center justify-between rounded-card border border-line bg-bg-1 px-4 py-2.5"
+            >
+              <span className="text-[13px] font-medium text-tx-1">{f.name[lang]}</span>
+              <span className="flex items-center gap-1.5 font-mono text-[11px] font-semibold text-ok">
+                <CheckCircle2 size={11} aria-hidden="true" />
+                {t("swap_pass")}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Acceptance tests */}
+      <section>
+        <div className="mb-3 flex items-center gap-2">
+          <h3 className="text-[10px] font-semibold uppercase tracking-widest text-tx-3">
+            {t("swap_acceptance")}
+          </h3>
+          <Badge variant="ok" className="text-[10px]">
+            {t("swap_acceptance_count")
+              .replace("{n}", String(SWAP_ACCEPTANCE_TESTS.length))
+              .replace("{total}", String(SWAP_ACCEPTANCE_TESTS.length))}
+          </Badge>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          {SWAP_ACCEPTANCE_TESTS.map((test, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-3 rounded-ctl border border-line/60 bg-bg-1 px-3 py-2"
+            >
+              <CheckCircle2 size={13} className="shrink-0 text-ok" aria-hidden="true" />
+              <span className="text-[12px] text-tx-1">{test[lang]}</span>
+              <Badge variant="ok" className="ml-auto text-[10px]">
+                {t("swap_pass")}
+              </Badge>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Switch button */}
+      {!swapped ? (
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={onSwap}
+            className="flex items-center justify-center gap-2 rounded-card border border-or/40 bg-or/10 px-6 py-3 text-[13px] font-semibold text-or transition-colors hover:bg-or/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-or"
+          >
+            <ArrowRightLeft size={14} />
+            {t("swap_switch_btn")}
+          </button>
+          <p className="text-center font-mono text-[10px] text-tx-3">{t("swap_simulation_note")}</p>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-2 rounded-card border border-ok/30 bg-ok/10 px-4 py-2.5">
+            <CheckCircle2 size={14} className="text-ok" />
+            <span className="font-mono text-[12px] font-semibold text-ok">
+              {t("swap_switched")}
+            </span>
+          </div>
+          <p className="font-mono text-[10px] text-tx-3">{t("swap_doctor_note")}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Main component ─────────────────────────────────────────────────────────
 
 export default function Integrations() {
   const t = useT();
   const { lang } = useUIStore();
   const [activeTab, setActiveTab] = useState<Tab>("providers");
+  const [swapped, setSwapped] = useState(false);
 
-  const { providers, integrations, activeWorkspaceId, disabledIntegrationIds, toggleIntegration } =
-    useAppStore();
+  const {
+    providers,
+    integrations,
+    activeWorkspaceId,
+    disabledIntegrationIds,
+    toggleIntegration,
+    swapProvider,
+  } = useAppStore();
+  const { role } = useUIStore();
 
   const featureStatus = useFeatureStatus();
+
+  const handleSwap = async () => {
+    const actorId = `act-${role.toLowerCase()}`;
+    await swapProvider("int-transcripts", "prv-google-meet", actorId);
+    setSwapped(true);
+  };
 
   const wsIntegrations = useMemo(
     () => integrations.filter((i) => i.workspaceId === activeWorkspaceId),
@@ -513,7 +718,7 @@ export default function Integrations() {
 
       {/* Tabs */}
       <div className="mb-5 flex items-center gap-0 border-b border-line">
-        {(["providers", "doctor"] as Tab[]).map((tab) => (
+        {(["providers", "doctor", "swap"] as Tab[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -524,7 +729,11 @@ export default function Integrations() {
                 : "text-tx-3 hover:text-tx-2"
             }`}
           >
-            {tab === "providers" ? t("int_tab_providers") : t("int_tab_doctor")}
+            {tab === "providers"
+              ? t("int_tab_providers")
+              : tab === "doctor"
+                ? t("int_tab_doctor")
+                : t("swap_tab")}
           </button>
         ))}
         {/* Doctor badge: warn if any integration disabled */}
@@ -559,7 +768,7 @@ export default function Integrations() {
               />
             ))}
           </div>
-        ) : (
+        ) : activeTab === "doctor" ? (
           <DoctorTab
             t={t}
             lang={lang}
@@ -568,6 +777,8 @@ export default function Integrations() {
             capRows={capRows}
             featureStatus={featureStatus}
           />
+        ) : (
+          <SwapTab t={t} lang={lang} swapped={swapped} onSwap={handleSwap} />
         )}
       </div>
     </div>
