@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   BookOpen,
-  RefreshCw,
-  CheckCircle2,
   AlertTriangle,
   Copy,
   Check,
@@ -16,13 +14,7 @@ import { verifyChain, shortHash } from "@/lib/signature";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/components/ui/utils";
 import type { Execution, ExecutionStep, Actor, Client } from "@/lib/types";
-
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-type ChainPhase =
-  | { phase: "idle" }
-  | { phase: "checking" }
-  | { phase: "done"; brokenSeq: number | null; checkedAt: string };
+import { ChainStatusBar, type ChainPhase } from "@/components/ChainStatusBar";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -234,9 +226,6 @@ export default function Evidence() {
       return next;
     });
 
-  const chainOk = chainState.phase === "done" && chainState.brokenSeq === null;
-  const chainBroken = chainState.phase === "done" && chainState.brokenSeq !== null;
-
   // Select element shared class
   const selectCls =
     "rounded-ctl border border-line bg-bg-1 px-2 py-0.5 font-mono text-[11px] text-tx-1 outline-none focus:ring-1 focus:ring-or/50";
@@ -253,60 +242,7 @@ export default function Evidence() {
       </div>
 
       {/* ── Chain status bar ── */}
-      <div
-        role="status"
-        aria-live="polite"
-        className={cn(
-          "flex items-center gap-3 rounded-ctl border px-3 py-2",
-          chainBroken
-            ? "border-err/40 bg-err/5"
-            : chainOk
-              ? "border-ok/30 bg-ok/5"
-              : "border-line bg-bg-1/50",
-        )}
-      >
-        {chainState.phase === "checking" ? (
-          <>
-            <RefreshCw size={12} className="animate-spin text-tx-3" aria-hidden />
-            <span className="font-mono text-[11px] text-tx-3">{t("ledger_verifying")}</span>
-          </>
-        ) : chainOk ? (
-          <>
-            <CheckCircle2 size={12} className="text-ok" aria-hidden />
-            <span className="font-mono text-[11px] text-ok">{t("ledger_chain_intact")}</span>
-          </>
-        ) : chainBroken ? (
-          <>
-            <AlertTriangle size={12} className="text-err" aria-hidden />
-            <span className="font-mono text-[11px] text-err">
-              {t("ledger_chain_broken")} — {t("ledger_broken_from")}·{chainState.brokenSeq}
-            </span>
-          </>
-        ) : (
-          <>
-            <BookOpen size={12} className="text-tx-3" aria-hidden />
-            <span className="font-mono text-[11px] text-tx-3">{t("ledger_never_checked")}</span>
-          </>
-        )}
-
-        <div className="ml-auto flex items-center gap-3">
-          {chainState.phase === "done" && (
-            <span className="font-mono text-[10px] text-tx-3">
-              {t("ledger_verified_at")} {fmt(chainState.checkedAt)}
-            </span>
-          )}
-          <button
-            onClick={runVerify}
-            disabled={chainState.phase === "checking"}
-            className="flex items-center gap-1.5 rounded-ctl border border-line bg-bg-0 px-2.5 py-1 font-mono text-[11px] text-tx-2 transition-colors hover:bg-bg-1 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-or"
-            type="button"
-            aria-label={t("ledger_verify_btn")}
-          >
-            <RefreshCw size={11} aria-hidden />
-            {t("ledger_verify_btn")}
-          </button>
-        </div>
-      </div>
+      <ChainStatusBar chainState={chainState} onVerify={runVerify} />
 
       {/* ── Filters ── */}
       <div className="flex flex-wrap items-center gap-3">
