@@ -1,18 +1,26 @@
 import { useState } from "react";
-import { Settings as SettingsIcon, RotateCcw } from "lucide-react";
+import { Settings as SettingsIcon, RotateCcw, Play, SkipForward, Pause } from "lucide-react";
 import { useT } from "@/lib/hooks";
 import { useAppStore, useUIStore } from "@/lib/store";
+import { useSimStore, SCENARIO_STEPS, TOTAL_STEPS } from "@/lib/simulation";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 
 export default function Settings() {
   const t = useT();
   const role = useUIStore((s) => s.role);
+  const lang = useUIStore((s) => s.lang);
   const resetDemo = useAppStore((s) => s.resetDemo);
+  const { active, paused, step, resetting, start, pause, resume, advance, resetSim } =
+    useSimStore();
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
+
+  const simDone = step >= TOTAL_STEPS;
+  const currentStep = SCENARIO_STEPS[step] ?? null;
 
   async function handleReset() {
     setPending(true);
@@ -31,6 +39,106 @@ export default function Settings() {
       </div>
 
       <div className="flex flex-col gap-4">
+        {/* ── Simulation section ──────────────────────────────────────── */}
+        <section className="rounded-card border border-or/30 bg-bg-1 p-4">
+          <div className="mb-1 flex items-center gap-2">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-or">
+              {t("sim_section_title")}
+            </h2>
+            {active && (
+              <Badge variant="or" className="font-mono text-[10px] tracking-widest">
+                {t("sim_banner_label")}
+              </Badge>
+            )}
+          </div>
+          <p className="mb-4 text-[13px] text-tx-2">{t("sim_section_desc")}</p>
+
+          {/* Evidence: requested by / executed by / policy */}
+          <dl className="mb-4 space-y-2 rounded-ctl border border-line bg-bg-0 p-3 font-mono text-xs">
+            <div className="flex gap-2">
+              <dt className="text-tx-3">{t("sim_requested_by")}</dt>
+              <dd className="text-tx-1">{role}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="text-tx-3">{t("sim_executed_by")}</dt>
+              <dd className="text-laiton">RSPIR Agent OS · store actions</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="text-tx-3">{t("sim_policy_label")}</dt>
+              <dd className="text-or">{t("sim_policy_value")}</dd>
+            </div>
+          </dl>
+
+          {!active ? (
+            <Button variant="secondary" size="sm" onClick={start} aria-label={t("sim_start_btn")}>
+              <Play size={13} />
+              {t("sim_start_btn")}
+            </Button>
+          ) : (
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Step counter */}
+              <span className="font-mono text-[11px] text-tx-3">
+                {t("sim_step_of")
+                  .replace("{n}", String(Math.min(step, TOTAL_STEPS)))
+                  .replace("{total}", String(TOTAL_STEPS))}
+              </span>
+
+              {/* Current step label */}
+              {currentStep && (
+                <span className="font-mono text-[12px] text-tx-2">
+                  {t(`sim_day_${currentStep.day}` as Parameters<typeof t>[0])} —{" "}
+                  {currentStep[lang === "fr" ? "labelFr" : "labelEn"]}
+                </span>
+              )}
+              {simDone && (
+                <span className="font-mono text-[12px] text-ok">{t("sim_done_label")}</span>
+              )}
+
+              <div className="ml-auto flex gap-2">
+                {/* Play / Pause */}
+                {!simDone && (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={paused ? resume : pause}
+                    aria-label={paused ? t("sim_play") : t("sim_pause")}
+                  >
+                    {paused ? <Play size={13} /> : <Pause size={13} />}
+                    {paused ? t("sim_play") : t("sim_pause")}
+                  </Button>
+                )}
+
+                {/* Step */}
+                {!simDone && (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => void advance()}
+                    disabled={resetting}
+                    aria-label={t("sim_step")}
+                  >
+                    <SkipForward size={13} />
+                    {t("sim_step")}
+                  </Button>
+                )}
+
+                {/* Reset */}
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => void resetSim()}
+                  disabled={resetting}
+                  aria-label={t("sim_reset")}
+                >
+                  <RotateCcw size={13} />
+                  {resetting ? t("sim_resetting") : t("sim_reset")}
+                </Button>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* ── Demo data section ────────────────────────────────────────── */}
         <section className="rounded-card border border-line bg-bg-1 p-4">
           <h2 className="mb-1 text-xs font-semibold uppercase tracking-widest text-tx-3">
             {t("settings_demo_section")}
