@@ -162,8 +162,7 @@ function ProposalCard({
   const t = useT();
 
   const canInvestigate = proposal.status === "proposed";
-  const canApprove =
-    proposal.status === "proposed" || proposal.status === "investigating";
+  const canApprove = proposal.status === "proposed" || proposal.status === "investigating";
   const canReject =
     proposal.status === "proposed" ||
     proposal.status === "investigating" ||
@@ -250,8 +249,14 @@ export default function Proposals() {
   const actorId = ROLE_ACTOR[role] ?? "act-nathaniel";
   const actorName = role;
 
-  const { proposals, events, investigateProposal, approveProposal, rejectProposal, activeWorkspaceId } =
-    useAppStore();
+  const {
+    proposals,
+    events,
+    investigateProposal,
+    approveProposal,
+    rejectProposal,
+    activeWorkspaceId,
+  } = useAppStore();
 
   const [pending, setPending] = useState<{
     action: DialogAction;

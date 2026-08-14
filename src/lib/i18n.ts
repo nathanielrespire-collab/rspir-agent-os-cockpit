@@ -1057,8 +1057,7 @@ const dict = {
     prop_reject_confirm_title: "Rejeter la proposition",
     prop_reject_confirm_body: "La proposition sera marquée comme rejetée. Action irréversible.",
     prop_investigate_confirm_title: "Passer en investigation",
-    prop_investigate_confirm_body:
-      "La proposition sera marquée comme en cours d'investigation.",
+    prop_investigate_confirm_body: "La proposition sera marquée comme en cours d'investigation.",
     prop_cancel: "Annuler",
     prop_confirm: "Confirmer",
     prop_action_done: "Action enregistrée.",

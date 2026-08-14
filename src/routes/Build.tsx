@@ -53,11 +53,11 @@ function PipelineBar({
               {t(PHASE_KEYS[phase])}
             </span>
             {current && (
-              <span className="font-mono text-[9px] text-or">{t("bz_pipeline_current" as TKey)}</span>
+              <span className="font-mono text-[9px] text-or">
+                {t("bz_pipeline_current" as TKey)}
+              </span>
             )}
-            {done && (
-              <span className="font-mono text-[9px] text-ok">✓</span>
-            )}
+            {done && <span className="font-mono text-[9px] text-ok">✓</span>}
           </div>
         );
       })}
@@ -180,10 +180,11 @@ export default function Build() {
               const roleKey =
                 ROLE_LABEL_KEYS[agent.role as AgentRole] ?? ("bz_agent_role_code_builder" as TKey);
               return (
-                <tr key={agent.id} className="border-b border-line/60 last:border-0 hover:bg-bg-1/30">
-                  <td className="px-3 py-2 text-[11px] text-tx-3">
-                    {t(roleKey)}
-                  </td>
+                <tr
+                  key={agent.id}
+                  className="border-b border-line/60 last:border-0 hover:bg-bg-1/30"
+                >
+                  <td className="px-3 py-2 text-[11px] text-tx-3">{t(roleKey)}</td>
                   <td className="px-3 py-2 font-medium text-tx-1">{agent.name}</td>
                   <td className="px-3 py-2 font-mono text-[12px] text-laiton">
                     {provider?.name ?? "—"}
@@ -228,10 +229,10 @@ export default function Build() {
               className="flex items-center justify-between gap-3 rounded-ctl border border-line bg-bg-1 px-3 py-2"
             >
               <div className="min-w-0">
-                <p className="text-[13px] font-medium text-tx-1 truncate">
-                  {feat.name.fr}
+                <p className="text-[13px] font-medium text-tx-1 truncate">{feat.name.fr}</p>
+                <p className="font-mono text-[11px] text-tx-3">
+                  {feat.key} · v{feat.version}
                 </p>
-                <p className="font-mono text-[11px] text-tx-3">{feat.key} · v{feat.version}</p>
               </div>
               <Badge
                 variant={feat.acceptanceStatus === "pending" ? "warn" : "err"}

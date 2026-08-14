@@ -138,7 +138,16 @@ export default function Analytics() {
       savedHoursPerMonth: savedHoursPerMonth.toFixed(1),
       operationalValue: Math.round(operationalValue),
     };
-  }, [workItems, actors, approvals, executions, blockers, automations, proposals, activeWorkspaceId]);
+  }, [
+    workItems,
+    actors,
+    approvals,
+    executions,
+    blockers,
+    automations,
+    proposals,
+    activeWorkspaceId,
+  ]);
 
   return (
     <div className="flex h-full flex-col">
@@ -187,7 +196,9 @@ export default function Analytics() {
           label={t("anl_metric_verify_fail_rate" as TKey)}
           value={metrics.verifyFailRate}
           unit={t("anl_unit_pct" as TKey)}
-          variant={metrics.verifyFailRate > 20 ? "err" : metrics.verifyFailRate > 10 ? "warn" : "ok"}
+          variant={
+            metrics.verifyFailRate > 20 ? "err" : metrics.verifyFailRate > 10 ? "warn" : "ok"
+          }
         />
         <StatTile
           label={t("anl_metric_automations_deployed" as TKey)}
