@@ -7,7 +7,19 @@ import { useT } from "@/lib/hooks";
 import { useUIStore, useAppStore } from "@/lib/store";
 import { parseCommand } from "@/lib/chatParser";
 import type { ParsedCommand } from "@/lib/chatParser";
-import type { CapabilityId, PolicyRule, Policy, Approval, Blocker, WorkItem, Meeting, Feature, Client, Actor, Id } from "@/lib/types";
+import type {
+  CapabilityId,
+  PolicyRule,
+  Policy,
+  Approval,
+  Blocker,
+  WorkItem,
+  Meeting,
+  Feature,
+  Client,
+  Actor,
+  Id,
+} from "@/lib/types";
 
 export const CHAT_OPEN_EVENT = "rspir:chat:open";
 
@@ -39,7 +51,9 @@ const CMD_CAPABILITY: Partial<Record<ParsedCommand["kind"], CapabilityId>> = {
 // ─── Policy helpers ────────────────────────────────────────────────────────
 
 function lookupPolicy(policies: Policy[], workspaceId: Id, cap: CapabilityId): PolicyRule {
-  return policies.find((p) => p.workspaceId === workspaceId && p.capability === cap)?.rule ?? "auto";
+  return (
+    policies.find((p) => p.workspaceId === workspaceId && p.capability === cap)?.rule ?? "auto"
+  );
 }
 
 function lookupPolicyObject(
@@ -284,7 +298,11 @@ export function ChatPanel() {
       }
       const blk = wi.blockerId ? store.blockers.find((b) => b.id === wi.blockerId) : null;
       if (!blk) {
-        addMsg({ kind: "info", title: `${t("chat_why_blocked_title")}: ${wi.title}`, lines: [t("chat_no_blocker")] });
+        addMsg({
+          kind: "info",
+          title: `${t("chat_why_blocked_title")}: ${wi.title}`,
+          lines: [t("chat_no_blocker")],
+        });
         return;
       }
       addMsg({
@@ -299,7 +317,11 @@ export function ChatPanel() {
       const wi = findWorkItem(store.workItems, cmd.targetRef);
       const evIds = wi?.evidenceIds ?? [];
       if (!wi || evIds.length === 0) {
-        addMsg({ kind: "info", title: `${t("chat_evidence_title")} "${cmd.targetRef}"`, lines: [t("chat_no_evidence")] });
+        addMsg({
+          kind: "info",
+          title: `${t("chat_evidence_title")} "${cmd.targetRef}"`,
+          lines: [t("chat_no_evidence")],
+        });
         return;
       }
       const evItems = store.evidence.filter((e) => evIds.includes(e.id));
@@ -680,11 +702,7 @@ export function ChatPanel() {
           if (msg.kind === "forbidden") {
             const condText = msg.condition?.[uiLang];
             return (
-              <div
-                key={msg.id}
-                className="rounded border border-err/30 bg-err/5 p-3"
-                role="alert"
-              >
+              <div key={msg.id} className="rounded border border-err/30 bg-err/5 p-3" role="alert">
                 <div className="mb-1 flex items-center gap-2">
                   <AlertTriangle size={13} className="text-err" aria-hidden="true" />
                   <span className="text-[12px] font-medium text-err">
@@ -694,9 +712,7 @@ export function ChatPanel() {
                 <p className="font-mono text-[11px] text-tx-2">
                   {t("chat_forbidden_detail")} {msg.capability} / {policyLabel(msg.rule)}
                 </p>
-                {condText && (
-                  <p className="mt-1 font-mono text-[11px] text-tx-3">{condText}</p>
-                )}
+                {condText && <p className="mt-1 font-mono text-[11px] text-tx-3">{condText}</p>}
               </div>
             );
           }
@@ -819,4 +835,3 @@ export function ChatPanel() {
     </div>
   );
 }
-

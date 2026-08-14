@@ -117,7 +117,8 @@ export function parseCommand(input: string, lang: Lang = "fr"): ParsedCommand {
   if (createWiM) {
     const rest = createWiM[1].trim();
     const forM = /^(.+?)\s+(?:pour\s+le\s+projet\s+|for\s+project\s+)(.+)$/i.exec(rest);
-    if (forM) return { kind: "create_work_item", title: forM[1].trim(), projectRef: forM[2].trim() };
+    if (forM)
+      return { kind: "create_work_item", title: forM[1].trim(), projectRef: forM[2].trim() };
     return { kind: "create_work_item", title: rest };
   }
 
@@ -191,8 +192,7 @@ export function parseCommand(input: string, lang: Lang = "fr"): ParsedCommand {
   if (whyBlockedFrM) {
     return { kind: "why_blocked", workItemRef: whyBlockedFrM[1].trim() };
   }
-  const whyBlockedEnM =
-    /^(?:why\s+(?:is\s+)?(.+?)\s+blocked|what\s+blocks?\s+(.+))$/i.exec(raw);
+  const whyBlockedEnM = /^(?:why\s+(?:is\s+)?(.+?)\s+blocked|what\s+blocks?\s+(.+))$/i.exec(raw);
   if (whyBlockedEnM) {
     return { kind: "why_blocked", workItemRef: (whyBlockedEnM[1] ?? whyBlockedEnM[2]).trim() };
   }
