@@ -87,13 +87,17 @@ export function Topbar({ onMenuOpen }: TopbarProps) {
         </div>
         {activeClient ? (
           <>
-            <span className="font-mono text-[11px] text-tx-3" aria-hidden="true">·</span>
+            <span className="font-mono text-[11px] text-tx-3" aria-hidden="true">
+              ·
+            </span>
             <span className="font-mono text-[13px] text-or" aria-label={t("cli_active_client")}>
               {activeClient.name}
             </span>
           </>
         ) : null}
-        <span className="font-mono text-[11px] text-tx-3" aria-label="MOCK data indicator">MOCK</span>
+        <span className="font-mono text-[11px] text-tx-3" aria-label="MOCK data indicator">
+          MOCK
+        </span>
       </div>
 
       <div className="flex items-center gap-1">

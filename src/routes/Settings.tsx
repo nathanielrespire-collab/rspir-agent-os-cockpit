@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Settings as SettingsIcon, RotateCcw, Play, SkipForward, Pause, Sun, Moon } from "lucide-react";
+import {
+  Settings as SettingsIcon,
+  RotateCcw,
+  Play,
+  SkipForward,
+  Pause,
+  Sun,
+  Moon,
+} from "lucide-react";
 import { useT } from "@/lib/hooks";
 import { useAppStore, useUIStore, type Role } from "@/lib/store";
 import { useSimStore, SCENARIO_STEPS, TOTAL_STEPS } from "@/lib/simulation";
@@ -198,7 +206,11 @@ export default function Settings() {
             {t("settings_role_section")}
           </h2>
           <p className="mb-3 text-[13px] text-tx-2">{t("settings_role_desc")}</p>
-          <div className="flex flex-wrap gap-2" role="group" aria-label={t("settings_role_section")}>
+          <div
+            className="flex flex-wrap gap-2"
+            role="group"
+            aria-label={t("settings_role_section")}
+          >
             {ROLES.map((r) => (
               <Button
                 key={r}

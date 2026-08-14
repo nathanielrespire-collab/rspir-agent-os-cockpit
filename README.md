@@ -8,17 +8,17 @@ Built by an autonomous pipeline (Claude Code + GitHub Actions) unit by unit, fro
 
 ## What it demonstrates
 
-| Criterion | Screen |
-|---|---|
-| What Agent OS is | [Home](/), [Agents](/agents) |
-| What is running right now | [Work](/work) |
-| What needs human attention | [Approvals](/approvals), [Blockers](/blockers) |
-| Which agent does what | [Agents](/agents), [Agent Builder](/agent-builder) |
-| How completion is proven | [Evidence](/evidence) |
-| Why a task is blocked | [Blockers](/blockers) |
-| How providers are interchangeable | [Agent Builder](/agent-builder), [Integrations](/integrations) |
-| How a feature is enabled per client | [Features](/features), [Clients](/clients) |
-| How a client installation is duplicated | [Clients](/clients), [Agent Builder](/agent-builder) |
+| Criterion                                   | Screen                                                                |
+| ------------------------------------------- | --------------------------------------------------------------------- |
+| What Agent OS is                            | [Home](/), [Agents](/agents)                                          |
+| What is running right now                   | [Work](/work)                                                         |
+| What needs human attention                  | [Approvals](/approvals), [Blockers](/blockers)                        |
+| Which agent does what                       | [Agents](/agents), [Agent Builder](/agent-builder)                    |
+| How completion is proven                    | [Evidence](/evidence)                                                 |
+| Why a task is blocked                       | [Blockers](/blockers)                                                 |
+| How providers are interchangeable           | [Agent Builder](/agent-builder), [Integrations](/integrations)        |
+| How a feature is enabled per client         | [Features](/features), [Clients](/clients)                            |
+| How a client installation is duplicated     | [Clients](/clients), [Agent Builder](/agent-builder)                  |
 | How security and approvals constrain agents | [Security](/security), [Policies](/policies), [Approvals](/approvals) |
 
 All 10 criteria are navigable from the [Build Zone](/build) checklist.
