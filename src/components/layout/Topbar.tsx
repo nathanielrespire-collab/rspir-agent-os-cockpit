@@ -64,7 +64,9 @@ export function Topbar() {
                     <span className="h-1.5 w-1.5 rounded-full bg-or" aria-hidden="true" />
                   )}
                   {ws.name}
-                  <span className="ml-auto text-[10px] text-tx-3">{ws.kind === "internal" ? "internal" : "client"}</span>
+                  <span className="ml-auto text-[10px] text-tx-3">
+                    {ws.kind === "internal" ? "internal" : "client"}
+                  </span>
                 </button>
               ))}
             </div>

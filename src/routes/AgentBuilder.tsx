@@ -1,5 +1,20 @@
 import { useState } from "react";
-import { Wrench, CheckCircle2, ChevronRight, Loader2, Building2, Users, Plug, Zap, Shield, Layers, Bot, Lock, FlaskConical, Rocket } from "lucide-react";
+import {
+  Wrench,
+  CheckCircle2,
+  ChevronRight,
+  Loader2,
+  Building2,
+  Users,
+  Plug,
+  Zap,
+  Shield,
+  Layers,
+  Bot,
+  Lock,
+  FlaskConical,
+  Rocket,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useT } from "@/lib/hooks";
 import { useAppStore } from "@/lib/store";
@@ -46,17 +61,44 @@ const MS_PROVIDERS = [
 ];
 
 const MS_CAPABILITIES = [
-  "email.read", "email.draft", "email.send",
-  "calendar.read", "calendar.create",
-  "files.read", "files.write", "files.search",
+  "email.read",
+  "email.draft",
+  "email.send",
+  "calendar.read",
+  "calendar.create",
+  "files.read",
+  "files.write",
+  "files.search",
   "contacts.read",
-  "transcripts.read", "transcripts.search", "meeting.read", "meeting.process",
-  "crm.read", "crm.search", "crm.write", "crm.create_activity", "crm.add_note",
-  "automation.inspect", "automation.build", "automation.edit", "automation.test", "automation.deploy", "automation.run",
-  "website.inspect", "website.build", "website.edit", "website.test", "website.deploy", "website.verify",
+  "transcripts.read",
+  "transcripts.search",
+  "meeting.read",
+  "meeting.process",
+  "crm.read",
+  "crm.search",
+  "crm.write",
+  "crm.create_activity",
+  "crm.add_note",
+  "automation.inspect",
+  "automation.build",
+  "automation.edit",
+  "automation.test",
+  "automation.deploy",
+  "automation.run",
+  "website.inspect",
+  "website.build",
+  "website.edit",
+  "website.test",
+  "website.deploy",
+  "website.verify",
   "knowledge.publish",
-  "source_control.read", "source_control.change_request", "source_control.status",
-  "worker.code", "worker.ops", "worker.research", "worker.review",
+  "source_control.read",
+  "source_control.change_request",
+  "source_control.status",
+  "worker.code",
+  "worker.ops",
+  "worker.research",
+  "worker.review",
   "notification.internal",
 ];
 
@@ -73,12 +115,37 @@ const MS_POLICIES = [
 ];
 
 const MS_FEATURES = [
-  { name: "Préparation de réunion", key: "feat-meeting-prep", version: "1.2.0", acceptance: "pass" },
+  {
+    name: "Préparation de réunion",
+    key: "feat-meeting-prep",
+    version: "1.2.0",
+    acceptance: "pass",
+  },
   { name: "Enrichissement CRM", key: "feat-crm-enrich", version: "1.0.0", acceptance: "pass" },
-  { name: "Constructeur d'automatisations", key: "feat-auto-builder", version: "0.9.0", acceptance: "pass" },
-  { name: "Constructeur de site web", key: "feat-website-builder", version: "1.1.0", acceptance: "pass" },
-  { name: "Capture de connaissances", key: "feat-knowledge-capture", version: "1.0.0", acceptance: "pass" },
-  { name: "Rédaction d'emails", key: "feat-email-drafter", version: "0.5.0", acceptance: "pending" },
+  {
+    name: "Constructeur d'automatisations",
+    key: "feat-auto-builder",
+    version: "0.9.0",
+    acceptance: "pass",
+  },
+  {
+    name: "Constructeur de site web",
+    key: "feat-website-builder",
+    version: "1.1.0",
+    acceptance: "pass",
+  },
+  {
+    name: "Capture de connaissances",
+    key: "feat-knowledge-capture",
+    version: "1.0.0",
+    acceptance: "pass",
+  },
+  {
+    name: "Rédaction d'emails",
+    key: "feat-email-drafter",
+    version: "0.5.0",
+    acceptance: "pending",
+  },
 ];
 
 const MS_PERMISSIONS = [
@@ -122,9 +189,7 @@ const MS_MISSING_CREDS = [
 
 // ─── Step icons ───────────────────────────────────────────────────────────
 
-const STEP_ICONS = [
-  Building2, Users, Plug, Zap, Shield, Layers, Bot, Lock, FlaskConical, Rocket,
-];
+const STEP_ICONS = [Building2, Users, Plug, Zap, Shield, Layers, Bot, Lock, FlaskConical, Rocket];
 
 const STEP_TITLE_KEYS: TKey[] = [
   "bld_step1_title",
@@ -166,7 +231,9 @@ function StepCompany({ t }: { t: (key: TKey) => string }) {
         <FieldRow label={t("bld_company_sector")} value={MS_COMPANY.sector} />
         <FieldRow label={t("bld_company_contact")} value={MS_COMPANY.contact} />
       </div>
-      <Badge variant="laiton" className="self-start">{t("bld_prefilled_badge")}</Badge>
+      <Badge variant="laiton" className="self-start">
+        {t("bld_prefilled_badge")}
+      </Badge>
     </div>
   );
 }
@@ -178,7 +245,10 @@ function StepTeam({ t }: { t: (key: TKey) => string }) {
         <SectionLabel label={`${t("bld_team_humans")} (${MS_TEAM_HUMANS.length})`} />
         <div className="flex flex-col gap-1">
           {MS_TEAM_HUMANS.map((h) => (
-            <div key={h.name} className="flex items-center justify-between rounded-ctl border border-line/60 bg-bg-1 px-3 py-2">
+            <div
+              key={h.name}
+              className="flex items-center justify-between rounded-ctl border border-line/60 bg-bg-1 px-3 py-2"
+            >
               <span className="text-[13px] font-medium text-tx-1">{h.name}</span>
               <span className="font-mono text-[11px] text-tx-3">{h.role}</span>
             </div>
@@ -189,11 +259,16 @@ function StepTeam({ t }: { t: (key: TKey) => string }) {
         <SectionLabel label={`${t("bld_team_agents")} (${MS_TEAM_AGENTS.length})`} />
         <div className="flex flex-col gap-1">
           {MS_TEAM_AGENTS.map((a) => (
-            <div key={a.name} className="flex items-center justify-between rounded-ctl border border-line/60 bg-bg-1 px-3 py-2">
+            <div
+              key={a.name}
+              className="flex items-center justify-between rounded-ctl border border-line/60 bg-bg-1 px-3 py-2"
+            >
               <span className="text-[13px] font-medium text-tx-1">{a.name}</span>
               <div className="flex items-center gap-2">
                 <span className="font-mono text-[11px] text-tx-3">{a.role}</span>
-                <Badge variant="laiton" className="text-[10px]">{a.provider}</Badge>
+                <Badge variant="laiton" className="text-[10px]">
+                  {a.provider}
+                </Badge>
               </div>
             </div>
           ))}
@@ -209,7 +284,10 @@ function StepProviders({ t }: { t: (key: TKey) => string }) {
       <SectionLabel label={`${t("bld_providers_selected")} (${MS_PROVIDERS.length})`} />
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {MS_PROVIDERS.map((p) => (
-          <div key={p.name} className="flex flex-col gap-0.5 rounded-card border border-line bg-bg-1 px-3 py-2">
+          <div
+            key={p.name}
+            className="flex flex-col gap-0.5 rounded-card border border-line bg-bg-1 px-3 py-2"
+          >
             <span className="text-[13px] font-medium text-tx-1">{p.name}</span>
             <span className="font-mono text-[10px] text-tx-3">{p.category}</span>
           </div>
@@ -225,7 +303,10 @@ function StepCapabilities({ t }: { t: (key: TKey) => string }) {
       <SectionLabel label={`${t("bld_capabilities_covered")} (${MS_CAPABILITIES.length})`} />
       <div className="flex flex-wrap gap-1.5">
         {MS_CAPABILITIES.map((cap) => (
-          <span key={cap} className="rounded-ctl bg-laiton/10 px-2 py-0.5 font-mono text-[11px] text-laiton">
+          <span
+            key={cap}
+            className="rounded-ctl bg-laiton/10 px-2 py-0.5 font-mono text-[11px] text-laiton"
+          >
             {cap}
           </span>
         ))}
@@ -258,7 +339,10 @@ function StepPolicies({ t }: { t: (key: TKey) => string }) {
           </thead>
           <tbody>
             {MS_POLICIES.map((p, i) => (
-              <tr key={p.capability} className={`border-b border-line/40 last:border-0 ${i % 2 === 0 ? "bg-bg-1" : "bg-bg-0"}`}>
+              <tr
+                key={p.capability}
+                className={`border-b border-line/40 last:border-0 ${i % 2 === 0 ? "bg-bg-1" : "bg-bg-0"}`}
+              >
                 <td className="px-3 py-1.5 font-mono text-[11px] text-tx-2">{p.capability}</td>
                 <td className="px-3 py-1.5">
                   <Badge variant={ruleVariant[p.rule] ?? "default"}>{p.rule}</Badge>
@@ -278,7 +362,10 @@ function StepFeatures({ t }: { t: (key: TKey) => string }) {
       <SectionLabel label={`${t("bld_features_enabled")} (${MS_FEATURES.length})`} />
       <div className="flex flex-col gap-2">
         {MS_FEATURES.map((f) => (
-          <div key={f.key} className="flex items-center justify-between rounded-card border border-line bg-bg-1 px-4 py-2.5">
+          <div
+            key={f.key}
+            className="flex items-center justify-between rounded-card border border-line bg-bg-1 px-4 py-2.5"
+          >
             <div className="flex flex-col gap-0.5">
               <span className="text-[13px] font-medium text-tx-1">{f.name}</span>
             </div>
@@ -299,7 +386,10 @@ function StepAgents({ t }: { t: (key: TKey) => string }) {
       <SectionLabel label={`${t("bld_agents_configured")} (${MS_TEAM_AGENTS.length})`} />
       <div className="flex flex-col gap-2">
         {MS_TEAM_AGENTS.map((a) => (
-          <div key={a.name} className="flex items-center justify-between rounded-card border border-line bg-bg-1 px-4 py-2.5">
+          <div
+            key={a.name}
+            className="flex items-center justify-between rounded-card border border-line bg-bg-1 px-4 py-2.5"
+          >
             <div className="flex flex-col gap-0.5">
               <span className="text-[13px] font-medium text-tx-1">{a.name}</span>
               <span className="font-mono text-[11px] text-tx-3">{a.role}</span>
@@ -324,7 +414,10 @@ function StepPermissions({ t }: { t: (key: TKey) => string }) {
             </div>
             <div className="flex flex-wrap gap-1">
               {p.caps.map((cap) => (
-                <span key={cap} className="rounded-ctl bg-bg-2 px-1.5 py-0.5 font-mono text-[10px] text-tx-3">
+                <span
+                  key={cap}
+                  className="rounded-ctl bg-bg-2 px-1.5 py-0.5 font-mono text-[10px] text-tx-3"
+                >
                   {cap}
                 </span>
               ))}
@@ -348,10 +441,15 @@ function StepAcceptance({ t }: { t: (key: TKey) => string }) {
       </div>
       <div className="flex flex-col gap-1.5">
         {MS_ACCEPTANCE_TESTS.map((test, i) => (
-          <div key={i} className="flex items-center gap-3 rounded-ctl border border-line/60 bg-bg-1 px-3 py-2">
+          <div
+            key={i}
+            className="flex items-center gap-3 rounded-ctl border border-line/60 bg-bg-1 px-3 py-2"
+          >
             <CheckCircle2 size={14} className="shrink-0 text-ok" aria-hidden="true" />
             <span className="text-[13px] text-tx-1">{test.label}</span>
-            <Badge variant="ok" className="ml-auto text-[10px]">{t("swap_pass")}</Badge>
+            <Badge variant="ok" className="ml-auto text-[10px]">
+              {t("swap_pass")}
+            </Badge>
           </div>
         ))}
       </div>
@@ -379,7 +477,10 @@ function StepDeployment({
       {/* Plan summary */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <PlanCard label={t("bld_plan_workspace")} value="ws-ms — Microsoft" />
-        <PlanCard label={t("bld_plan_providers_label")} value={`${MS_PROVIDERS.length} providers`} />
+        <PlanCard
+          label={t("bld_plan_providers_label")}
+          value={`${MS_PROVIDERS.length} providers`}
+        />
         <PlanCard label={t("bld_plan_agents_label")} value={`${MS_TEAM_AGENTS.length} agents IA`} />
         <PlanCard label={t("bld_plan_policies_label")} value={`${MS_POLICIES.length} politiques`} />
         <PlanCard label={t("bld_plan_features_label")} value={`${MS_FEATURES.length} features`} />
@@ -405,7 +506,10 @@ function StepDeployment({
         <SectionLabel label={t("bld_plan_missing_creds")} />
         <div className="flex flex-wrap gap-1.5">
           {MS_MISSING_CREDS.map((cred) => (
-            <span key={cred} className="rounded-ctl border border-warn/40 bg-warn/10 px-2 py-0.5 font-mono text-[10px] text-warn">
+            <span
+              key={cred}
+              className="rounded-ctl border border-warn/40 bg-warn/10 px-2 py-0.5 font-mono text-[10px] text-warn"
+            >
               {cred}
             </span>
           ))}
@@ -507,25 +611,36 @@ export default function AgentBuilder() {
 
   const stepContent = () => {
     switch (step) {
-      case 1: return <StepCompany t={t} />;
-      case 2: return <StepTeam t={t} />;
-      case 3: return <StepProviders t={t} />;
-      case 4: return <StepCapabilities t={t} />;
-      case 5: return <StepPolicies t={t} />;
-      case 6: return <StepFeatures t={t} />;
-      case 7: return <StepAgents t={t} />;
-      case 8: return <StepPermissions t={t} />;
-      case 9: return <StepAcceptance t={t} />;
-      case 10: return (
-        <StepDeployment
-          t={t}
-          deploying={deploying}
-          deployed={deployed}
-          onDeploy={handleDeploy}
-          onSwitch={handleSwitch}
-        />
-      );
-      default: return null;
+      case 1:
+        return <StepCompany t={t} />;
+      case 2:
+        return <StepTeam t={t} />;
+      case 3:
+        return <StepProviders t={t} />;
+      case 4:
+        return <StepCapabilities t={t} />;
+      case 5:
+        return <StepPolicies t={t} />;
+      case 6:
+        return <StepFeatures t={t} />;
+      case 7:
+        return <StepAgents t={t} />;
+      case 8:
+        return <StepPermissions t={t} />;
+      case 9:
+        return <StepAcceptance t={t} />;
+      case 10:
+        return (
+          <StepDeployment
+            t={t}
+            deploying={deploying}
+            deployed={deployed}
+            onDeploy={handleDeploy}
+            onSwitch={handleSwitch}
+          />
+        );
+      default:
+        return null;
     }
   };
 
@@ -535,14 +650,22 @@ export default function AgentBuilder() {
       <div className="mb-5 flex items-center gap-2">
         <Wrench size={16} className="text-tx-3" />
         <h1 className="text-sm font-semibold">{t("nav_agent_builder")}</h1>
-        <Badge variant="laiton" className="ml-1">{t("bld_mock_badge")}</Badge>
+        <Badge variant="laiton" className="ml-1">
+          {t("bld_mock_badge")}
+        </Badge>
         <span className="ml-auto font-mono text-[11px] text-tx-3">
           {t("bld_step_of").replace("{n}", String(step))}
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="mb-5 flex items-center gap-1" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={10}>
+      <div
+        className="mb-5 flex items-center gap-1"
+        role="progressbar"
+        aria-valuenow={step}
+        aria-valuemin={1}
+        aria-valuemax={10}
+      >
         {STEP_TITLE_KEYS.map((_, i) => {
           const n = i + 1;
           const Icon = STEP_ICONS[i] ?? Wrench;
@@ -556,8 +679,8 @@ export default function AgentBuilder() {
                 n === step
                   ? "border-or bg-or/20 text-or"
                   : n < step
-                  ? "border-ok/40 bg-ok/10 text-ok"
-                  : "border-line bg-bg-1 text-tx-3"
+                    ? "border-ok/40 bg-ok/10 text-ok"
+                    : "border-line bg-bg-1 text-tx-3"
               }`}
             >
               {n < step ? <CheckCircle2 size={12} /> : <Icon size={12} />}
@@ -580,9 +703,7 @@ export default function AgentBuilder() {
       </div>
 
       {/* Step content */}
-      <div className="flex-1 overflow-y-auto">
-        {stepContent()}
-      </div>
+      <div className="flex-1 overflow-y-auto">{stepContent()}</div>
 
       {/* Navigation */}
       <div className="mt-4 flex items-center justify-between border-t border-line pt-4">

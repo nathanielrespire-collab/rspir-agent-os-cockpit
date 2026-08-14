@@ -481,7 +481,11 @@ function SwapTab({
           </span>
           <span className="font-mono text-[14px] font-semibold text-tx-1">Fireflies.ai</span>
           <span className="font-mono text-[11px] text-tx-3">transcripts · api_key</span>
-          {swapped && <Badge variant="err" className="self-start text-[10px] mt-1">Remplacé</Badge>}
+          {swapped && (
+            <Badge variant="err" className="self-start text-[10px] mt-1">
+              Remplacé
+            </Badge>
+          )}
         </div>
         <div className="flex items-center">
           <ArrowRightLeft size={16} className="text-or" aria-hidden="true" />
@@ -492,7 +496,11 @@ function SwapTab({
           </span>
           <span className="font-mono text-[14px] font-semibold text-tx-1">Google Meet</span>
           <span className="font-mono text-[11px] text-tx-3">transcripts · oauth</span>
-          {swapped && <Badge variant="ok" className="self-start text-[10px] mt-1">Actif</Badge>}
+          {swapped && (
+            <Badge variant="ok" className="self-start text-[10px] mt-1">
+              Actif
+            </Badge>
+          )}
         </div>
       </div>
 
@@ -574,7 +582,9 @@ function SwapTab({
             >
               <CheckCircle2 size={13} className="shrink-0 text-ok" aria-hidden="true" />
               <span className="text-[12px] text-tx-1">{test}</span>
-              <Badge variant="ok" className="ml-auto text-[10px]">{t("swap_pass")}</Badge>
+              <Badge variant="ok" className="ml-auto text-[10px]">
+                {t("swap_pass")}
+              </Badge>
             </div>
           ))}
         </div>
@@ -596,7 +606,9 @@ function SwapTab({
         <div className="flex flex-col items-center gap-2">
           <div className="flex items-center gap-2 rounded-card border border-ok/30 bg-ok/10 px-4 py-2.5">
             <CheckCircle2 size={14} className="text-ok" />
-            <span className="font-mono text-[12px] font-semibold text-ok">{t("swap_switched")}</span>
+            <span className="font-mono text-[12px] font-semibold text-ok">
+              {t("swap_switched")}
+            </span>
           </div>
           <p className="font-mono text-[10px] text-tx-3">{t("swap_doctor_note")}</p>
         </div>
@@ -613,8 +625,14 @@ export default function Integrations() {
   const [activeTab, setActiveTab] = useState<Tab>("providers");
   const [swapped, setSwapped] = useState(false);
 
-  const { providers, integrations, activeWorkspaceId, disabledIntegrationIds, toggleIntegration, swapProvider } =
-    useAppStore();
+  const {
+    providers,
+    integrations,
+    activeWorkspaceId,
+    disabledIntegrationIds,
+    toggleIntegration,
+    swapProvider,
+  } = useAppStore();
   const { role } = useUIStore();
 
   const featureStatus = useFeatureStatus();
@@ -709,8 +727,8 @@ export default function Integrations() {
             {tab === "providers"
               ? t("int_tab_providers")
               : tab === "doctor"
-              ? t("int_tab_doctor")
-              : t("swap_tab")}
+                ? t("int_tab_doctor")
+                : t("swap_tab")}
           </button>
         ))}
         {/* Doctor badge: warn if any integration disabled */}
