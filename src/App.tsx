@@ -22,6 +22,8 @@ import WebsiteDetail from "@/routes/WebsiteDetail";
 import Knowledge from "@/routes/Knowledge";
 import Integrations from "@/routes/Integrations";
 import Features from "@/routes/Features";
+import Policies from "@/routes/Policies";
+import Security from "@/routes/Security";
 import Evidence from "@/routes/Evidence";
 import Analytics from "@/routes/Analytics";
 import AgentBuilder from "@/routes/AgentBuilder";
@@ -54,6 +56,8 @@ export default function App() {
           <Route path="knowledge" element={<Knowledge />} />
           <Route path="integrations" element={<Integrations />} />
           <Route path="features" element={<Features />} />
+          <Route path="policies" element={<Policies />} />
+          <Route path="security" element={<Security />} />
           <Route path="evidence" element={<Evidence />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="agent-builder" element={<AgentBuilder />} />

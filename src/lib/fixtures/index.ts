@@ -37,6 +37,7 @@ import type {
   KnowledgeItem,
   Decision,
   ImprovementProposal,
+  SecurityFinding,
 } from "@/lib/types";
 import type { Unsigned } from "@/lib/signature";
 
@@ -2889,5 +2890,84 @@ export const msEvidence: Unsigned<Evidence>[] = [
     label: "Workspace ws-ms créé — configuration en attente",
     kind: "check",
     createdAt: "2026-01-10T10:05:00Z",
+  },
+];
+
+// ─── Security Findings ─────────────────────────────────────────────────────
+
+export const securityFindings: SecurityFinding[] = [
+  {
+    id: "sec-001",
+    workspaceId: "ws-rspir",
+    severity: "HIGH",
+    category: "prompt_injection",
+    title: "Risque d'injection de prompt via transcriptions externes",
+    description:
+      "L'agent Clio ingère des transcriptions Fireflies sans sanitisation. Un contenu malveillant dans une réunion client pourrait injecter des instructions dans le pipeline de traitement. Recommandation: isoler l'analyse dans un contexte restreint, jamais élever des instructions issues du contenu externe.",
+    affectedActorIds: ["act-clio"],
+    affectedCapabilities: ["transcripts.read", "meeting.process"],
+    status: "open",
+    detectedAt: "2026-08-10T09:00:00Z",
+  },
+  {
+    id: "sec-002",
+    workspaceId: "ws-rspir",
+    severity: "HIGH",
+    category: "credential",
+    title: "Credential Pipedrive non rotaté depuis 97 jours",
+    description:
+      "La clé API Pipedrive (intégration CRM) n'a pas été renouvelée depuis 97 jours. La politique interne exige une rotation tous les 90 jours. Risque d'exposition si la clé est compromise. Action: régénérer la clé dans Pipedrive et mettre à jour la configuration.",
+    affectedCapabilities: ["crm.read", "crm.write", "crm.create_activity", "crm.add_note"],
+    status: "open",
+    detectedAt: "2026-08-12T14:30:00Z",
+  },
+  {
+    id: "sec-003",
+    workspaceId: "ws-rspir",
+    severity: "MEDIUM",
+    category: "permission",
+    title: "Aria possède crm.write sans justification de rôle",
+    description:
+      "L'agent Aria (architecte) dispose de la capacité crm.write qui n'est pas requise par son rôle d'architecture. Principe du moindre privilège: cette capacité devrait être retirée ou transférée à l'agent Orbite (ops_worker). Aucune exécution enregistrée sous cette capacité dans les 30 derniers jours.",
+    affectedActorIds: ["act-aria"],
+    affectedCapabilities: ["crm.write"],
+    status: "acknowledged",
+    detectedAt: "2026-08-08T11:00:00Z",
+  },
+  {
+    id: "sec-004",
+    workspaceId: "ws-rspir",
+    severity: "MEDIUM",
+    category: "supply_chain",
+    title: "Webhook Make sans vérification HMAC",
+    description:
+      "Le webhook déclencheur de l'automatisation atm-001 (Facturation Casseau) n'est pas protégé par HMAC. N'importe quelle requête HTTP peut déclencher l'automatisation. Recommandation: activer la signature HMAC dans Make et valider la signature côté récepteur.",
+    affectedCapabilities: ["automation.run"],
+    status: "open",
+    detectedAt: "2026-08-11T08:15:00Z",
+  },
+  {
+    id: "sec-005",
+    workspaceId: "ws-rspir",
+    severity: "LOW",
+    category: "isolation",
+    title: "Exécution automatisation sans sandbox isolé",
+    description:
+      "L'automatisation atm-001 s'exécute dans l'environnement Make partagé sans isolation de workspace. En cas de bug ou de comportement inattendu, les effets pourraient déborder sur d'autres scénarios du compte Make. Recommandation: migrer vers un compte Make dédié par client.",
+    affectedActorIds: ["act-auto"],
+    status: "open",
+    detectedAt: "2026-08-09T16:45:00Z",
+  },
+  {
+    id: "sec-006",
+    workspaceId: "ws-rspir",
+    severity: "LOW",
+    category: "privacy",
+    title: "Export de logs contient des noms d'acteurs (PII potentiel)",
+    description:
+      "Les logs d'exécution exportés incluent les noms complets des acteurs humains. Selon Loi 25 (Québec), ces données peuvent nécessiter un traitement particulier si elles sont transmises à des tiers. Recommandation: anonymiser les IDs avant export vers des outils tiers.",
+    affectedCapabilities: ["source_control.status"],
+    status: "resolved",
+    detectedAt: "2026-07-30T10:00:00Z",
   },
 ];

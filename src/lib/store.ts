@@ -15,6 +15,8 @@ import type {
   ExecutionStep,
   Event,
   ChainedSignature,
+  Policy,
+  PolicyRule,
 } from "@/lib/types";
 import { chainTip, sign, GENESIS_HASH } from "@/lib/signature";
 import type { Unsigned } from "@/lib/signature";
@@ -40,6 +42,7 @@ import {
   websites,
   knowledge,
   proposals,
+  securityFindings,
   rspirDecisions,
   rspirEvidence,
   rspirExecutions,
@@ -158,6 +161,7 @@ const EMPTY_APP_STATE: AppState = {
   knowledge: [],
   decisions: [],
   proposals: [],
+  securityFindings: [],
   build: {
     version: "0.2.0",
     pipeline: ["spec", "build"],
@@ -302,6 +306,8 @@ interface AppDataStore extends AppState {
     },
     requestedByActorId: Id,
   ) => Promise<Website>;
+
+  updatePolicy: (policyId: Id, rule: PolicyRule, requestedByActorId: Id) => Promise<void>;
 }
 
 export const useAppStore = create<AppDataStore>()(
@@ -356,6 +362,7 @@ export const useAppStore = create<AppDataStore>()(
           evidence: [...rspir.evidence, ...ms.evidence],
           executions: [...rspir.executions],
           events: [],
+          securityFindings,
           build: { version: "0.2.0", pipeline: ["spec", "build"], unitsDone: 2, unitsTotal: 20 },
           _hydrated: true,
         });
@@ -840,6 +847,32 @@ export const useAppStore = create<AppDataStore>()(
           events: [...s.events, event],
         }));
         return website;
+      },
+
+      // ── Policy update ─────────────────────────────────────────────────
+
+      updatePolicy: async (policyId, rule, requestedByActorId) => {
+        const now = new Date().toISOString();
+        const pol = get().policies.find((p) => p.id === policyId);
+        if (!pol) return;
+
+        const event: Event = {
+          id: newId("evt"),
+          workspaceId: pol.workspaceId,
+          at: now,
+          requestedByActorId,
+          executedByActorId: requestedByActorId,
+          capability: pol.capability,
+          policyResult: rule,
+          action: "policy.update",
+          targetId: policyId,
+          result: "ok",
+        };
+
+        set((s) => ({
+          policies: s.policies.map((p) => (p.id === policyId ? ({ ...p, rule } as Policy) : p)),
+          events: [...s.events, event],
+        }));
       },
 
       // ── Provider swap ─────────────────────────────────────────────────

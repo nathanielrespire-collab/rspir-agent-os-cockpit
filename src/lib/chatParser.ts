@@ -75,6 +75,13 @@ const ROUTE_MAP: Record<string, string> = {
   fonctionnalités: "/features",
   fonctionnalite: "/features",
   features: "/features",
+  politiques: "/policies",
+  politique: "/policies",
+  policies: "/policies",
+  policy: "/policies",
+  sécurité: "/security",
+  securite: "/security",
+  security: "/security",
 };
 
 function tryRoute(target: string): string | null {

@@ -485,6 +485,25 @@ export interface ImprovementProposal {
   status: "proposed" | "investigating" | "approved" | "rejected" | "building" | "deployed";
 }
 
+// ---------- Security ----------
+
+export type FindingSeverity = "HIGH" | "MEDIUM" | "LOW";
+export type FindingCategory =
+  "prompt_injection" | "credential" | "permission" | "isolation" | "privacy" | "supply_chain";
+
+export interface SecurityFinding {
+  id: Id;
+  workspaceId: Id;
+  severity: FindingSeverity;
+  category: FindingCategory;
+  title: string;
+  description: string;
+  affectedActorIds?: Id[];
+  affectedCapabilities?: CapabilityId[];
+  status: "open" | "acknowledged" | "resolved";
+  detectedAt: ISODate;
+}
+
 // ---------- Build (zone développeur) ----------
 
 export interface BuildInfo {
@@ -523,5 +542,6 @@ export interface AppState {
   knowledge: KnowledgeItem[];
   decisions: Decision[];
   proposals: ImprovementProposal[];
+  securityFindings: SecurityFinding[];
   build: BuildInfo;
 }

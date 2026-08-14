@@ -27,6 +27,8 @@
   { "path": "/knowledge", "name": "knowledge" },
   { "path": "/integrations", "name": "integrations" },
   { "path": "/features", "name": "features" },
+  { "path": "/policies", "name": "policies" },
+  { "path": "/security", "name": "security" },
   { "path": "/evidence", "name": "evidence" },
   { "path": "/analytics", "name": "analytics" },
   { "path": "/agent-builder", "name": "agent-builder" },
