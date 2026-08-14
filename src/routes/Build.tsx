@@ -1,4 +1,5 @@
-import { Code2 } from "lucide-react";
+import { Code2, CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useT } from "@/lib/hooks";
 import { useAppStore } from "@/lib/store";
 import { Badge } from "@/components/ui/badge";
@@ -94,6 +95,60 @@ function HealthBadge({ health }: { health: "ok" | "degraded" | "down" | undefine
     <Badge variant={variant} className="font-mono text-[10px]">
       {label}
     </Badge>
+  );
+}
+
+// ─── §38 Checklist ───────────────────────────────────────────────────────────
+
+interface ChecklistItem {
+  labelKey: TKey;
+  route: string;
+  routeLabelKey: TKey;
+}
+
+const CHECKLIST_ITEMS: ChecklistItem[] = [
+  { labelKey: "bz_checklist_what_is", route: "/", routeLabelKey: "nav_home" },
+  { labelKey: "bz_checklist_what_running", route: "/work", routeLabelKey: "nav_work" },
+  { labelKey: "bz_checklist_attention", route: "/approvals", routeLabelKey: "nav_approvals" },
+  { labelKey: "bz_checklist_which_agent", route: "/agents", routeLabelKey: "nav_agents" },
+  { labelKey: "bz_checklist_proof", route: "/evidence", routeLabelKey: "nav_evidence" },
+  { labelKey: "bz_checklist_blocked", route: "/blockers", routeLabelKey: "nav_blockers" },
+  {
+    labelKey: "bz_checklist_providers",
+    route: "/agent-builder",
+    routeLabelKey: "nav_agent_builder",
+  },
+  { labelKey: "bz_checklist_feature", route: "/features", routeLabelKey: "nav_features" },
+  { labelKey: "bz_checklist_duplicate", route: "/clients", routeLabelKey: "nav_clients" },
+  { labelKey: "bz_checklist_security", route: "/security", routeLabelKey: "nav_security" },
+];
+
+function Spec38Checklist() {
+  const t = useT();
+  return (
+    <div className="rounded-card border border-ok/20 bg-bg-1 overflow-hidden">
+      <div className="border-b border-line bg-bg-0/60 px-4 py-2.5 flex items-center gap-2">
+        <CheckCircle2 size={13} className="text-ok shrink-0" aria-hidden="true" />
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-ok">
+          {t("bz_checklist_demonstrated" as TKey)} — 10 / 10
+        </span>
+      </div>
+      <ul className="divide-y divide-line/60" role="list">
+        {CHECKLIST_ITEMS.map((item) => (
+          <li key={item.route} className="flex items-center gap-3 px-4 py-2.5">
+            <CheckCircle2 size={13} className="text-ok shrink-0" aria-hidden="true" />
+            <span className="flex-1 text-[13px] text-tx-1">{t(item.labelKey)}</span>
+            <Link
+              to={item.route}
+              className="font-mono text-[11px] text-laiton hover:text-tx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-or rounded-sm px-1"
+              aria-label={`${t("bz_checklist_screen" as TKey)}: ${t(item.routeLabelKey)}`}
+            >
+              {t(item.routeLabelKey)} →
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -246,6 +301,12 @@ export default function Build() {
           ))}
         </div>
       )}
+
+      {/* ── §38 Acceptance Checklist ──────────────────────────────────────── */}
+      <p className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-tx-3">
+        {t("bz_checklist_label" as TKey)}
+      </p>
+      <Spec38Checklist />
     </div>
   );
 }
