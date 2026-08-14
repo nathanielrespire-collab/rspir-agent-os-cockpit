@@ -113,7 +113,11 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
   { labelKey: "bz_checklist_which_agent", route: "/agents", routeLabelKey: "nav_agents" },
   { labelKey: "bz_checklist_proof", route: "/evidence", routeLabelKey: "nav_evidence" },
   { labelKey: "bz_checklist_blocked", route: "/blockers", routeLabelKey: "nav_blockers" },
-  { labelKey: "bz_checklist_providers", route: "/agent-builder", routeLabelKey: "nav_agent_builder" },
+  {
+    labelKey: "bz_checklist_providers",
+    route: "/agent-builder",
+    routeLabelKey: "nav_agent_builder",
+  },
   { labelKey: "bz_checklist_feature", route: "/features", routeLabelKey: "nav_features" },
   { labelKey: "bz_checklist_duplicate", route: "/clients", routeLabelKey: "nav_clients" },
   { labelKey: "bz_checklist_security", route: "/security", routeLabelKey: "nav_security" },
