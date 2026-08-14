@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { CommandPalette } from "@/components/CommandPalette";
+import { ChatPanel } from "@/components/ChatPanel";
 
 export function Shell() {
   return (
@@ -14,6 +15,7 @@ export function Shell() {
         </main>
       </div>
       <CommandPalette />
+      <ChatPanel />
     </div>
   );
 }

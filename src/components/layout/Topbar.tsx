@@ -1,8 +1,9 @@
-import { Moon, Sun, Command } from "lucide-react";
+import { Moon, Sun, Command, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUIStore, useAppStore, type Role } from "@/lib/store";
 import { useT } from "@/lib/hooks";
 import type { Lang } from "@/lib/i18n";
+import { dispatchChatOpen } from "@/components/ChatPanel";
 
 const ROLES: Role[] = ["Nathaniel", "Manny", "Antoine", "Agent"];
 
@@ -83,6 +84,17 @@ export function Topbar() {
         >
           <Command size={12} />
           <span>{t("cmd_hint")}</span>
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 gap-1 font-mono text-[11px] text-tx-3"
+          onClick={dispatchChatOpen}
+          aria-label={t("chat_open")}
+        >
+          <MessageSquare size={12} />
+          <span>{t("chat_open")}</span>
         </Button>
       </div>
     </header>
