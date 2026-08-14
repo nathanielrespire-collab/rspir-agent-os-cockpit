@@ -22,6 +22,7 @@ import type { WorkItem, Approval, Actor, Evidence, RuntimeStage } from "@/lib/ty
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
+import { SimControls } from "@/components/SimBanner";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -315,7 +316,8 @@ export default function Home() {
       <div className="flex items-center gap-2">
         <HomeIcon size={16} className="text-tx-3" aria-hidden="true" />
         <h1 className="text-sm font-semibold">{t("nav_home")}</h1>
-        <Badge variant="laiton" className="ml-auto font-mono text-[10px]">
+        <SimControls className="ml-auto" />
+        <Badge variant="laiton" className="font-mono text-[10px]">
           {t("home_mock_badge")}
         </Badge>
       </div>
