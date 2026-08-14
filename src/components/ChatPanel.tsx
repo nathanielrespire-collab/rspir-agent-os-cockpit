@@ -438,7 +438,12 @@ export function ChatPanel() {
         return;
       }
       if (apr.status !== "pending") {
-        addMsg({ kind: "result", text: t("chat_approval_already_decided").replace("{id}", apr.id).replace("{status}", apr.status) });
+        addMsg({
+          kind: "result",
+          text: t("chat_approval_already_decided")
+            .replace("{id}", apr.id)
+            .replace("{status}", apr.status),
+        });
         return;
       }
       setPending({
@@ -461,7 +466,12 @@ export function ChatPanel() {
         return;
       }
       if (apr.status !== "pending") {
-        addMsg({ kind: "result", text: t("chat_approval_already_decided").replace("{id}", apr.id).replace("{status}", apr.status) });
+        addMsg({
+          kind: "result",
+          text: t("chat_approval_already_decided")
+            .replace("{id}", apr.id)
+            .replace("{status}", apr.status),
+        });
         return;
       }
       setPending({
@@ -509,7 +519,10 @@ export function ChatPanel() {
         return;
       }
       if (blk.resolved) {
-        addMsg({ kind: "result", text: t("chat_blocker_already_resolved").replace("{id}", blk.id) });
+        addMsg({
+          kind: "result",
+          text: t("chat_blocker_already_resolved").replace("{id}", blk.id),
+        });
         return;
       }
       setPending({
