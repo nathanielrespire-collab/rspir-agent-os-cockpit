@@ -17,8 +17,8 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useT } from "@/lib/hooks";
-import { useAppStore } from "@/lib/store";
-import type { TKey } from "@/lib/i18n";
+import { useAppStore, useUIStore } from "@/lib/store";
+import type { Lang, TKey } from "@/lib/i18n";
 
 // ─── Pre-filled Microsoft configuration data ──────────────────────────────
 
@@ -114,34 +114,44 @@ const MS_POLICIES = [
   { capability: "knowledge.publish", rule: "auto" },
 ];
 
-const MS_FEATURES = [
+const MS_FEATURES: {
+  name: Record<Lang, string>;
+  key: string;
+  version: string;
+  acceptance: string;
+}[] = [
   {
-    name: "Préparation de réunion",
+    name: { fr: "Préparation de réunion", en: "Meeting preparation" },
     key: "feat-meeting-prep",
     version: "1.2.0",
     acceptance: "pass",
   },
-  { name: "Enrichissement CRM", key: "feat-crm-enrich", version: "1.0.0", acceptance: "pass" },
   {
-    name: "Constructeur d'automatisations",
+    name: { fr: "Enrichissement CRM", en: "CRM enrichment" },
+    key: "feat-crm-enrich",
+    version: "1.0.0",
+    acceptance: "pass",
+  },
+  {
+    name: { fr: "Constructeur d'automatisations", en: "Automation builder" },
     key: "feat-auto-builder",
     version: "0.9.0",
     acceptance: "pass",
   },
   {
-    name: "Constructeur de site web",
+    name: { fr: "Constructeur de site web", en: "Website builder" },
     key: "feat-website-builder",
     version: "1.1.0",
     acceptance: "pass",
   },
   {
-    name: "Capture de connaissances",
+    name: { fr: "Capture de connaissances", en: "Knowledge capture" },
     key: "feat-knowledge-capture",
     version: "1.0.0",
     acceptance: "pass",
   },
   {
-    name: "Rédaction d'emails",
+    name: { fr: "Rédaction d'emails", en: "Email drafting" },
     key: "feat-email-drafter",
     version: "0.5.0",
     acceptance: "pending",
@@ -160,14 +170,38 @@ const MS_PERMISSIONS = [
   { actor: "Antoine", caps: ["knowledge.publish", "website.deploy"] },
 ];
 
-const MS_ACCEPTANCE_TESTS = [
-  { label: "Email sortant → approbation requise", status: "pass" },
-  { label: "CRM enrichi en automatique", status: "pass" },
-  { label: "Brief de réunion Teams généré", status: "pass" },
-  { label: "Automatisation déployée sur approbation", status: "pass" },
-  { label: "Site SharePoint mis à jour", status: "pass" },
-  { label: "Connaissances capturées → SharePoint Notes", status: "pass" },
-  { label: "Isolation ws-rspir / ws-ms confirmée", status: "pass" },
+const MS_ACCEPTANCE_TESTS: { label: Record<Lang, string>; status: string }[] = [
+  {
+    label: { fr: "Email sortant → approbation requise", en: "Outbound email → approval required" },
+    status: "pass",
+  },
+  {
+    label: { fr: "CRM enrichi en automatique", en: "CRM enriched automatically" },
+    status: "pass",
+  },
+  {
+    label: { fr: "Brief de réunion Teams généré", en: "Teams meeting brief generated" },
+    status: "pass",
+  },
+  {
+    label: { fr: "Automatisation déployée sur approbation", en: "Automation deployed on approval" },
+    status: "pass",
+  },
+  {
+    label: { fr: "Site SharePoint mis à jour", en: "SharePoint site updated" },
+    status: "pass",
+  },
+  {
+    label: {
+      fr: "Connaissances capturées → SharePoint Notes",
+      en: "Knowledge captured → SharePoint Notes",
+    },
+    status: "pass",
+  },
+  {
+    label: { fr: "Isolation ws-rspir / ws-ms confirmée", en: "ws-rspir / ws-ms isolation confirmed" },
+    status: "pass",
+  },
 ];
 
 const MS_MISSING_CREDS = [
@@ -356,7 +390,7 @@ function StepPolicies({ t }: { t: (key: TKey) => string }) {
   );
 }
 
-function StepFeatures({ t }: { t: (key: TKey) => string }) {
+function StepFeatures({ t, lang }: { t: (key: TKey) => string; lang: Lang }) {
   return (
     <div className="flex flex-col gap-3">
       <SectionLabel label={`${t("bld_features_enabled")} (${MS_FEATURES.length})`} />
@@ -367,7 +401,7 @@ function StepFeatures({ t }: { t: (key: TKey) => string }) {
             className="flex items-center justify-between rounded-card border border-line bg-bg-1 px-4 py-2.5"
           >
             <div className="flex flex-col gap-0.5">
-              <span className="text-[13px] font-medium text-tx-1">{f.name}</span>
+              <span className="text-[13px] font-medium text-tx-1">{f.name[lang]}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-mono text-[10px] text-tx-3">v{f.version}</span>
@@ -429,8 +463,8 @@ function StepPermissions({ t }: { t: (key: TKey) => string }) {
   );
 }
 
-function StepAcceptance({ t }: { t: (key: TKey) => string }) {
-  const passCount = MS_ACCEPTANCE_TESTS.filter((t) => t.status === "pass").length;
+function StepAcceptance({ t, lang }: { t: (key: TKey) => string; lang: Lang }) {
+  const passCount = MS_ACCEPTANCE_TESTS.filter((test) => test.status === "pass").length;
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-3">
@@ -446,7 +480,7 @@ function StepAcceptance({ t }: { t: (key: TKey) => string }) {
             className="flex items-center gap-3 rounded-ctl border border-line/60 bg-bg-1 px-3 py-2"
           >
             <CheckCircle2 size={14} className="shrink-0 text-ok" aria-hidden="true" />
-            <span className="text-[13px] text-tx-1">{test.label}</span>
+            <span className="text-[13px] text-tx-1">{test.label[lang]}</span>
             <Badge variant="ok" className="ml-auto text-[10px]">
               {t("swap_pass")}
             </Badge>
@@ -479,14 +513,23 @@ function StepDeployment({
         <PlanCard label={t("bld_plan_workspace")} value="ws-ms — Microsoft" />
         <PlanCard
           label={t("bld_plan_providers_label")}
-          value={`${MS_PROVIDERS.length} providers`}
+          value={t("bld_plan_providers_count").replace("{n}", String(MS_PROVIDERS.length))}
         />
-        <PlanCard label={t("bld_plan_agents_label")} value={`${MS_TEAM_AGENTS.length} agents IA`} />
-        <PlanCard label={t("bld_plan_policies_label")} value={`${MS_POLICIES.length} politiques`} />
-        <PlanCard label={t("bld_plan_features_label")} value={`${MS_FEATURES.length} features`} />
+        <PlanCard
+          label={t("bld_plan_agents_label")}
+          value={t("bld_plan_agents_count").replace("{n}", String(MS_TEAM_AGENTS.length))}
+        />
+        <PlanCard
+          label={t("bld_plan_policies_label")}
+          value={t("bld_plan_policies_count").replace("{n}", String(MS_POLICIES.length))}
+        />
+        <PlanCard
+          label={t("bld_plan_features_label")}
+          value={t("bld_plan_features_count").replace("{n}", String(MS_FEATURES.length))}
+        />
         <PlanCard
           label={t("bld_plan_missing_creds")}
-          value={`${MS_MISSING_CREDS.length} identifiants`}
+          value={t("bld_plan_creds_count").replace("{n}", String(MS_MISSING_CREDS.length))}
           warn
         />
         <PlanCard
@@ -589,6 +632,7 @@ function PlanCard({
 
 export default function AgentBuilder() {
   const t = useT();
+  const { lang } = useUIStore();
   const { setActiveWorkspace } = useAppStore();
 
   const [step, setStep] = useState<number>(1);
@@ -622,13 +666,13 @@ export default function AgentBuilder() {
       case 5:
         return <StepPolicies t={t} />;
       case 6:
-        return <StepFeatures t={t} />;
+        return <StepFeatures t={t} lang={lang} />;
       case 7:
         return <StepAgents t={t} />;
       case 8:
         return <StepPermissions t={t} />;
       case 9:
-        return <StepAcceptance t={t} />;
+        return <StepAcceptance t={t} lang={lang} />;
       case 10:
         return (
           <StepDeployment

@@ -440,27 +440,32 @@ const SWAP_CAPS: CapabilityId[] = [
   "meeting.process",
 ];
 
-const SWAP_FEATURES = [
-  { name: "Préparation de réunion", key: "feat-meeting-prep" },
-  { name: "Capture de connaissances", key: "feat-knowledge-capture" },
+const SWAP_FEATURES: { name: Record<Lang, string>; key: string }[] = [
+  { name: { fr: "Préparation de réunion", en: "Meeting preparation" }, key: "feat-meeting-prep" },
+  {
+    name: { fr: "Capture de connaissances", en: "Knowledge capture" },
+    key: "feat-knowledge-capture",
+  },
 ];
 
-const SWAP_ACCEPTANCE_TESTS = [
-  "Transcription de réunion accessible",
-  "Recherche dans les transcriptions",
-  "Brief de réunion généré",
-  "Connaissances capturées",
-  "Pipeline meeting-prep opérationnel",
-  "Pipeline knowledge-capture opérationnel",
-  "Doctor reflète le nouveau provider",
+const SWAP_ACCEPTANCE_TESTS: Record<Lang, string>[] = [
+  { fr: "Transcription de réunion accessible", en: "Meeting transcript accessible" },
+  { fr: "Recherche dans les transcriptions", en: "Transcript search" },
+  { fr: "Brief de réunion généré", en: "Meeting brief generated" },
+  { fr: "Connaissances capturées", en: "Knowledge captured" },
+  { fr: "Pipeline meeting-prep opérationnel", en: "meeting-prep pipeline operational" },
+  { fr: "Pipeline knowledge-capture opérationnel", en: "knowledge-capture pipeline operational" },
+  { fr: "Doctor reflète le nouveau provider", en: "Doctor reflects the new provider" },
 ];
 
 function SwapTab({
   t,
+  lang,
   swapped,
   onSwap,
 }: {
   t: (key: TKey) => string;
+  lang: Lang;
   swapped: boolean;
   onSwap: () => void;
 }) {
@@ -483,7 +488,7 @@ function SwapTab({
           <span className="font-mono text-[11px] text-tx-3">transcripts · api_key</span>
           {swapped && (
             <Badge variant="err" className="self-start text-[10px] mt-1">
-              Remplacé
+              {t("swap_replaced")}
             </Badge>
           )}
         </div>
@@ -498,7 +503,7 @@ function SwapTab({
           <span className="font-mono text-[11px] text-tx-3">transcripts · oauth</span>
           {swapped && (
             <Badge variant="ok" className="self-start text-[10px] mt-1">
-              Actif
+              {t("swap_active")}
             </Badge>
           )}
         </div>
@@ -552,7 +557,7 @@ function SwapTab({
               key={f.key}
               className="flex items-center justify-between rounded-card border border-line bg-bg-1 px-4 py-2.5"
             >
-              <span className="text-[13px] font-medium text-tx-1">{f.name}</span>
+              <span className="text-[13px] font-medium text-tx-1">{f.name[lang]}</span>
               <span className="flex items-center gap-1.5 font-mono text-[11px] font-semibold text-ok">
                 <CheckCircle2 size={11} aria-hidden="true" />
                 {t("swap_pass")}
@@ -581,7 +586,7 @@ function SwapTab({
               className="flex items-center gap-3 rounded-ctl border border-line/60 bg-bg-1 px-3 py-2"
             >
               <CheckCircle2 size={13} className="shrink-0 text-ok" aria-hidden="true" />
-              <span className="text-[12px] text-tx-1">{test}</span>
+              <span className="text-[12px] text-tx-1">{test[lang]}</span>
               <Badge variant="ok" className="ml-auto text-[10px]">
                 {t("swap_pass")}
               </Badge>
@@ -773,7 +778,7 @@ export default function Integrations() {
             featureStatus={featureStatus}
           />
         ) : (
-          <SwapTab t={t} swapped={swapped} onSwap={handleSwap} />
+          <SwapTab t={t} lang={lang} swapped={swapped} onSwap={handleSwap} />
         )}
       </div>
     </div>

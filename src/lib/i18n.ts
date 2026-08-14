@@ -934,6 +934,11 @@ const dict = {
     bld_status_label: "Statut",
     bld_version_label: "Version",
     bld_acceptance_label: "Acceptation",
+    bld_plan_providers_count: "{n} fournisseurs",
+    bld_plan_agents_count: "{n} agents IA",
+    bld_plan_policies_count: "{n} politiques",
+    bld_plan_features_count: "{n} fonctionnalités",
+    bld_plan_creds_count: "{n} identifiants",
 
     // Provider swap — BUILD-019
     swap_tab: "Swap",
@@ -951,6 +956,8 @@ const dict = {
     swap_simulation_note: "SIMULATION — le fournisseur est remplacé dans le store.",
     swap_pass: "PASS",
     swap_fail: "FAIL",
+    swap_replaced: "Remplacé",
+    swap_active: "Actif",
     swap_doctor_note: "Le Doctor reflète le nouveau fournisseur.",
 
     // Workspace switcher — BUILD-019
@@ -1887,6 +1894,11 @@ const dict = {
     bld_status_label: "Status",
     bld_version_label: "Version",
     bld_acceptance_label: "Acceptance",
+    bld_plan_providers_count: "{n} providers",
+    bld_plan_agents_count: "{n} AI agents",
+    bld_plan_policies_count: "{n} policies",
+    bld_plan_features_count: "{n} features",
+    bld_plan_creds_count: "{n} credentials",
 
     // Provider swap — BUILD-019
     swap_tab: "Swap",
@@ -1904,6 +1916,8 @@ const dict = {
     swap_simulation_note: "SIMULATION — provider replaced in store.",
     swap_pass: "PASS",
     swap_fail: "FAIL",
+    swap_replaced: "Replaced",
+    swap_active: "Active",
     swap_doctor_note: "The Doctor now reflects the new provider.",
 
     // Workspace switcher — BUILD-019
