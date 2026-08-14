@@ -21,6 +21,8 @@ import {
   Wrench,
   Settings,
   Layers,
+  Code2,
+  Lightbulb,
   type LucideIcon,
 } from "lucide-react";
 import { useT } from "@/lib/hooks";
@@ -52,6 +54,8 @@ const NAV: NavItem[] = [
   { labelKey: "nav_security", path: "/security", icon: ShieldAlert },
   { labelKey: "nav_evidence", path: "/evidence", icon: Shield },
   { labelKey: "nav_analytics", path: "/analytics", icon: LineChart },
+  { labelKey: "nav_build", path: "/build", icon: Code2 },
+  { labelKey: "nav_proposals", path: "/proposals", icon: Lightbulb },
   { labelKey: "nav_agent_builder", path: "/agent-builder", icon: Wrench },
   { labelKey: "nav_settings", path: "/settings", icon: Settings },
 ];

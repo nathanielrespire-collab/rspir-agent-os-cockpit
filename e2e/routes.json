@@ -31,6 +31,8 @@
   { "path": "/security", "name": "security" },
   { "path": "/evidence", "name": "evidence" },
   { "path": "/analytics", "name": "analytics" },
+  { "path": "/build", "name": "build" },
+  { "path": "/proposals", "name": "proposals" },
   { "path": "/agent-builder", "name": "agent-builder" },
   { "path": "/settings", "name": "settings" }
 ]
