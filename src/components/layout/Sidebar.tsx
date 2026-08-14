@@ -23,6 +23,7 @@ import {
   Layers,
   Code2,
   Lightbulb,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import { useT } from "@/lib/hooks";
@@ -60,7 +61,11 @@ const NAV: NavItem[] = [
   { labelKey: "nav_settings", path: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export function Sidebar({ onClose }: SidebarProps) {
   const t = useT();
 
   return (
@@ -68,8 +73,17 @@ export function Sidebar() {
       aria-label={t("nav_home")}
       className="flex h-full w-52 shrink-0 flex-col border-r border-line bg-bg-1"
     >
-      <div className="flex h-11 items-center border-b border-line px-4">
+      <div className="flex h-11 items-center justify-between border-b border-line px-4">
         <span className="font-mono text-[11px] uppercase tracking-widest text-laiton">rspir</span>
+        {onClose && (
+          <button
+            onClick={onClose}
+            aria-label={t("mobile_menu_close")}
+            className="md:hidden rounded p-0.5 text-tx-3 hover:text-tx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-or"
+          >
+            <X size={14} />
+          </button>
+        )}
       </div>
       <ul className="flex-1 overflow-y-auto py-1" role="list">
         {NAV.map(({ labelKey, path, icon: Icon }) => (
@@ -77,13 +91,14 @@ export function Sidebar() {
             <NavLink
               to={path}
               end={path === "/"}
+              onClick={onClose}
               className={({ isActive }) =>
                 `flex items-center gap-2.5 px-3 py-1.5 text-[13px] transition-colors ${
                   isActive ? "bg-bg-2 text-tx-1" : "text-tx-3 hover:bg-bg-2/60 hover:text-tx-2"
                 }`
               }
             >
-              <Icon size={14} className="shrink-0" />
+              <Icon size={14} className="shrink-0" aria-hidden="true" />
               <span>{t(labelKey)}</span>
             </NavLink>
           </li>

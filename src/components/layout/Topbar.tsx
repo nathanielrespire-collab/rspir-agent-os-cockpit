@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Moon, Sun, Command, MessageSquare, ChevronDown } from "lucide-react";
+import { Moon, Sun, Command, MessageSquare, ChevronDown, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUIStore, useAppStore, type Role } from "@/lib/store";
 import { useT } from "@/lib/hooks";
@@ -8,7 +8,11 @@ import { dispatchChatOpen } from "@/components/ChatPanel";
 
 const ROLES: Role[] = ["Nathaniel", "Manny", "Antoine", "Agent"];
 
-export function Topbar() {
+interface TopbarProps {
+  onMenuOpen?: () => void;
+}
+
+export function Topbar({ onMenuOpen }: TopbarProps) {
   const t = useT();
   const { lang, theme, role, activeClientId, setLang, setTheme, setRole } = useUIStore();
   const { clients, workspaces, activeWorkspaceId, setActiveWorkspace } = useAppStore();
@@ -27,9 +31,18 @@ export function Topbar() {
   }, [wsOpen]);
 
   return (
-    <header className="flex h-11 shrink-0 items-center justify-between border-b border-line bg-bg-1 px-4">
+    <header className="flex h-11 shrink-0 items-center justify-between border-b border-line bg-bg-1 px-3 md:px-4">
       <div className="flex items-center gap-2">
-        <span className="text-xs text-tx-3">{t("workspace_label")}</span>
+        {/* Hamburger — mobile only */}
+        <button
+          onClick={onMenuOpen}
+          aria-label={t("mobile_menu_open")}
+          className="md:hidden rounded p-1 text-tx-3 hover:text-tx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-or"
+        >
+          <Menu size={16} />
+        </button>
+
+        <span className="hidden text-xs text-tx-3 sm:inline">{t("workspace_label")}</span>
         <div className="relative" ref={wsRef}>
           <button
             onClick={() => setWsOpen((o) => !o)}
@@ -74,32 +87,52 @@ export function Topbar() {
         </div>
         {activeClient ? (
           <>
-            <span className="font-mono text-[11px] text-tx-3">·</span>
+            <span className="font-mono text-[11px] text-tx-3" aria-hidden="true">·</span>
             <span className="font-mono text-[13px] text-or" aria-label={t("cli_active_client")}>
               {activeClient.name}
             </span>
           </>
         ) : null}
-        <span className="font-mono text-[11px] text-tx-3">MOCK</span>
+        <span className="font-mono text-[11px] text-tx-3" aria-label="MOCK data indicator">MOCK</span>
       </div>
 
       <div className="flex items-center gap-1">
-        <span className="mr-1 text-xs text-tx-3">{t("role_label")}</span>
-        {ROLES.map((r) => (
+        {/* Role switcher — hidden on small screens, shown md+ */}
+        <span className="hidden mr-1 text-xs text-tx-3 lg:inline">{t("role_label")}</span>
+        <div className="hidden lg:flex items-center gap-1">
+          {ROLES.map((r) => (
+            <Button
+              key={r}
+              variant={role === r ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setRole(r)}
+              aria-pressed={role === r}
+              className="h-7 text-xs"
+            >
+              {r}
+            </Button>
+          ))}
+        </div>
+
+        {/* Compact role on mobile/tablet */}
+        <div className="lg:hidden">
           <Button
-            key={r}
-            variant={role === r ? "secondary" : "ghost"}
+            variant="secondary"
             size="sm"
-            onClick={() => setRole(r)}
-            aria-pressed={role === r}
+            onClick={() => {
+              const idx = ROLES.indexOf(role);
+              setRole(ROLES[(idx + 1) % ROLES.length]);
+            }}
+            aria-label={`${t("role_label")}: ${role}`}
             className="h-7 text-xs"
           >
-            {r}
+            {role.slice(0, 1)}
           </Button>
-        ))}
+        </div>
 
-        <div className="mx-2 h-4 w-px bg-line" aria-hidden="true" />
+        <div className="mx-1 hidden h-4 w-px bg-line lg:block" aria-hidden="true" />
 
+        {/* Language toggle */}
         {(["fr", "en"] as Lang[]).map((l) => (
           <Button
             key={l}
@@ -128,7 +161,7 @@ export function Topbar() {
         <Button
           variant="ghost"
           size="sm"
-          className="h-7 gap-1 font-mono text-[11px] text-tx-3"
+          className="hidden h-7 gap-1 font-mono text-[11px] text-tx-3 sm:flex"
           onClick={() => {
             document.dispatchEvent(
               new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true }),
@@ -137,18 +170,17 @@ export function Topbar() {
           aria-label={t("cmd_label")}
         >
           <Command size={12} />
-          <span>{t("cmd_hint")}</span>
+          <span className="hidden md:inline">{t("cmd_hint")}</span>
         </Button>
 
         <Button
           variant="ghost"
-          size="sm"
-          className="h-7 gap-1 font-mono text-[11px] text-tx-3"
+          size="icon"
+          className="h-7 w-7"
           onClick={dispatchChatOpen}
           aria-label={t("chat_open")}
         >
-          <MessageSquare size={12} />
-          <span>{t("chat_open")}</span>
+          <MessageSquare size={14} />
         </Button>
       </div>
     </header>

@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Settings as SettingsIcon, RotateCcw, Play, SkipForward, Pause } from "lucide-react";
+import { Settings as SettingsIcon, RotateCcw, Play, SkipForward, Pause, Sun, Moon } from "lucide-react";
 import { useT } from "@/lib/hooks";
-import { useAppStore, useUIStore } from "@/lib/store";
+import { useAppStore, useUIStore, type Role } from "@/lib/store";
 import { useSimStore, SCENARIO_STEPS, TOTAL_STEPS } from "@/lib/simulation";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import type { Lang } from "@/lib/i18n";
+
+const ROLES: Role[] = ["Nathaniel", "Manny", "Antoine", "Agent"];
 
 export default function Settings() {
   const t = useT();
-  const role = useUIStore((s) => s.role);
-  const lang = useUIStore((s) => s.lang);
+  const { role, lang, theme, setRole, setLang, setTheme } = useUIStore();
   const resetDemo = useAppStore((s) => s.resetDemo);
   const { active, paused, step, resetting, start, pause, resume, advance, resetSim } =
     useSimStore();
@@ -136,6 +138,80 @@ export default function Settings() {
               </div>
             </div>
           )}
+        </section>
+
+        {/* ── Language section ─────────────────────────────────────────── */}
+        <section className="rounded-card border border-line bg-bg-1 p-4">
+          <h2 className="mb-1 text-xs font-semibold uppercase tracking-widest text-tx-3">
+            {t("settings_lang_section")}
+          </h2>
+          <p className="mb-3 text-[13px] text-tx-2">{t("settings_lang_desc")}</p>
+          <div className="flex gap-2" role="group" aria-label={t("settings_lang_section")}>
+            {(["fr", "en"] as Lang[]).map((l) => (
+              <Button
+                key={l}
+                variant={lang === l ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setLang(l)}
+                aria-pressed={lang === l}
+                className="h-7 font-mono text-xs uppercase"
+              >
+                {t(l === "fr" ? "lang_fr" : "lang_en")}
+              </Button>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Theme section ────────────────────────────────────────────── */}
+        <section className="rounded-card border border-line bg-bg-1 p-4">
+          <h2 className="mb-1 text-xs font-semibold uppercase tracking-widest text-tx-3">
+            {t("settings_theme_section")}
+          </h2>
+          <p className="mb-3 text-[13px] text-tx-2">{t("settings_theme_desc")}</p>
+          <div className="flex gap-2" role="group" aria-label={t("settings_theme_section")}>
+            <Button
+              variant={theme === "dark" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setTheme("dark")}
+              aria-pressed={theme === "dark"}
+              className="h-7 gap-1.5 text-xs"
+            >
+              <Moon size={12} />
+              {t("theme_dark")}
+            </Button>
+            <Button
+              variant={theme === "light" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setTheme("light")}
+              aria-pressed={theme === "light"}
+              className="h-7 gap-1.5 text-xs"
+            >
+              <Sun size={12} />
+              {t("theme_light")}
+            </Button>
+          </div>
+        </section>
+
+        {/* ── Role section ─────────────────────────────────────────────── */}
+        <section className="rounded-card border border-line bg-bg-1 p-4">
+          <h2 className="mb-1 text-xs font-semibold uppercase tracking-widest text-tx-3">
+            {t("settings_role_section")}
+          </h2>
+          <p className="mb-3 text-[13px] text-tx-2">{t("settings_role_desc")}</p>
+          <div className="flex flex-wrap gap-2" role="group" aria-label={t("settings_role_section")}>
+            {ROLES.map((r) => (
+              <Button
+                key={r}
+                variant={role === r ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setRole(r)}
+                aria-pressed={role === r}
+                className="h-7 text-xs"
+              >
+                {r}
+              </Button>
+            ))}
+          </div>
         </section>
 
         {/* ── Demo data section ────────────────────────────────────────── */}

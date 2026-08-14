@@ -63,5 +63,12 @@ Repo → **Actions** → workflow **unit-pipeline** → **Run workflow** →
 
 ## Vercel (optionnel, quand tu veux la démo publique)
 
-vercel.com → Add New Project → importer le repo → framework Vite (auto) → Deploy.
-Chaque merge sur main redéploie. BUILD-022 finalise la config.
+1. vercel.com → **Add New Project** → importer le repo.
+2. Framework: **Vite** (détecté automatiquement).
+3. Build command: `npm run build` · Output directory: `dist` (valeurs par défaut Vite).
+4. Cliquer **Deploy**.
+
+Le fichier `vercel.json` à la racine du repo gère le rewrite SPA (toutes les routes → `index.html`)
+— aucune configuration supplémentaire requise. Chaque merge sur `main` redéploie automatiquement.
+
+Variables d'environnement: aucune requise (100% mock, aucune clé API, aucun backend).

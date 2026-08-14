@@ -600,8 +600,9 @@ export function ChatPanel() {
 
   return (
     <div
-      className="fixed inset-y-0 right-0 z-50 flex w-[420px] flex-col border-l border-line bg-bg-1 shadow-2xl"
+      className="fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-line bg-bg-1 shadow-2xl sm:w-[420px]"
       role="dialog"
+      aria-modal="true"
       aria-label={t("chat_title")}
     >
       {/* Header */}
