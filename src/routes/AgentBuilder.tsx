@@ -199,7 +199,10 @@ const MS_ACCEPTANCE_TESTS: { label: Record<Lang, string>; status: string }[] = [
     status: "pass",
   },
   {
-    label: { fr: "Isolation ws-rspir / ws-ms confirmée", en: "ws-rspir / ws-ms isolation confirmed" },
+    label: {
+      fr: "Isolation ws-rspir / ws-ms confirmée",
+      en: "ws-rspir / ws-ms isolation confirmed",
+    },
     status: "pass",
   },
 ];
